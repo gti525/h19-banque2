@@ -32,8 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
 			.antMatchers("/admin").hasAnyAuthority("ADMIN")
-			.and()
-			.formLogin();
+			.antMatchers("/api/*").permitAll()
+			.and().formLogin()
+			.and().csrf().disable();
+		
 	}
 	
 	public PasswordEncoder passwordEncoder() {
