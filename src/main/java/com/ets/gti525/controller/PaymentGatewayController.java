@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ets.gti525.request.TransactionRequest;
-import com.ets.gti525.response.TransactionReply;
+import com.ets.gti525.domain.request.TransactionRequest;
+import com.ets.gti525.domain.response.TransactionReply;
 import com.ets.gti525.service.TransactionService;
 
 

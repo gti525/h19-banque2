@@ -1,4 +1,4 @@
-package com.ets.gti525.request;
+package com.ets.gti525.domain.request;
 
 public class TransactionRequest {
 	

@@ -1,4 +1,4 @@
-package com.ets.gti525.response;
+package com.ets.gti525.domain.response;
 
 public class TransactionReply {
 

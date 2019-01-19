@@ -2,8 +2,8 @@ package com.ets.gti525.service;
 
 import org.springframework.stereotype.Service;
 
-import com.ets.gti525.request.TransactionRequest;
-import com.ets.gti525.response.TransactionReply;
+import com.ets.gti525.domain.request.TransactionRequest;
+import com.ets.gti525.domain.response.TransactionReply;
 
 @Service
 public class TransactionService {
