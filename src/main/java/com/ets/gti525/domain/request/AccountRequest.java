@@ -2,17 +2,12 @@ package com.ets.gti525.domain.request;
 
 public class AccountRequest {
 	
-	private long number;
+	private String number;
 	private int monthExp;
 	private int yearExp;
-	private String authHash;
+	private String cvv;
 	
-	public long getNumber() {
-		return number;
-	}
-	public void setNumber(long number) {
-		this.number = number;
-	}
+
 	public int getMonthExp() {
 		return monthExp;
 	}
@@ -25,12 +20,19 @@ public class AccountRequest {
 	public void setYearExp(int yearExp) {
 		this.yearExp = yearExp;
 	}
-	public String getAuthHash() {
-		return authHash;
+	public String getCvv() {
+		return cvv;
 	}
-	public void setAuthHash(String authHash) {
-		this.authHash = authHash;
+	public void setCvv(String cvv) {
+		this.cvv = cvv;
 	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
 	
 	
 
