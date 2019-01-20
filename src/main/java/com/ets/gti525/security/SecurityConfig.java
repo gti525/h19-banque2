@@ -28,8 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
 			.antMatchers("/admin").hasAnyAuthority("ADMIN")
 			.antMatchers("/api/*").permitAll()
+			.antMatchers("/h2-console/**").permitAll()
+			.antMatchers("/").permitAll()
 			.and().formLogin()
 			.and().csrf().disable();
+		
+		// H2-console
+		http.headers().frameOptions().disable();
 		
 	}
 	
