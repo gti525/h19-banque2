@@ -4,12 +4,16 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.ets.gti525.domain.constant.Role;
 
 @Entity
 public class Users implements UserDetails {
@@ -21,9 +25,22 @@ public class Users implements UserDetails {
 	private int id;
 	private String username;
 	private String password;
-	private String role;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 	private int enabled;
 	
+	public Users() {
+		
+	}
+	
+	public Users(String username, String password, Role role, int enabled) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.enabled = enabled;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -42,10 +59,10 @@ public class Users implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 	public int getEnabled() {
@@ -64,7 +81,7 @@ public class Users implements UserDetails {
 
 			@Override
 			public String getAuthority() {
-				return role;
+				return role.toString();
 			}
 		};
 		
