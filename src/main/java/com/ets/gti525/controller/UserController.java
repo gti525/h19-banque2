@@ -38,7 +38,7 @@ public class UserController {
 	
 	@PostMapping("/searchUsers")
 	public ResponseEntity<SearchUsersResponse> searchUsers(SearchUsersRequest request){
-		SearchUsersResponse response = userService.SearchUsers(request);
+		SearchUsersResponse response = userService.searchUsers(request);
 		return ResponseEntity.status(response.getStatus()).body(response);
 		
 	}

@@ -44,7 +44,7 @@ public class UserService {
 		return new CreateUserResponse(HttpStatus.OK, message, username, password);
 	}
 	
-	public SearchUsersResponse SearchUsers(SearchUsersRequest request) {
+	public SearchUsersResponse searchUsers(SearchUsersRequest request) {
 		List<SingleSearchUsers> searchResult = new ArrayList<SingleSearchUsers>();
 		
 		// TODO : Implement research
