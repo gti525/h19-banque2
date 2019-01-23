@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -21,7 +22,8 @@ public class CreditCard {
 	private int yearExp;
 	private int cvv;
 	
-	@OneToMany(mappedBy="creditCard", fetch=FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "CREDIT_CARD_NBR")
 	protected List<CreditCardTransaction> transactionList;
 	
 	public double getLimit() {
@@ -68,6 +70,7 @@ public class CreditCard {
 	public boolean addTransaction(CreditCardTransaction transaction) {
 		if(balance + transaction.getAmount() <= cardLimit) {
 			transactionList.add(transaction);
+			balance = balance + transaction.getAmount();
 			return true;
 		}
 			

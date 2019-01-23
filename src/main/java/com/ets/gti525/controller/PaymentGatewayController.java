@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ets.gti525.domain.request.TransactionRequest;
+import com.ets.gti525.domain.request.CreditCardTransactionRequest;
 import com.ets.gti525.service.TransactionService;
 
 
@@ -26,13 +26,13 @@ public class PaymentGatewayController {
 	}
 
 	@PostMapping("/api/paymentGateway")
-	public ResponseEntity<?> processTransaction(@RequestHeader(value="X-API-KEY") String apiKey, @RequestBody TransactionRequest request) {
+	public ResponseEntity<?> processTransaction(@RequestHeader(value="X-API-KEY") String apiKey, @RequestBody CreditCardTransactionRequest request) {
 	
 		if(!transactionService.verifyAPIKey(apiKey)) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 		
-		return ResponseEntity.ok(transactionService.processTransaction(apiKey, request));
+		return ResponseEntity.ok(transactionService.processCCTransaction(apiKey, request));
 
 	}
 
