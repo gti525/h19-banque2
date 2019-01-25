@@ -1,5 +1,6 @@
 package com.ets.gti525.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,10 @@ import com.ets.gti525.domain.constant.Role;
 import com.ets.gti525.domain.entity.Users;
 import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.CreateUserRequest;
+import com.ets.gti525.domain.request.SearchUsersRequest;
 import com.ets.gti525.domain.response.CreateUserResponse;
+import com.ets.gti525.domain.response.SearchUsersResponse;
+import com.ets.gti525.domain.response.SingleSearchUsers;
 
 @Service
 public class UserService {
@@ -38,6 +42,14 @@ public class UserService {
 		usersRepository.save(user);
 		
 		return new CreateUserResponse(HttpStatus.OK, message, username, password);
+	}
+	
+	public SearchUsersResponse searchUsers(SearchUsersRequest request) {
+		List<SingleSearchUsers> searchResult = new ArrayList<SingleSearchUsers>();
+		
+		// TODO : Implement research
+		
+		return new SearchUsersResponse(HttpStatus.OK, searchResult);
 	}
 	
 	private String generateAccountNumber() {

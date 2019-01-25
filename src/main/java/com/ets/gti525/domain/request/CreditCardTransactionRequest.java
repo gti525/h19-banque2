@@ -1,6 +1,6 @@
 package com.ets.gti525.domain.request;
 
-public class TransactionRequest {
+public class CreditCardTransactionRequest {
 	
 	private String bankId;
 	private double amount;
