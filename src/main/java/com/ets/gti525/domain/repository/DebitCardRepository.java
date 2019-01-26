@@ -6,6 +6,5 @@ import com.ets.gti525.domain.entity.DebitCard;
 
 public interface DebitCardRepository extends JpaRepository<DebitCard, Long> {
 	
-
-
+	public DebitCard findByNbr(long debitCardNbr);
 }
