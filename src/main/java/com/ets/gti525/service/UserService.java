@@ -11,7 +11,6 @@ import com.ets.gti525.domain.constant.Role;
 import com.ets.gti525.domain.entity.Users;
 import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.CreateUserRequest;
-import com.ets.gti525.domain.request.SearchUsersRequest;
 import com.ets.gti525.domain.response.CreateUserResponse;
 import com.ets.gti525.domain.response.SearchUsersResponse;
 import com.ets.gti525.domain.response.SingleSearchUsers;
@@ -44,12 +43,21 @@ public class UserService {
 		return new CreateUserResponse(HttpStatus.OK, message, username, password);
 	}
 	
-	public SearchUsersResponse searchUsers(SearchUsersRequest request) {
+	public SearchUsersResponse searchUsers(String keyword) {
 		List<SingleSearchUsers> searchResult = new ArrayList<SingleSearchUsers>();
 		
-		// TODO : Implement research
+		List<Users> users = usersRepository.findByFirstnameKeyword(keyword.toUpperCase());
+		for (Users user : users) {
+			searchResult.add(new SingleSearchUsers(user.getUsername(), "", "", ""));
+		}
 		
-		return new SearchUsersResponse(HttpStatus.OK, searchResult);
+		// TODO Implementer les autres types de recherche
+		
+		if(searchResult.isEmpty()) {
+			return new SearchUsersResponse(HttpStatus.NO_CONTENT, searchResult);
+		}else {
+			return new SearchUsersResponse(HttpStatus.OK, searchResult);
+		}
 	}
 	
 	private String generateAccountNumber() {
