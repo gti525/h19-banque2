@@ -1,12 +1,14 @@
 package com.ets.gti525.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import com.ets.gti525.domain.repository.DebitCardTransactionRepository;
 import com.ets.gti525.domain.repository.PaymentBrokerRepository;
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
 import com.ets.gti525.domain.request.CreditCardTransactionRequest;
+import com.ets.gti525.domain.response.CreditCardTransactionsResponse;
+import com.ets.gti525.domain.response.DebitCardTransactionsResponse;
 import com.ets.gti525.domain.response.TransactionReply;
 
 @Service
@@ -198,4 +202,15 @@ public class TransactionService {
 			
 	}
 	
+	public CreditCardTransactionsResponse getCreditCardTransactions(long nbr) {
+		List<CreditCardTransaction> transactions = creditCardTransactionRepository.findByCreditCardNbr(nbr);
+		CreditCardTransactionsResponse response = new CreditCardTransactionsResponse(HttpStatus.OK, transactions);
+		return response;
+	}
+	
+	public DebitCardTransactionsResponse getDebitCardTransactions(long nbr) {
+		List<DebitCardTransaction> transactions = debitCardTransactionRepository.findByDebitCardNbr(nbr);
+		DebitCardTransactionsResponse response = new DebitCardTransactionsResponse(HttpStatus.OK, transactions);
+		return response;
+	}
 }
