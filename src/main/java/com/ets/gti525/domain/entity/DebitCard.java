@@ -7,6 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class DebitCard {
@@ -19,6 +22,10 @@ public class DebitCard {
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "DEBIT_CARD_NBR")
 	private List<DebitCardTransaction> transactionList;
+	
+	@JsonIgnore
+	@OneToOne
+	private User owner;
 
 	public long getNbr() {
 		return nbr;
@@ -51,6 +58,14 @@ public class DebitCard {
 		balance = balance - transaction.getAmount();
 		transactionList.add(transaction);
 		return true;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 	
 	

@@ -17,6 +17,7 @@ import com.ets.gti525.domain.entity.CreditCard;
 import com.ets.gti525.domain.entity.CreditCardTransaction;
 import com.ets.gti525.domain.entity.DebitCard;
 import com.ets.gti525.domain.entity.DebitCardTransaction;
+import com.ets.gti525.domain.entity.User;
 import com.ets.gti525.domain.repository.CreditCardRepository;
 import com.ets.gti525.domain.repository.CreditCardTransactionRepository;
 import com.ets.gti525.domain.repository.DebitCardRepository;
@@ -26,7 +27,7 @@ import com.ets.gti525.domain.request.CreditCardPaymentRequest;
 import com.ets.gti525.domain.request.CreditCardTransactionRequest;
 import com.ets.gti525.domain.response.CreditCardTransactionsResponse;
 import com.ets.gti525.domain.response.DebitCardTransactionsResponse;
-import com.ets.gti525.domain.response.TransactionReply;
+import com.ets.gti525.domain.response.TransactionResponse;
 
 @Service
 public class TransactionService {
@@ -51,12 +52,13 @@ public class TransactionService {
 
 	public static final String BANK_2_ID = "9bb9426e-f176-4a76-9be5-68709325e43c";
 
-	public TransactionReply processCCTransaction(String apiKey, CreditCardTransactionRequest request) {
-		TransactionReply reply = new TransactionReply();
+	public TransactionResponse processCCTransaction(String apiKey, CreditCardTransactionRequest request) {
+		TransactionResponse reply;
 		String secret = paymentBrokerRepository.findByApiKey(apiKey).getSecret();
 
 		if(!request.getBankId().equals(BANK_2_ID)) {
-			reply.setResult(TransactionReply.DECLINED);
+			reply = new TransactionResponse(HttpStatus.OK);
+			reply.setResult(TransactionResponse.DECLINED);
 			return reply;
 		}
 
@@ -64,7 +66,8 @@ public class TransactionService {
 		CreditCard cc = creditCardRepository.findById(Long.parseLong(accountNumber)).get();
 
 		if(cc == null) {
-			reply.setResult(TransactionReply.DECLINED);
+			reply = new TransactionResponse(HttpStatus.OK);
+			reply.setResult(TransactionResponse.DECLINED);
 			return reply;
 		}
 
@@ -74,14 +77,15 @@ public class TransactionService {
 				cc.getYearExp() != request.getAccount().getYearExp() ||
 				!String.valueOf(cc.getCvv()).equals(cvv)){
 
-			reply.setResult(TransactionReply.DECLINED);
+			reply = new TransactionResponse(HttpStatus.OK);
+			reply.setResult(TransactionResponse.DECLINED);
 			return reply;
 		}
 
 		CreditCardTransaction transaction = new CreditCardTransaction();
 		transaction.setAmount(request.getAmount());
 		transaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		
+
 		if(request.getAmount() >= 0)
 			transaction.setDescription("Achat " + request.getMerchant());
 		else
@@ -89,16 +93,20 @@ public class TransactionService {
 
 
 		if(cc.addTransaction(transaction)) {
-			reply.setResult(TransactionReply.ACCEPTED);
+			reply = new TransactionResponse(HttpStatus.OK);
+			reply.setResult(TransactionResponse.ACCEPTED);
 			creditCardTransactionRepository.save(transaction);
 			creditCardRepository.save(cc);
+
+			return reply;
 		}
-		else
-			reply.setResult(TransactionReply.DECLINED_INSUFFICIANT_FUNDS);
+		else {
+			reply = new TransactionResponse(HttpStatus.OK);
+			reply.setResult(TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
+			return reply;
+		}
 
-		
 
-		return reply;
 	}
 
 	public boolean verifyAPIKey(String apiKey) {
@@ -147,70 +155,110 @@ public class TransactionService {
 
 		return null;
 	}
-	
-	
-	public TransactionReply processCreditCardPayment(CreditCardPaymentRequest request) {
-		TransactionReply reply = new TransactionReply();
-		
+
+
+	public TransactionResponse processCreditCardPayment(CreditCardPaymentRequest request) {
+		TransactionResponse reply;
+
 		DebitCardTransaction debitTransaction;
 		CreditCardTransaction creditTransaction;
-		
-		DebitCard debitCard = debitCardRepository.findById(Long.parseLong(request.getSourceDebitCardNumber())).get();
-		CreditCard creditCard = creditCardRepository.findById(Long.parseLong(request.getTargetCreditCardNumber())).get();
-		
-		if(debitCard == null || creditCard == null) {
-			reply.setResult(TransactionReply.DECLINED);
+		DebitCard debitCard;
+		CreditCard creditCard;
+
+		try {
+			debitCard = debitCardRepository.findById(Long.parseLong(request.getSourceDebitCardNumber())).get();
+			creditCard = creditCardRepository.findById(Long.parseLong(request.getTargetCreditCardNumber())).get();
+		}catch(Exception e) {
+			reply = new TransactionResponse(HttpStatus.BAD_REQUEST);
+			reply.setResult(TransactionResponse.DECLINED);
 			return reply;
 		}
-		
-		
-		// Validation additionnelle a ajouter: Est-ce que ce user est propriétaire de ces 2 comptes ?
-		// Sinon, c'est potentiellement un crosseur
-		//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//authentication. do something here
-		
-		
+
+		if(debitCard == null || creditCard == null) {
+			reply = new TransactionResponse(HttpStatus.OK);
+			reply.setResult(TransactionResponse.DECLINED);
+			return reply;
+		}
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) auth.getPrincipal();
+		if(creditCard.getOwner().equals(user) == false ||
+				debitCard.getOwner().equals(user) == false) {
+			reply = new TransactionResponse(HttpStatus.UNAUTHORIZED);
+			return reply;
+		}
+
+
 
 		if(request.getAmount() > 0 &&request.getAmount() > debitCard.getBalance()) {
-			reply.setResult(TransactionReply.DECLINED_INSUFFICIANT_FUNDS);
+			reply = new TransactionResponse(HttpStatus.OK);
+			reply.setResult(TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
 			return reply;
 		}
-		
+
 		debitTransaction = new DebitCardTransaction();
 		debitTransaction.setAmount(request.getAmount());
 		debitTransaction.setDescription(DebitCardTransaction.PAYMENT_OF_CREDIT_CARD);
 		debitTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		
+
 		creditTransaction = new CreditCardTransaction();
 		creditTransaction.setAmount(request.getAmount() * -1);
 		creditTransaction.setDescription(CreditCardTransaction.PAYMENT_OF_CREDIT_CARD);
 		creditTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		
+
 		if( debitCard.addTransaction(debitTransaction) &&
 				creditCard.addTransaction(creditTransaction)) {
-			
+
 			debitCardTransactionRepository.save(debitTransaction);
 			debitCardRepository.save(debitCard);
-			
+
 			creditCardTransactionRepository.save(creditTransaction);
 			creditCardRepository.save(creditCard);
-		
-			reply.setResult(TransactionReply.ACCEPTED);
+
+			reply = new TransactionResponse(HttpStatus.OK);
+			reply.setResult(TransactionResponse.ACCEPTED);
+			return reply;
 		}
 
+		reply = new TransactionResponse(HttpStatus.BAD_REQUEST);
 		return reply;
-			
+
 	}
-	
+
 	public CreditCardTransactionsResponse getCreditCardTransactions(long nbr) {
+
+		CreditCard cc = creditCardRepository.findByNbr(nbr);
+		if(cc == null) {
+			return new CreditCardTransactionsResponse(HttpStatus.BAD_REQUEST, null);
+		}
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) auth.getPrincipal();
+		if(cc.getOwner().equals(user) == false) {
+			return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+
+		}
+		
 		List<CreditCardTransaction> transactions = creditCardTransactionRepository.findByCreditCardNbr(nbr);
-		CreditCardTransactionsResponse response = new CreditCardTransactionsResponse(HttpStatus.OK, transactions);
-		return response;
+		return new CreditCardTransactionsResponse(HttpStatus.OK, transactions);
+
 	}
-	
+
 	public DebitCardTransactionsResponse getDebitCardTransactions(long nbr) {
+		DebitCard dc = debitCardRepository.findByNbr(nbr);
+		if(dc == null) {
+			return new DebitCardTransactionsResponse(HttpStatus.BAD_REQUEST, null);
+		}
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) auth.getPrincipal();
+		if(dc.getOwner().equals(user) == false) {
+			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+
+		}
+		
 		List<DebitCardTransaction> transactions = debitCardTransactionRepository.findByDebitCardNbr(nbr);
-		DebitCardTransactionsResponse response = new DebitCardTransactionsResponse(HttpStatus.OK, transactions);
-		return response;
+		return new DebitCardTransactionsResponse(HttpStatus.OK, transactions);
+
 	}
 }

@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.ets.gti525.domain.constant.Role;
 
 @Entity
-public class Users implements UserDetails {
+public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -29,11 +29,11 @@ public class Users implements UserDetails {
 	private Role role;
 	private int enabled;
 	
-	public Users() {
+	public User() {
 		
 	}
 	
-	public Users(String username, String password, Role role, int enabled) {
+	public User(String username, String password, Role role, int enabled) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -108,4 +108,10 @@ public class Users implements UserDetails {
 	public String toString() {
 		return username + ";" + role + ";" + enabled;
 	}
+
+	public boolean equals(User u) {
+		return this.id == u.getId();
+	}
+	
+	
 }

@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ets.gti525.domain.constant.Role;
-import com.ets.gti525.domain.entity.Users;
+import com.ets.gti525.domain.entity.User;
 import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.CreateUserRequest;
 import com.ets.gti525.domain.response.CreateUserResponse;
@@ -24,7 +24,7 @@ public class UserService {
 		this.usersRepository = usersRepository;
 	}
 	
-	public List<Users> getUsers() {
+	public List<User> getUsers() {
 		return usersRepository.findAll();
 	}
 	
@@ -36,7 +36,7 @@ public class UserService {
 		
 		String encodedPassword = encodePassword(password);
 
-		Users user = new Users(username, encodedPassword, Role.USER, 1);
+		User user = new User(username, encodedPassword, Role.USER, 1);
 		
 		usersRepository.save(user);
 		
@@ -46,8 +46,8 @@ public class UserService {
 	public SearchUsersResponse searchUsers(String keyword) {
 		List<SingleSearchUsers> searchResult = new ArrayList<SingleSearchUsers>();
 		
-		List<Users> users = usersRepository.findByFirstnameKeyword(keyword.toUpperCase());
-		for (Users user : users) {
+		List<User> users = usersRepository.findByFirstnameKeyword(keyword.toUpperCase());
+		for (User user : users) {
 			searchResult.add(new SingleSearchUsers(user.getUsername(), "", "", ""));
 		}
 		

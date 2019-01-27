@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.ets.gti525.domain.entity.Users;
+import com.ets.gti525.domain.entity.User;
 
-public interface UsersRepository extends JpaRepository<Users, Long> {
+public interface UsersRepository extends JpaRepository<User, Long> {
 	
-	public Users findById(int id);
+	public User findById(int id);
 	
-	public List<Users> findByUsername(String username);
+	public List<User> findByUsername(String username);
 	
 	@Query(value = "SELECT * FROM USERS u WHERE u.USERNAME LIKE %?1%", nativeQuery = true)
-	public List<Users> findByFirstnameKeyword(String keyword);
+	public List<User> findByFirstnameKeyword(String keyword);
 }

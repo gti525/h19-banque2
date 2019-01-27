@@ -7,6 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class CreditCard {
@@ -22,9 +25,15 @@ public class CreditCard {
 	private int yearExp;
 	private int cvv;
 	
+	@JsonIgnore
+	@OneToOne
+	private User owner;
+	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CREDIT_CARD_NBR")
 	protected List<CreditCardTransaction> transactionList;
+	
+	
 	
 	public double getLimit() {
 		return cardLimit;
@@ -82,6 +91,25 @@ public class CreditCard {
 	public void setTransactionList(List<CreditCardTransaction> transactionList) {
 		this.transactionList = transactionList;
 	}
+	public long getNbr() {
+		return nbr;
+	}
+	public void setNbr(long nbr) {
+		this.nbr = nbr;
+	}
+	public double getCardLimit() {
+		return cardLimit;
+	}
+	public void setCardLimit(double cardLimit) {
+		this.cardLimit = cardLimit;
+	}
+	public User getOwner() {
+		return owner;
+	}
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
 	
 
 }

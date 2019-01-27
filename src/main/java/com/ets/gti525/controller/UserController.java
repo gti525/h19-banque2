@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ets.gti525.domain.entity.Users;
+import com.ets.gti525.domain.entity.User;
 import com.ets.gti525.domain.request.CreateUserRequest;
 import com.ets.gti525.domain.response.CreateUserResponse;
 import com.ets.gti525.domain.response.SearchUsersResponse;
@@ -33,7 +33,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/users")
-	public List<Users> getUsers() {
+	public List<User> getUsers() {
 		return userService.getUsers();
 	}
 	
