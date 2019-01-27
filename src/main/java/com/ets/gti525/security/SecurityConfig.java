@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/admin").hasAnyAuthority("ADMIN")
 			//.antMatchers("/api/**").permitAll()		// Temporary.
 			.antMatchers("/api/v1/transaction/**").hasAnyAuthority("USER", "ADMIN")
+			.antMatchers("/api/v1/paymentGateway/**").permitAll() // Verified with header auth anyway
 			.antMatchers("/h2-console/**").permitAll()
 			.antMatchers("/").permitAll()
 			.and().formLogin()

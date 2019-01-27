@@ -4,8 +4,9 @@ import org.springframework.http.HttpStatus;
 
 public class TransactionResponse extends AbstractResponse{
 
-	public TransactionResponse(HttpStatus status) {
+	public TransactionResponse(HttpStatus status, String result) {
 		super(status);
+		this.result = result;
 	}
 
 	public static final String ACCEPTED = "ACCEPTED";
