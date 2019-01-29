@@ -1,6 +1,5 @@
 package com.ets.gti525.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,16 +12,16 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired
-	private SessionRegistry sessionRegistry;
-	
 	private final CustomUserDetailsService customUserDetailsService;
 	private final AuthenticationSuccessHandler successfulAuthenticationHandler;
+	private final SessionRegistry sessionRegistry;
 	
 	public SecurityConfig(final CustomUserDetailsService customUserDetailsService,
-			final SuccessfulAuthenticationHandler successfulAuthenticationHandler) {
+			final SuccessfulAuthenticationHandler successfulAuthenticationHandler,
+			final SessionRegistry sessionRegistry) {
 		this.customUserDetailsService = customUserDetailsService;
 		this.successfulAuthenticationHandler = successfulAuthenticationHandler;
+		this.sessionRegistry = sessionRegistry;
 	}
 	
 	@Override
