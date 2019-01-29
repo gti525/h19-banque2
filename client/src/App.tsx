@@ -14,15 +14,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Connexion</h1>
+        <a href="./"><img src={logo} className="App-logo" alt="logo" /></a>
         </header>
 
         <BrowserRouter>
           <div>
             <Route exact={true} path="/" component={LogIn} />
             <br />
-            <Route path="/SignUp" component={Home} />
+            <Route path="/Home" component={Home} />
           </div>
         </BrowserRouter>
       </div>
