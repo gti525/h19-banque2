@@ -47,24 +47,25 @@ public class UserService {
 		
 		String encodedPassword = encodePassword(password);
 
-		User user = new User(username, encodedPassword, Role.USER, 1);
+		User user = new User(username, encodedPassword, Role.USER, 1,
+				request.getFirstName(), request.getLastName(), request.isCompany(),
+				request.getCompanyName(), request.getEmail());
 		
 		DebitCard dc = new DebitCard();
-		CreditCard cc = new CreditCard();
+		CreditCard cc = new CreditCard(Long.parseLong(generateCreditCardNumber()));
 		
 		dc.setNbr(Long.parseLong(username));
 		dc.setOwner(user);
 		dc.setBalance(0);
 		
-		String ccNumber = generateCreditCardNumber();
-		cc.setNbr(Long.parseLong(ccNumber));
+
 		cc.setOwner(user);
 		
 		usersRepository.save(user);
 		debitRepository.save(dc);
 		creditRepository.save(cc);
 		
-		return new CreateUserResponse(HttpStatus.OK, message, username, password, ccNumber);
+		return new CreateUserResponse(HttpStatus.OK, message, username, password, String.valueOf(cc.getNbr()));
 	}
 	
 	public SearchUsersResponse searchUsers(String keyword) {

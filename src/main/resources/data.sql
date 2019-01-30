@@ -1,8 +1,8 @@
 -- INSERTION DES USERS
-INSERT INTO USER VALUES (1, 'DAVID', '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 'ADMIN', 1);
-INSERT INTO USER VALUES (2, 'USER', '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 'USER', 1);
-INSERT INTO USER VALUES (3, 'JMB', '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 'USER', 1); -- qwerty
-INSERT INTO USER VALUES (4, 'FRANCOIS', '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 'USER', 1); -- querty
+INSERT INTO USER VALUES (1, 'DAVID', '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 'ADMIN', 1, 'David', 'Pomerlano', FALSE, NULL, 'dpomerlano@pomerleau.com');
+INSERT INTO USER VALUES (2, '22211111', '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 'USER', 1, 'User1FirstName', 'User1LastName', FALSE, NULL, 'user1@example.com');
+INSERT INTO USER VALUES (3, '22233333', '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 'USER', 1, 'Jean-Michel', 'Benoit', FALSE, NULL, 'jmb@tecsys.com'); -- qwerty
+INSERT INTO USER VALUES (4, '22244444', '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 'USER', 1, NULL, NULL, TRUE, 'A Company', 'comptesarecevoir@acompany.com'); -- querty
 
 -- INSERTION DU BROKER DE EQUIPE PASSERELLE PAIEMENT
 INSERT INTO PAYMENT_BROKER VALUES (1, '15489123311', 'Buenos933-accole');
