@@ -2,8 +2,9 @@ import * as React from "react";
 // import Dashboard from './Views/Dashboard';
 // import Groups from './Views/Groups';
 // import History from './Views/History';
-import LogIn from './LogIn';
-import Home from './Views/Home';
+import Login from './Login';
+import LoginAdmin from './LoginAdmin';
+{/*import Home from './Views/Home';*/} 
 import {BrowserRouter, Route} from 'react-router-dom';
 
 import './App.css';
@@ -19,9 +20,10 @@ class App extends React.Component {
 
         <BrowserRouter>
           <div>
-            <Route exact={true} path="/" component={LogIn} />
+            <Route exact={true} path="/" component={Login} />
             <br />
-            <Route path="/Home" component={Home} />
+            <Route path="/LoginAdmin" component={LoginAdmin} />
+            {/* <Route path="/Home" component={Home} /> */} 
           </div>
         </BrowserRouter>
       </div>
