@@ -71,12 +71,15 @@ public class UserService {
 	public SearchUsersResponse searchUsers(String keyword) {
 		List<SingleSearchUsers> searchResult = new ArrayList<SingleSearchUsers>();
 		
-		List<User> users = usersRepository.findByFirstnameKeyword(keyword.toUpperCase());
+		List<User> users = usersRepository.findByKeyword(keyword.toUpperCase());
 		for (User user : users) {
-			searchResult.add(new SingleSearchUsers(user.getUsername(), "", "", ""));
+			DebitCard debitCard = debitRepository.findByOwnerId(user.getId());
+			CreditCard creditCard = creditRepository.findByOwnerId(user.getId());
+			searchResult.add(new SingleSearchUsers(user.getFirstName(),
+					user.getLastName(),
+					String.valueOf(debitCard.getNbr()),
+					String.valueOf(creditCard.getNbr())));
 		}
-		
-		// TODO Implementer les autres types de recherche
 		
 		if(searchResult.isEmpty()) {
 			return new SearchUsersResponse(HttpStatus.NO_CONTENT, searchResult);
