@@ -8,7 +8,7 @@ import LoginAdmin from './LoginAdmin';
 import {BrowserRouter, Route} from 'react-router-dom';
 
 import './App.css';
-import logo from './Logo_banque2.png';
+import logo from './Images/Logo_banque2.png';
 
 class App extends React.Component {
   public render() {

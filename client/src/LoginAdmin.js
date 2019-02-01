@@ -26,7 +26,7 @@ export default class Login extends React.Component {
              <div id='adminConnexionContainer'>
                <br />
 
-               <Card class="card">
+               <Card className="card">
                 <CardHeader><b>Connexion Administration</b></CardHeader>
                   <CardBody>
                     <CardTitle>Nom d'utilisateur : </CardTitle>
@@ -37,7 +37,9 @@ export default class Login extends React.Component {
                     <Input type="password" name="password" placeholder="" />
                     <br />
 
-                    <Button bsStyle="success">Suivant</Button>
+                    <Button bsStyle="success">Se connecter</Button>
+                    <Button bsStyle="primary">Test good</Button>
+                    <Button bsStyle="danger">Test bad</Button>
                   </CardBody>
                </Card>
              </div>
