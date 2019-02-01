@@ -5,8 +5,7 @@ import { Redirect } from 'react-router-dom'
 
 export default class Login extends React.Component { 
   state = {
-    redirect: false,
-    testLogin : false
+    redirect: false
   }
 
   setRedirect = () => {
@@ -29,7 +28,7 @@ export default class Login extends React.Component {
             <div id='numCarteContainer'>
                 <Card className="card">
                     <CardHeader><b>Connexion</b></CardHeader>
-                        <CardBody>
+                    <CardBody>
                         <CardTitle>Veuillez entrer votre numéro de carte : </CardTitle>
                         <Input name="numCarte" placeholder="Numéro de carte" />
                         <br />

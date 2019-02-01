@@ -4,6 +4,7 @@ import * as React from "react";
 // import History from './Views/History';
 import Login from './Login';
 import LoginAdmin from './LoginAdmin';
+import DashboardAdmin from './Views/DashboardAdmin';
 {/*import Home from './Views/Home';*/} 
 import {BrowserRouter, Route} from 'react-router-dom';
 
@@ -15,15 +16,16 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-        <a href="./"><img src={logo} className="App-logo" alt="logo" /></a>
+          <a href="./"><img src={logo} className="App-logo" alt="logo" /></a>
+          <br />
         </header>
 
         <BrowserRouter>
           <div>
             <Route exact={true} path="/" component={Login} />
-            <br />
             <Route path="/LoginAdmin" component={LoginAdmin} />
             {/* <Route path="/Home" component={Home} /> */} 
+            <Route path="/DashboardAdmin" component={DashboardAdmin} />
           </div>
         </BrowserRouter>
       </div>
