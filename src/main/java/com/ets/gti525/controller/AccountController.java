@@ -28,4 +28,5 @@ public class AccountController {
 	public DebitCardInfoResponse getDebitCardInfo(@PathVariable long nbr) {
 		return accountService.getDebitCardInfo(nbr);
 	}
+	
 }

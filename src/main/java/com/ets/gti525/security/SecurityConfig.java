@@ -4,16 +4,24 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-	private final CustomUserDetailsService customUserDetailsService;
 	
-	public SecurityConfig(final CustomUserDetailsService customUserDetailsService) {
+	private final CustomUserDetailsService customUserDetailsService;
+	private final AuthenticationSuccessHandler successfulAuthenticationHandler;
+	private final SessionRegistry sessionRegistry;
+	
+	public SecurityConfig(final CustomUserDetailsService customUserDetailsService,
+			final SuccessfulAuthenticationHandler successfulAuthenticationHandler,
+			final SessionRegistry sessionRegistry) {
 		this.customUserDetailsService = customUserDetailsService;
+		this.successfulAuthenticationHandler = successfulAuthenticationHandler;
+		this.sessionRegistry = sessionRegistry;
 	}
 	
 	@Override
@@ -34,7 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/h2-console/**").permitAll()
 			.antMatchers("/").permitAll()
 			.and().formLogin()
-			.and().csrf().disable();
+			.successHandler(successfulAuthenticationHandler)
+			.and().cors().disable()
+			.csrf().disable()
+			.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry).expiredUrl("/login");
 		
 		// H2-console
 		http.headers().frameOptions().disable();

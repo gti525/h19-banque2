@@ -7,15 +7,18 @@ public class CreateUserResponse extends AbstractResponse {
 	private String message;
 	private String accountNumber;
 	private String password;
+	private String creditCardNumber;
 
 	public CreateUserResponse(HttpStatus status,
 			String message,
 			String accountNumber,
-			String password) {
+			String password,
+			String creditCardNumber) {
 		super(status);
 		this.message = message;
 		this.accountNumber = accountNumber;
 		this.password = password;
+		this.creditCardNumber = creditCardNumber;
 	}
 	
 	public String getAccountNumber() {
@@ -40,6 +43,14 @@ public class CreateUserResponse extends AbstractResponse {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getCreditCardNumber() {
+		return creditCardNumber;
+	}
+
+	public void setCreditCardNumber(String creditCardNumber) {
+		this.creditCardNumber = creditCardNumber;
 	}
 
 }

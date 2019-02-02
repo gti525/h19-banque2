@@ -225,7 +225,6 @@ public class TransactionService {
 		User user = (User) auth.getPrincipal();
 		if(cc.getOwner().equals(user) == false) {
 			return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
-
 		}
 
 		List<CreditCardTransaction> transactions = creditCardTransactionRepository.findByCreditCardNbr(nbr);

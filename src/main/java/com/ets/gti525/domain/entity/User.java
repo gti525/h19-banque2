@@ -29,16 +29,28 @@ public class User implements UserDetails {
 	private Role role;
 	private int enabled;
 	
+	private String firstName;
+	private String lastName;
+	private boolean isCompany;
+	private String companyName;
+	private String email;
+	
 	public User() {
 		
 	}
 	
-	public User(String username, String password, Role role, int enabled) {
+	public User(String username, String password, Role role, int enabled, String firstName,
+			String lastName, boolean isCompany, String companyName, String email) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.role = role;
 		this.enabled = enabled;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.isCompany = isCompany;
+		this.companyName = companyName;
+		this.email = email;
 	}
 
 	public int getId() {
@@ -111,6 +123,46 @@ public class User implements UserDetails {
 
 	public boolean equals(User u) {
 		return this.id == u.getId();
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public boolean isCompany() {
+		return isCompany;
+	}
+
+	public void setCompany(boolean isCompany) {
+		this.isCompany = isCompany;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	
