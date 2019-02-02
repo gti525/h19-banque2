@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class CreditCardTransaction {
@@ -19,8 +22,28 @@ public class CreditCardTransaction {
 	private Timestamp timestamp;
 	private String description;
 	private double amount;
+	private boolean isPreauth;
+	
+	@JsonIgnore
+	@OneToOne
+	private CreditCard creditCard;
 	
 	
+	
+
+
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
+	public boolean isPreauth() {
+		return isPreauth;
+	}
+	public void setPreauth(boolean isPreauth) {
+		this.isPreauth = isPreauth;
+	}
 	public int getId() {
 		return id;
 	}

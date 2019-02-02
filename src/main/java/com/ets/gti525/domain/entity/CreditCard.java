@@ -98,6 +98,16 @@ public class CreditCard {
 			
 		return false;
 	}
+	
+	public boolean removeTransaction(CreditCardTransaction transaction) {
+		if( transactionList.remove(transaction)) {
+			balance = balance - transaction.getAmount();
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public List<CreditCardTransaction> getTransactionList() {
 		return transactionList;
 	}
@@ -130,6 +140,8 @@ public class CreditCard {
 	public void setCvv(String cvv) {
 		this.cvv = cvv;
 	}
+
+
 
 	
 
