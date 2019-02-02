@@ -1,13 +1,13 @@
 package com.ets.gti525.domain.response;
 
 public class SingleSearchUsers {
-	private String firstName, lastname, accountNumber, cardNumber;
+	private String firstName, lastname, debitCardNumber, creditCardNumber;
 	
-	public SingleSearchUsers (String firstName, String lastName, String accountNumber, String cardNumber) {
+	public SingleSearchUsers (String firstName, String lastName, String debitCardNumber, String creditCardNumber) {
 		this.firstName = firstName;
 		this.lastname = lastName;
-		this.accountNumber = accountNumber;
-		this.cardNumber = cardNumber;
+		this.debitCardNumber = debitCardNumber;
+		this.creditCardNumber = creditCardNumber;
 	}
 	
 	public String getFirstName() {
@@ -25,20 +25,20 @@ public class SingleSearchUsers {
 	public void setLastName(String lastName) {
 		this.lastname = lastName;
 	}
-	
-	public String getAccountNumber() {
-		return this.accountNumber;
+
+	public String getDebitCardNumber() {
+		return debitCardNumber;
 	}
-	
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
+
+	public void setDebitCardNumber(String debitCardNumber) {
+		this.debitCardNumber = debitCardNumber;
 	}
-	
-	public String getCardNumber() {
-		return this.cardNumber;
+
+	public String getCreditCardNumber() {
+		return creditCardNumber;
 	}
-	
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
+
+	public void setCreditCardNumber(String creditCardNumber) {
+		this.creditCardNumber = creditCardNumber;
 	}
 }
