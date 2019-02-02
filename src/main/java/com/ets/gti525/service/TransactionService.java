@@ -8,6 +8,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +39,9 @@ public class TransactionService {
 	private final CreditCardTransactionRepository creditCardTransactionRepository;
 	private final DebitCardRepository debitCardRepository;
 	private final DebitCardTransactionRepository debitCardTransactionRepository;
+
+	@Value("${com.ets.gti525.security.ownershipCheck}")
+	private String ownershipCheck;
 
 	public TransactionService(final PaymentBrokerRepository paymentBrokerRepository,
 			final CreditCardRepository creditCardRepository,
@@ -171,12 +175,14 @@ public class TransactionService {
 
 		}
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User) auth.getPrincipal();
-		if(creditCard.getOwner().equals(user) == false ||
-				debitCard.getOwner().equals(user) == false) {
-			reply = new TransactionResponse(HttpStatus.UNAUTHORIZED, null);
-			return reply;
+		if(isOwnershipCheck()) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			User user = (User) auth.getPrincipal();
+			if(creditCard.getOwner().equals(user) == false ||
+					debitCard.getOwner().equals(user) == false) {
+				reply = new TransactionResponse(HttpStatus.UNAUTHORIZED, null);
+				return reply;
+			}
 		}
 
 
@@ -221,10 +227,12 @@ public class TransactionService {
 			return new CreditCardTransactionsResponse(HttpStatus.BAD_REQUEST, null);
 		}
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User) auth.getPrincipal();
-		if(cc.getOwner().equals(user) == false) {
-			return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+		if(isOwnershipCheck()) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			User user = (User) auth.getPrincipal();
+			if(cc.getOwner().equals(user) == false) {
+				return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+			}
 		}
 
 		List<CreditCardTransaction> transactions = creditCardTransactionRepository.findByCreditCardNbr(nbr);
@@ -238,11 +246,13 @@ public class TransactionService {
 			return new DebitCardTransactionsResponse(HttpStatus.BAD_REQUEST, null);
 		}
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User) auth.getPrincipal();
-		if(dc.getOwner().equals(user) == false) {
-			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+		if(isOwnershipCheck()) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			User user = (User) auth.getPrincipal();
+			if(dc.getOwner().equals(user) == false) {
+				return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
 
+			}
 		}
 
 		List<DebitCardTransaction> transactions = debitCardTransactionRepository.findByDebitCardNbr(nbr);
@@ -257,13 +267,13 @@ public class TransactionService {
 			return new TransactionResponse(HttpStatus.BAD_REQUEST, TransactionResponse.DECLINED);
 		}
 
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) auth.getPrincipal();
 		if(sourceDC.getOwner().equals(user) == false) {
 			return new TransactionResponse(HttpStatus.UNAUTHORIZED, TransactionResponse.DECLINED);
 		}
-		
+
 
 		DebitCard destDC = debitCardRepository.findByNbr(request.getTargetAccountNumber());
 
@@ -301,6 +311,12 @@ public class TransactionService {
 		}
 
 		return new TransactionResponse(HttpStatus.BAD_REQUEST, null);
-		
+
+	}
+
+	private boolean isOwnershipCheck() {
+		if(ownershipCheck == "true")
+			return true;
+		return false;
 	}
 }
