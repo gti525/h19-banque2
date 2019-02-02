@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/").permitAll()
 			.and().formLogin()
 			.successHandler(successfulAuthenticationHandler)
-			.and().csrf().disable()
+			.and().cors().disable()
+			.csrf().disable()
 			.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry).expiredUrl("/login");
 		
 		// H2-console
