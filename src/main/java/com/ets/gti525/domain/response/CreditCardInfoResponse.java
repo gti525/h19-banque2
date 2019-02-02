@@ -10,6 +10,10 @@ public class CreditCardInfoResponse extends AbstractResponse {
 	private int monthExp;
 	private int yearExp; 
 	
+	public CreditCardInfoResponse(HttpStatus status) {
+		super(status);
+	}
+	
 	public CreditCardInfoResponse(HttpStatus status, long nbr,
 			double balance, double cardLimit, int monthExp, int yearExp) {
 		super(status);

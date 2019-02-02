@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
 			.antMatchers("/admin").hasAnyAuthority("ADMIN")
-			//.antMatchers("/api/**").permitAll()		// Temporary.
+			.antMatchers("/api/**").permitAll()		// Temporary.
 			.antMatchers("/poc-lp/*").hasAnyAuthority("USER", "ADMIN")  // Tests LP
 			.antMatchers("/api/v1/transaction/**").hasAnyAuthority("USER", "ADMIN")
 			.antMatchers("/api/v1/paymentGateway/**").permitAll() // Verified with header auth anyway
