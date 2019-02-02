@@ -1,10 +1,15 @@
 package com.ets.gti525.domain.request;
 
+import javax.validation.constraints.NotNull;
+
 public class AccountRequest {
-	
+	@NotNull
 	private String number;
+	@NotNull
 	private int monthExp;
+	@NotNull
 	private int yearExp;
+	@NotNull
 	private String cvv;
 	
 

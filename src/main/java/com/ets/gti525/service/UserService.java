@@ -8,24 +8,34 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ets.gti525.domain.constant.Role;
-import com.ets.gti525.domain.entity.Users;
+import com.ets.gti525.domain.entity.CreditCard;
+import com.ets.gti525.domain.entity.DebitCard;
+import com.ets.gti525.domain.entity.User;
+import com.ets.gti525.domain.repository.CreditCardRepository;
+import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.CreateUserRequest;
-import com.ets.gti525.domain.request.SearchUsersRequest;
 import com.ets.gti525.domain.response.CreateUserResponse;
 import com.ets.gti525.domain.response.SearchUsersResponse;
 import com.ets.gti525.domain.response.SingleSearchUsers;
+import com.ets.gti525.helper.CardNumberHelper;
 
 @Service
 public class UserService {
 
 	private final UsersRepository usersRepository;
+	private final DebitCardRepository debitRepository;
+	private final CreditCardRepository creditRepository;
 	
-	public UserService(final UsersRepository usersRepository) {
+	public UserService(final UsersRepository usersRepository,
+			final DebitCardRepository debitCardRepository,
+			final CreditCardRepository creditRepository) {
 		this.usersRepository = usersRepository;
+		this.debitRepository = debitCardRepository;
+		this.creditRepository = creditRepository;
 	}
 	
-	public List<Users> getUsers() {
+	public List<User> getUsers() {
 		return usersRepository.findAll();
 	}
 	
@@ -37,23 +47,61 @@ public class UserService {
 		
 		String encodedPassword = encodePassword(password);
 
-		Users user = new Users(username, encodedPassword, Role.USER, 1);
+		User user = new User(username, encodedPassword, Role.USER, 1,
+				request.getFirstName(), request.getLastName(), request.isCompany(),
+				request.getCompanyName(), request.getEmail());
+		
+		DebitCard dc = new DebitCard();
+		CreditCard cc = new CreditCard(Long.parseLong(generateCreditCardNumber()));
+		
+		dc.setNbr(Long.parseLong(username));
+		dc.setOwner(user);
+		dc.setBalance(0);
+		
+
+		cc.setOwner(user);
 		
 		usersRepository.save(user);
+		debitRepository.save(dc);
+		creditRepository.save(cc);
 		
-		return new CreateUserResponse(HttpStatus.OK, message, username, password);
+		return new CreateUserResponse(HttpStatus.OK, message, username, password, String.valueOf(cc.getNbr()));
 	}
 	
-	public SearchUsersResponse searchUsers(SearchUsersRequest request) {
+	public SearchUsersResponse searchUsers(String keyword) {
 		List<SingleSearchUsers> searchResult = new ArrayList<SingleSearchUsers>();
 		
-		// TODO : Implement research
+		List<User> users = usersRepository.findByKeyword(keyword.toUpperCase());
+		for (User user : users) {
+			DebitCard debitCard = debitRepository.findByOwnerId(user.getId());
+			CreditCard creditCard = creditRepository.findByOwnerId(user.getId());
+			searchResult.add(new SingleSearchUsers(user.getFirstName(),
+					user.getLastName(),
+					String.valueOf(debitCard.getNbr()),
+					String.valueOf(creditCard.getNbr())));
+		}
 		
-		return new SearchUsersResponse(HttpStatus.OK, searchResult);
+		if(searchResult.isEmpty()) {
+			return new SearchUsersResponse(HttpStatus.NO_CONTENT, searchResult);
+		}else {
+			return new SearchUsersResponse(HttpStatus.OK, searchResult);
+		}
 	}
 	
 	private String generateAccountNumber() {
-		return "4540123456780000";
+		String accountNumber = CardNumberHelper.getInstace().generateAccountNumber();
+		while(debitRepository.findByNbr(Long.parseLong(accountNumber)) != null)
+			accountNumber = CardNumberHelper.getInstace().generateAccountNumber();
+		
+		return accountNumber;
+	}
+	
+	private String generateCreditCardNumber() {
+		String accountNumber = CardNumberHelper.getInstace().generateCreditCardNbr();
+		while(creditRepository.findByNbr(Long.parseLong(accountNumber)) != null)
+			accountNumber = CardNumberHelper.getInstace().generateCreditCardNbr();
+		
+		return accountNumber;
 	}
 	
 	private String generatePassword() {

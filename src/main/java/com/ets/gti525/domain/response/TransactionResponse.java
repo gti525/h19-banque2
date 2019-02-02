@@ -1,6 +1,13 @@
 package com.ets.gti525.domain.response;
 
-public class TransactionReply {
+import org.springframework.http.HttpStatus;
+
+public class TransactionResponse extends AbstractResponse{
+
+	public TransactionResponse(HttpStatus status, String result) {
+		super(status);
+		this.result = result;
+	}
 
 	public static final String ACCEPTED = "ACCEPTED";
 	public static final String DECLINED = "DECLINED";
@@ -15,6 +22,8 @@ public class TransactionReply {
 	public void setResult(String result) {
 		this.result = result;
 	}
+	
+	
 	
 	
 	

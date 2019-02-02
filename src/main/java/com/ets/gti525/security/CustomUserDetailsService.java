@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ets.gti525.domain.entity.Users;
+import com.ets.gti525.domain.entity.User;
 import com.ets.gti525.domain.repository.UsersRepository;
 
 @Service
@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (username == null)
 			throw new UsernameNotFoundException("Username cannot be null");
 		
-		List<Users> usersList = usersRepository.findByUsername(username.toUpperCase());
+		List<User> usersList = usersRepository.findByUsername(username.toUpperCase());
 		
 		if (usersList.size() != 1) {
 			throw new UsernameNotFoundException(username);
