@@ -9,10 +9,11 @@
   },
   "rules": {
     "ordered-imports": [false],
-    "object-literal-sort-keys": [false],
+    "object-literal-sort-keys": false,
     "no-console": [false]
   },
   "jsRules": {
-    "no-console": [false]
+    "no-console": [false],
+    "object-literal-sort-keys": false
   }
 }
