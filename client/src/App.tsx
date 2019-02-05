@@ -1,11 +1,7 @@
 import * as React from "react";
-// import Dashboard from './Views/Dashboard';
-// import Groups from './Views/Groups';
-// import History from './Views/History';
 import Login from './Login';
 import LoginAdmin from './LoginAdmin';
 import DashboardAdmin from './Views/DashboardAdmin';
-{/*import Home from './Views/Home';*/} 
 import {BrowserRouter, Route} from 'react-router-dom';
 
 import './App.css';
@@ -24,7 +20,6 @@ class App extends React.Component {
           <div>
             <Route exact={true} path="/" component={Login} />
             <Route path="/LoginAdmin" component={LoginAdmin} />
-            {/* <Route path="/Home" component={Home} /> */} 
             <Route path="/DashboardAdmin" component={DashboardAdmin} />
           </div>
         </BrowserRouter>
