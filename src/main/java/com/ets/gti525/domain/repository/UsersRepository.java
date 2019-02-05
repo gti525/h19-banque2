@@ -15,4 +15,14 @@ public interface UsersRepository extends JpaRepository<User, Long> {
 	
 	@Query(value = "SELECT * FROM USERS u WHERE u.USERNAME LIKE %?1%", nativeQuery = true)
 	public List<User> findByFirstnameKeyword(String keyword);
+	
+	@Query(value = "SELECT * FROM USER "
+			+ "INNER JOIN DEBIT_CARD ON USER.ID = DEBIT_CARD.OWNER_ID "
+			+ "INNER JOIN CREDIT_CARD ON USER.ID = CREDIT_CARD.OWNER_ID "
+			+ "WHERE "
+			+ "UPPER(USER.FIRST_NAME) LIKE %?1% OR "
+			+ "UPPER(USER.LAST_NAME) LIKE %?1% OR "
+			+ "UPPER(DEBIT_CARD.NBR) LIKE %?1% OR "
+			+ "UPPER(CREDIT_CARD.NBR) LIKE %?1%", nativeQuery = true)
+	public List<User> findByKeyword(String keyword);
 }

@@ -38,8 +38,6 @@ export default class Login extends React.Component {
                     <br />
 
                     <Button bsStyle="success">Se connecter</Button>
-                    <Button bsStyle="primary">Test good</Button>
-                    <Button bsStyle="danger">Test bad</Button>
                   </CardBody>
                </Card>
              </div>

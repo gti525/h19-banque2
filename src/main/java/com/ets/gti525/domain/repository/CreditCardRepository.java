@@ -7,4 +7,6 @@ import com.ets.gti525.domain.entity.CreditCard;
 public interface CreditCardRepository extends JpaRepository<CreditCard, Long> {
 
 	public CreditCard findByNbr(long creditCardNbr);
+	
+	public CreditCard findByOwnerId(int ownerId);
 }

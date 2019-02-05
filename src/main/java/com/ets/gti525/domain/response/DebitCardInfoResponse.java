@@ -7,6 +7,10 @@ public class DebitCardInfoResponse extends AbstractResponse {
 	private long nbr;
 	private double balance;
 	
+	public DebitCardInfoResponse(HttpStatus status) {
+		super(status);
+	}
+	
 	public DebitCardInfoResponse(HttpStatus status, long nbr, double balance) {
 		super(status);
 		this.nbr = nbr;
