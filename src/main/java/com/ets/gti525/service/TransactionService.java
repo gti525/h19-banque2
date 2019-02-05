@@ -2,6 +2,7 @@ package com.ets.gti525.service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -25,10 +26,13 @@ import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.repository.DebitCardTransactionRepository;
 import com.ets.gti525.domain.repository.PaymentBrokerRepository;
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
-import com.ets.gti525.domain.request.CreditCardTransactionRequest;
 import com.ets.gti525.domain.request.IntraBankTransferRequest;
+import com.ets.gti525.domain.request.PreAuthCCTransactionRequest;
+import com.ets.gti525.domain.request.ProcessCCTransactionRequest;
 import com.ets.gti525.domain.response.CreditCardTransactionsResponse;
 import com.ets.gti525.domain.response.DebitCardTransactionsResponse;
+import com.ets.gti525.domain.response.PreAuthReply;
+import com.ets.gti525.domain.response.ProcessCCReply;
 import com.ets.gti525.domain.response.TransactionResponse;
 
 @Service
@@ -55,8 +59,10 @@ public class TransactionService {
 		this.debitCardTransactionRepository = debitCardTransactionRepository;
 	}
 
-	public static final String BANK_2_ID = "9bb9426e-f176-4a76-9be5-68709325e43c";
 
+	/*
+	 * DEPRECATED
+	 * 
 	public TransactionResponse processCCTransaction(String apiKey, CreditCardTransactionRequest request) {
 		TransactionResponse reply;
 		String secret = paymentBrokerRepository.findByApiKey(apiKey).getSecret();
@@ -106,6 +112,8 @@ public class TransactionService {
 
 
 	}
+
+	 */
 
 	public boolean verifyAPIKey(String apiKey) {
 		if(paymentBrokerRepository.findByApiKey(apiKey) == null)
@@ -318,5 +326,92 @@ public class TransactionService {
 		if(ownershipCheck == "true")
 			return true;
 		return false;
+	}
+
+	public PreAuthReply preAuthCCTransaction(String apiKey, PreAuthCCTransactionRequest request) {
+
+		PreAuthReply reply;
+		CreditCard cc = null;
+		String secret = paymentBrokerRepository.findByApiKey(apiKey).getSecret();
+
+		if(request.getAccount().getNumber() == null)
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
+		
+		
+		String accountNumber = decrypt(secret, request.getAccount().getNumber());
+		
+		try{
+			cc = creditCardRepository.findById(Long.parseLong(accountNumber)).get();
+		} catch(NoSuchElementException e) {
+			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED, null);
+		}
+
+
+
+		String cvv = decrypt(secret, request.getAccount().getCvv());
+
+		if(cc.getMonthExp() != request.getAccount().getMonthExp() ||
+				cc.getYearExp() != request.getAccount().getYearExp() ||
+				!String.valueOf(cc.getCvv()).equals(cvv)){
+
+			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED, null);
+		}
+
+		CreditCardTransaction transaction = new CreditCardTransaction();
+		transaction.setAmount(request.getAmount());
+		transaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
+
+		if(request.getAmount() >= 0)
+			transaction.setDescription("Achat " + request.getMerchant());
+		else
+			transaction.setDescription("Remboursement " + request.getMerchant());
+
+		transaction.setPreauth(true);
+
+		if(cc.addTransaction(transaction)) {
+			transaction = creditCardTransactionRepository.save(transaction);
+			creditCardRepository.save(cc);
+
+			reply = new PreAuthReply(HttpStatus.OK, PreAuthReply.ACCEPTED, transaction.getId());
+			return reply;
+		}
+		else {
+			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED_INSUFFICIANT_FUNDS, null);
+
+		}
+
+
+	}
+
+
+	public ProcessCCReply processCCTransaction(ProcessCCTransactionRequest request) {
+
+		if(request.getTransactionID() == null || request.validAction() == false)
+			return new ProcessCCReply(HttpStatus.BAD_REQUEST, null);
+
+		CreditCardTransaction transaction = creditCardTransactionRepository.findById(request.getTransactionID()).get();
+		if(transaction == null)
+			return new ProcessCCReply(HttpStatus.NOT_FOUND, null);
+
+
+
+		if(request.getAction().equals(ProcessCCTransactionRequest.ACTION_COMMIT)) {
+			transaction.setPreauth(false);
+			creditCardTransactionRepository.save(transaction);
+			return new ProcessCCReply(HttpStatus.OK, ProcessCCReply.STATUS_COMMITED);
+		}
+		else if(request.getAction().equals(ProcessCCTransactionRequest.ACTION_CANCEL)) {
+			if(transaction.isPreauth() && transaction.getCreditCard().removeTransaction(transaction)) {
+				creditCardRepository.save(transaction.getCreditCard());
+				creditCardTransactionRepository.delete(transaction);
+				return new ProcessCCReply(HttpStatus.OK, ProcessCCReply.STATUS_CANCELLED);
+			}
+			else
+				return new ProcessCCReply(HttpStatus.NOT_FOUND, null);
+		}
+
+		return new ProcessCCReply(HttpStatus.EXPECTATION_FAILED, null);
+
+
 	}
 }

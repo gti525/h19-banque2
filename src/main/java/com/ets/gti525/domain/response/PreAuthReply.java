@@ -2,11 +2,12 @@ package com.ets.gti525.domain.response;
 
 import org.springframework.http.HttpStatus;
 
-public class TransactionResponse extends AbstractResponse{
+public class PreAuthReply extends AbstractResponse{
 
-	public TransactionResponse(HttpStatus status, String result) {
+	public PreAuthReply(HttpStatus status, String result, Integer transactionId) {
 		super(status);
 		this.result = result;
+		this.transactionId = transactionId;
 	}
 
 	public static final String ACCEPTED = "ACCEPTED";
@@ -14,6 +15,7 @@ public class TransactionResponse extends AbstractResponse{
 	public static final String DECLINED_INSUFFICIANT_FUNDS = "DECLINED-INSUFFICIANT-FUNDS";
 	
 	private String result;
+	private Integer transactionId;
 
 	public String getResult() {
 		return result;
@@ -22,9 +24,14 @@ public class TransactionResponse extends AbstractResponse{
 	public void setResult(String result) {
 		this.result = result;
 	}
-	
-	
-	
+
+	public Integer getTransactionId() {
+		return transactionId;
+	}
+
+	public void setTransactionId(Integer transactionId) {
+		this.transactionId = transactionId;
+	}
 	
 	
 }

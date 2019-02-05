@@ -8,11 +8,14 @@ export default class DashbordAdmin extends React.Component {
    }
 
    fetchUsers() {
-      fetch('http://localhost:8080/api/v1/account/creditCard/5105105105105100')
+      fetch('http://localhost:3000/api/v1/account/debitCard/22212345')
         .then(response => response.json())
         .then(data =>
           this.setState({
-            creditCards: data,
+            creditCards: data.map((x) => ({
+               balance: x.balance,
+               nbr: x.nbr
+             })),
             isLoading: false,
           })
         )

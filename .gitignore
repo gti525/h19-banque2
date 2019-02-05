@@ -27,3 +27,4 @@
 
 src/main/resources/public/
 client/node
+client/node_modules
