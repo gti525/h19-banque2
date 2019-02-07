@@ -126,7 +126,6 @@ export default class Login extends React.Component {
                                 name="password" 
                                 placeholder="" />
                             <br />
-
                             <button bsStyle="success">Se connecter</button>
                         </CardBody>
                     </Card>
