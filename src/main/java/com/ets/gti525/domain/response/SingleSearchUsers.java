@@ -10,6 +10,11 @@ public class SingleSearchUsers {
 		this.creditCardNumber = creditCardNumber;
 	}
 	
+	public SingleSearchUsers (String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastname = lastName;
+	}
+	
 	public String getFirstName() {
 		return this.firstName;
 	}

@@ -70,15 +70,26 @@ public class UserService {
 	
 	public SearchUsersResponse searchUsers(String keyword) {
 		List<SingleSearchUsers> searchResult = new ArrayList<SingleSearchUsers>();
+		List<User> users = new ArrayList<User>();
 		
-		List<User> users = usersRepository.findByKeyword(keyword.toUpperCase());
+		if(keyword == null) {
+			users = usersRepository.findAll();
+		}else {
+			users = usersRepository.findByKeyword(keyword.toUpperCase());	
+		}
+		
 		for (User user : users) {
+			SingleSearchUsers singleSearchUsers = new SingleSearchUsers(user.getFirstName(), user.getLastName());
+			
 			DebitCard debitCard = debitRepository.findByOwnerId(user.getId());
 			CreditCard creditCard = creditRepository.findByOwnerId(user.getId());
-			searchResult.add(new SingleSearchUsers(user.getFirstName(),
-					user.getLastName(),
-					String.valueOf(debitCard.getNbr()),
-					String.valueOf(creditCard.getNbr())));
+			
+			if(debitCard != null)
+				singleSearchUsers.setDebitCardNumber(String.valueOf(debitCard.getNbr()));
+			if(creditCard != null)
+				singleSearchUsers.setCreditCardNumber(String.valueOf(creditCard.getNbr()));
+			
+			searchResult.add(singleSearchUsers);
 		}
 		
 		if(searchResult.isEmpty()) {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ets.gti525.domain.entity.User;
@@ -30,16 +31,10 @@ public class UserController {
 	public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest request) {
 		CreateUserResponse response = userService.createUser(request);
 		return ResponseEntity.status(response.getStatus()).body(response);
-	}
+	}	
 	
 	@GetMapping("/users")
-	public List<User> getUsers() {
-		return userService.getUsers();
-	}
-	
-	
-	@GetMapping("/users/{keyword}")
-	public ResponseEntity<SearchUsersResponse> searchUsers(@PathVariable String keyword){
+	public ResponseEntity<SearchUsersResponse> searchUsers(@RequestParam(required=false) String keyword){
 		SearchUsersResponse response = userService.searchUsers(keyword);
 		return ResponseEntity.status(response.getStatus()).body(response);	
 	}
