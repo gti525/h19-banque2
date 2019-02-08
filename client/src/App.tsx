@@ -2,6 +2,7 @@ import * as React from "react";
 import Login from './Login';
 import LoginAdmin from './LoginAdmin';
 import DashboardAdmin from './Views/DashboardAdmin';
+{/*import Home from './Views/Home';*/} 
 import {BrowserRouter, Route} from 'react-router-dom';
 
 import './App.css';
