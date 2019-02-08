@@ -59,7 +59,7 @@ export default class Login extends React.Component {
                     </div>
                 */}
 
-                <Link to="/LoginAdmin"><Button id="btnAdministration" bsStyle="info">Administration</Button></Link>   
+                <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>   
             </div>
         )
    }
