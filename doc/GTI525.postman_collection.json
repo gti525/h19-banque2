@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "9c7e3aa5-a1cf-4e5d-b404-a9f7526e81f6",
+		"name": "GTI525",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Intra-Bank Transfer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sourceAccountNumber\": 4540333333333333,\n\t\"targetAccountNumber\": 4540444444444444,\n\t\"amount\": 100.50\n}"
+				},
+				"url": {
+					"raw": "{{serverNameOrIP}}:8080/api/v1/transaction/intraBankTransfer",
+					"host": [
+						"{{serverNameOrIP}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"transaction",
+						"intraBankTransfer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Credit Card Payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sourceDebitCardNumber\" : 22233333,\n\t\"targetCreditCardNumber\" : 5105749559146043,\n\t\"amount\":25.50\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/transaction/creditCardPayment",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"transaction",
+						"creditCardPayment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Debit card transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/transaction/debitCard/22212345",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"transaction",
+						"debitCard",
+						"22212345"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Credit Card transaction",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/transaction/creditCard/5105749559146043",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"transaction",
+						"creditCard",
+						"5105749559146043"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Credit Card account details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/account/creditCard/5105749559146043",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"account",
+						"creditCard",
+						"5105749559146043"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Debit card account details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/account/debitCard/22233333",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"account",
+						"debitCard",
+						"22233333"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search users details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{serverNameOrIP}}:8080/api/v1/users/?keyword=User1FirstName",
+					"host": [
+						"{{serverNameOrIP}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						""
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "User1FirstName"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Process a pre-authorized transaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"type": "text",
+						"value": "15489123311"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"transactionID\": 4,\n  \"action\": \"CANCEL\"\n}"
+				},
+				"url": {
+					"raw": "{{serverNameOrIP}}:8080/api/v1/paymentGateway/process",
+					"host": [
+						"{{serverNameOrIP}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"paymentGateway",
+						"process"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new pre-authorization",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"type": "text",
+						"value": "15489123311"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": 25.99,\n  \"merchant\": \"Resto-Pub 100 Genies\",\n  \"account\": {\n    \"number\": \"tjYYPTVFUjaT1RMmLPZfNRGsIOPUKo260ohxDG52wi4=\",\n    \"monthExp\": 1,\n    \"yearExp\": 2020,\n    \"cvv\": \"ueiRp2SXTOJZQ6jEsJmDFg==\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{serverNameOrIP}}:8080/api/v1/paymentGateway/preAuth",
+					"host": [
+						"{{serverNameOrIP}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"paymentGateway",
+						"preAuth"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e506a02e-453c-460c-9d3a-166dcd4c1fb1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f14a3e5a-1a53-483f-b33a-b959d7e72112",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "24a70840-7259-4852-99f9-b3b1c17239ee",
+			"key": "serverNameOrIP",
+			"value": "localhost",
+			"type": "string"
+		}
+	]
+}
