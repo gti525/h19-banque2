@@ -60,60 +60,6 @@ public class TransactionService {
 	}
 
 
-	/*
-	 * DEPRECATED
-	 * 
-	public TransactionResponse processCCTransaction(String apiKey, CreditCardTransactionRequest request) {
-		TransactionResponse reply;
-		String secret = paymentBrokerRepository.findByApiKey(apiKey).getSecret();
-
-		if(!request.getBankId().equals(BANK_2_ID)) {
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED);
-
-		}
-
-		String accountNumber = decrypt(secret, request.getAccount().getNumber());
-		CreditCard cc = creditCardRepository.findById(Long.parseLong(accountNumber)).get();
-
-		if(cc == null) {
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED);
-		}
-
-		String cvv = decrypt(secret, request.getAccount().getCvv());
-
-		if(cc.getMonthExp() != request.getAccount().getMonthExp() ||
-				cc.getYearExp() != request.getAccount().getYearExp() ||
-				!String.valueOf(cc.getCvv()).equals(cvv)){
-
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED);
-		}
-
-		CreditCardTransaction transaction = new CreditCardTransaction();
-		transaction.setAmount(request.getAmount());
-		transaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
-
-		if(request.getAmount() >= 0)
-			transaction.setDescription("Achat " + request.getMerchant());
-		else
-			transaction.setDescription("Remboursement " + request.getMerchant());
-
-
-		if(cc.addTransaction(transaction)) {
-			reply = new TransactionResponse(HttpStatus.OK, TransactionResponse.ACCEPTED);
-			creditCardTransactionRepository.save(transaction);
-			creditCardRepository.save(cc);
-
-			return reply;
-		}
-		else {
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
-
-		}
-
-
-	}
-
-	 */
 
 	public boolean verifyAPIKey(String apiKey) {
 		if(paymentBrokerRepository.findByApiKey(apiKey) == null)
@@ -291,6 +237,11 @@ public class TransactionService {
 
 		DebitCardTransaction senderTransaction;
 		DebitCardTransaction recipientTransaction;
+		
+		// Verify the decimal length
+		// https://www.quora.com/Is-there-is-any-way-to-find-the-number-of-digits-after-a-decimal-in-a-floating-number-stored-in-an-array-with-complexity-n
+		if(String.valueOf(request.getAmount()).split("\\.")[1].length() > 2)
+			return new TransactionResponse(HttpStatus.UNAUTHORIZED, TransactionResponse.DECLINED);
 
 		if(sourceDC.getBalance() < request.getAmount())
 			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
@@ -333,8 +284,9 @@ public class TransactionService {
 		PreAuthReply reply;
 		CreditCard cc = null;
 		String secret = paymentBrokerRepository.findByApiKey(apiKey).getSecret();
+		String cardholderNameInRequest = request.getAccount().getCardholderName();
 
-		if(request.getAccount().getNumber() == null)
+		if(request.getAccount().getNumber() == null || cardholderNameInRequest == null)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
 		
 		
@@ -345,13 +297,35 @@ public class TransactionService {
 		} catch(NoSuchElementException e) {
 			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED, null);
 		}
-
+		
+		// Verify the decimal length
+		// https://www.quora.com/Is-there-is-any-way-to-find-the-number-of-digits-after-a-decimal-in-a-floating-number-stored-in-an-array-with-complexity-n
+		if(String.valueOf(request.getAmount()).split("\\.")[1].length() > 2)
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
+		
+		if(cardholderNameInRequest.equalsIgnoreCase(cc.getOwner().getCompanyName()) == false)
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
+ 
 
 
 		String cvv = decrypt(secret, request.getAccount().getCvv());
-
-		if(cc.getMonthExp() != request.getAccount().getMonthExp() ||
-				cc.getYearExp() != request.getAccount().getYearExp() ||
+		
+		String[] expAsString = request.getAccount().getExp().split("/");
+		if(expAsString.length != 2)
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
+		
+		int monthExp;
+		int yearExp;
+		
+		try{
+			monthExp = Integer.parseInt(expAsString[0]);
+			yearExp = Integer.parseInt(expAsString[1]);
+		}catch(Exception e) {
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null); 
+		}
+		
+		if(cc.getMonthExp() != monthExp ||
+				cc.getYearExp() != yearExp ||
 				!String.valueOf(cc.getCvv()).equals(cvv)){
 
 			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED, null);
