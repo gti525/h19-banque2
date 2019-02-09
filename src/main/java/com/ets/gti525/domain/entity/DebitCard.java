@@ -2,6 +2,7 @@ package com.ets.gti525.domain.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ public class DebitCard {
 	
 	private double balance;
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name = "DEBIT_CARD_NBR")
 	private List<DebitCardTransaction> transactionList;
 	

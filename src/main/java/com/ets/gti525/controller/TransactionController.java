@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
-import com.ets.gti525.domain.request.IntraBankTransferRequest;
+import com.ets.gti525.domain.request.BankTransferRequest;
 import com.ets.gti525.domain.response.AbstractResponse;
 import com.ets.gti525.service.TransactionService;
 
@@ -48,9 +48,11 @@ public class TransactionController {
 	}
 	
 	@PostMapping(value = "transaction/intraBankTransfer")
-	public ResponseEntity<AbstractResponse> intraBankTransfer(@RequestBody IntraBankTransferRequest request) {	
-		AbstractResponse response = transactionService.processIntraBankTransfer(request);
+	public ResponseEntity<AbstractResponse> intraBankTransfer(@RequestBody BankTransferRequest request) {	
+		AbstractResponse response = transactionService.processBankTransfer(request);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
+	
+
 	
 }

@@ -335,6 +335,43 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "BankToBank transfer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "Dow4#esquint",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sourceAccountNumber\": 11112345,\n\t\"targetAccountNumber\": 22233333,\n\t\"amount\": 111.22\n}"
+				},
+				"url": {
+					"raw": "{{serverNameOrIP}}:8080/api/v1/banktobank/transfer",
+					"host": [
+						"{{serverNameOrIP}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"banktobank",
+						"transfer"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
