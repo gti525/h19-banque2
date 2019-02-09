@@ -11,6 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,9 @@ public class TransactionService {
 
 	@Value("${com.ets.gti525.security.ownershipCheck}")
 	private String ownershipCheck;
+
+	@Value("${com.ets.gti525.transaction.preAuthValidTimeMs}")
+	private long preAuthValidTimeMs;
 
 	public TransactionService(final PaymentBrokerRepository paymentBrokerRepository,
 			final CreditCardRepository creditCardRepository,
@@ -237,7 +241,7 @@ public class TransactionService {
 
 		DebitCardTransaction senderTransaction;
 		DebitCardTransaction recipientTransaction;
-		
+
 		// Verify the decimal length
 		// https://www.quora.com/Is-there-is-any-way-to-find-the-number-of-digits-after-a-decimal-in-a-floating-number-stored-in-an-array-with-complexity-n
 		if(String.valueOf(request.getAmount()).split("\\.")[1].length() > 2)
@@ -288,42 +292,42 @@ public class TransactionService {
 
 		if(request.getAccount().getNumber() == null || cardholderNameInRequest == null)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
-		
-		
+
+
 		String accountNumber = decrypt(secret, request.getAccount().getNumber());
-		
+
 		try{
 			cc = creditCardRepository.findById(Long.parseLong(accountNumber)).get();
 		} catch(NoSuchElementException e) {
 			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED, null);
 		}
-		
+
 		// Verify the decimal length
 		// https://www.quora.com/Is-there-is-any-way-to-find-the-number-of-digits-after-a-decimal-in-a-floating-number-stored-in-an-array-with-complexity-n
 		if(String.valueOf(request.getAmount()).split("\\.")[1].length() > 2)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
-		
+
 		if(cardholderNameInRequest.equalsIgnoreCase(cc.getOwner().getCompanyName()) == false)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
- 
+
 
 
 		String cvv = decrypt(secret, request.getAccount().getCvv());
-		
+
 		String[] expAsString = request.getAccount().getExp().split("/");
 		if(expAsString.length != 2)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
-		
+
 		int monthExp;
 		int yearExp;
-		
+
 		try{
 			monthExp = Integer.parseInt(expAsString[0]);
 			yearExp = Integer.parseInt(expAsString[1]);
 		}catch(Exception e) {
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null); 
 		}
-		
+
 		if(cc.getMonthExp() != monthExp ||
 				cc.getYearExp() != yearExp ||
 				!String.valueOf(cc.getCvv()).equals(cvv)){
@@ -356,6 +360,26 @@ public class TransactionService {
 
 
 	}
+
+	@Scheduled(fixedRateString = "${com.ets.gti525.transaction.preAuthCleanupTimeMs}")
+	private void cleanExpiredPreAuth(){
+		System.out.println("Cleaning up expired pre-auths");
+		List<CreditCardTransaction> preAuths = creditCardTransactionRepository.findByIsPreauth(true);
+
+		for(CreditCardTransaction t: preAuths) {
+			if(System.currentTimeMillis() > t.getTimestamp().getTime() + preAuthValidTimeMs) {
+				CreditCard cc = t.getCreditCard();
+				cc.removeTransaction(t);
+				creditCardRepository.save(cc);
+				creditCardTransactionRepository.delete(t);
+			}
+		}
+
+	}
+
+
+
+
 
 
 	public ProcessCCReply processCCTransaction(ProcessCCTransactionRequest request) {
