@@ -29,13 +29,13 @@ public class TransactionController {
 	
 
 	
-	@GetMapping(value = "transaction/creditCard/{nbr}")
+	@GetMapping(value = "creditCard/transaction/{nbr}")
 	public ResponseEntity<AbstractResponse> getCreditCardTransactions(@PathVariable long nbr) {
 		AbstractResponse response = transactionService.getCreditCardTransactions(nbr);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
-	@GetMapping(value = "transaction/debitCard/{nbr}")
+	@GetMapping(value = "debitCard/transaction/{nbr}")
 	public ResponseEntity<AbstractResponse> getDebitCardTransactions(@PathVariable long nbr) {
 		AbstractResponse response = transactionService.getDebitCardTransactions(nbr);
 		return ResponseEntity.status(response.getStatus()).body(response);
