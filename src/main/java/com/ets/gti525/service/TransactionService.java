@@ -1,6 +1,7 @@
 package com.ets.gti525.service;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,10 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.ets.gti525.domain.constant.Role;
 import com.ets.gti525.domain.entity.CreditCard;
 import com.ets.gti525.domain.entity.CreditCardTransaction;
 import com.ets.gti525.domain.entity.DebitCard;
@@ -204,7 +207,7 @@ public class TransactionService {
 		if(isOwnershipCheck()) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			User user = (User) auth.getPrincipal();
-			if(cc.getOwner().equals(user) == false) {
+			if(cc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
 				return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
 			}
 		}
@@ -223,15 +226,22 @@ public class TransactionService {
 		if(isOwnershipCheck()) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			User user = (User) auth.getPrincipal();
-			if(dc.getOwner().equals(user) == false) {
+			if(dc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
 				return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
-
 			}
 		}
 
 		List<DebitCardTransaction> transactions = debitCardTransactionRepository.findByDebitCardNbr(nbr);
 		return new DebitCardTransactionsResponse(HttpStatus.OK, transactions);
 
+	}
+	
+	private boolean isAdmin(Collection<? extends GrantedAuthority> authorities) {
+		for (GrantedAuthority ga : authorities) {
+			if(ga.getAuthority().toString().equals(Role.ADMIN.toString()))
+				return true;
+		}
+		return false;
 	}
 
 	public TransactionResponse processBankTransfer(BankTransferRequest request, String apiKey) {
@@ -325,7 +335,7 @@ public class TransactionService {
 	}
 
 	private boolean isOwnershipCheck() {
-		if(ownershipCheck == "true")
+		if(ownershipCheck.equalsIgnoreCase("true"))
 			return true;
 		return false;
 	}
