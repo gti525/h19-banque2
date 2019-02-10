@@ -10,4 +10,6 @@ import com.ets.gti525.domain.entity.CreditCardTransaction;
 public interface CreditCardTransactionRepository extends JpaRepository<CreditCardTransaction, Integer> {
 	@Query(value = "SELECT * FROM CREDIT_CARD_TRANSACTION t WHERE t.CREDIT_CARD_NBR = ?1", nativeQuery = true)
 	public List<CreditCardTransaction> findByCreditCardNbr(long creditCardNbr);
+
+	public List<CreditCardTransaction> findByIsPreauth(boolean b);
 }

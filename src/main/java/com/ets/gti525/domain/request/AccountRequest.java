@@ -3,28 +3,18 @@ package com.ets.gti525.domain.request;
 import javax.validation.constraints.NotNull;
 
 public class AccountRequest {
+	
+	@NotNull
+	private String cardholderName;
 	@NotNull
 	private String number;
 	@NotNull
-	private int monthExp;
-	@NotNull
-	private int yearExp;
+	private String exp;
 	@NotNull
 	private String cvv;
 	
 
-	public int getMonthExp() {
-		return monthExp;
-	}
-	public void setMonthExp(int monthExp) {
-		this.monthExp = monthExp;
-	}
-	public int getYearExp() {
-		return yearExp;
-	}
-	public void setYearExp(int yearExp) {
-		this.yearExp = yearExp;
-	}
+
 	public String getCvv() {
 		return cvv;
 	}
@@ -36,6 +26,18 @@ public class AccountRequest {
 	}
 	public void setNumber(String number) {
 		this.number = number;
+	}
+	public String getCardholderName() {
+		return cardholderName;
+	}
+	public void setCardholderName(String cardholderName) {
+		this.cardholderName = cardholderName;
+	}
+	public String getExp() {
+		return exp;
+	}
+	public void setExp(String exp) {
+		this.exp = exp;
 	}
 
 	

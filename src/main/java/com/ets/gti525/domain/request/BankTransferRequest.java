@@ -2,7 +2,7 @@ package com.ets.gti525.domain.request;
 
 import javax.validation.constraints.NotNull;
 
-public class IntraBankTransferRequest {
+public class BankTransferRequest {
 	
 	@NotNull
 	private long sourceAccountNumber;

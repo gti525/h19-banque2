@@ -165,5 +165,11 @@ public class User implements UserDetails {
 		this.email = email;
 	}
 	
+	public String getCardholderName() {
+		if(isCompany)
+			return companyName;
+		return firstName + " " + lastName;
+	}
+	
 	
 }

@@ -12,6 +12,7 @@ public class TransactionResponse extends AbstractResponse{
 	public static final String ACCEPTED = "ACCEPTED";
 	public static final String DECLINED = "DECLINED";
 	public static final String DECLINED_INSUFFICIANT_FUNDS = "DECLINED-INSUFFICIANT-FUNDS";
+	public static final String TARGET_BANK_FAILURE = "TARGET_BANK_FAILURE";
 	
 	private String result;
 
