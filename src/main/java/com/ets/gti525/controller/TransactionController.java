@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,9 +48,9 @@ public class TransactionController {
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
-	@PostMapping(value = "transaction/intraBankTransfer")
-	public ResponseEntity<AbstractResponse> intraBankTransfer(@RequestBody BankTransferRequest request) {	
-		AbstractResponse response = transactionService.processBankTransfer(request);
+	@PostMapping(value = "transaction/bankTransfer")
+	public ResponseEntity<AbstractResponse> bankTransfer(@RequestBody BankTransferRequest request, @RequestHeader(value="X-API-KEY") String apiKey) {	
+		AbstractResponse response = transactionService.processBankTransfer(request, apiKey);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	

@@ -28,7 +28,7 @@ public class BankToBankController {
 	@PostMapping("banktobank/transfer")
 	public ResponseEntity<AbstractResponse> bankToBankTransfer(@RequestHeader(value="X-API-KEY") String apiKey,
 			@RequestBody BankTransferRequest request){
-		AbstractResponse response = transactionService.processBankToBankTransfer(apiKey, request);
+		AbstractResponse response = transactionService.receiveBankToBankTransfer(apiKey, request);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 

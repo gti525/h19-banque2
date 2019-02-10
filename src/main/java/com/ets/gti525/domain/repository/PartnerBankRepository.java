@@ -8,4 +8,6 @@ public interface PartnerBankRepository extends JpaRepository<PartnerBank, Intege
 
 	PartnerBank findByApiKey(String apiKey);
 
+	PartnerBank findByAccountPrefix(String substring);
+
 }

@@ -14,6 +14,8 @@ public class PartnerBank {
 	private String apiKey;
 	private String name;
 	private String accountPrefix;
+	private String postUrlToUse;
+	private String apiKeyToUse;
 	
 	
 	
@@ -41,6 +43,20 @@ public class PartnerBank {
 	public void setAccountPrefix(String accountPrefix) {
 		this.accountPrefix = accountPrefix;
 	}
+	public String getPostUrlToUse() {
+		return postUrlToUse;
+	}
+	public void setPostUrlToUse(String postUrlToUse) {
+		this.postUrlToUse = postUrlToUse;
+	}
+	public String getApiKeyToUse() {
+		return apiKeyToUse;
+	}
+	public void setApiKeyToUse(String apiKeyToUse) {
+		this.apiKeyToUse = apiKeyToUse;
+	}
+	
+	
 	
 	
 }
