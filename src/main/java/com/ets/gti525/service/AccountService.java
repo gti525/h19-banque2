@@ -14,6 +14,16 @@ import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.response.CreditCardInfoResponse;
 import com.ets.gti525.domain.response.DebitCardInfoResponse;
 
+/**
+ * Description : Service containing operations related to accounts.
+ * (Usually called by controllers)
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 25-01-2019
+ */
 @Service
 public class AccountService {
 

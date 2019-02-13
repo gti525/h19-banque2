@@ -49,6 +49,16 @@ import com.ets.gti525.domain.response.PreAuthReply;
 import com.ets.gti525.domain.response.ProcessCCReply;
 import com.ets.gti525.domain.response.TransactionResponse;
 
+/**
+ * Description : Service containing operations related to transactions.
+ * (Usually called by controllers)
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 16-01-2019
+ */
 @Service
 public class TransactionService {
 

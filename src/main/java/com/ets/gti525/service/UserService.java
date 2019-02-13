@@ -20,6 +20,16 @@ import com.ets.gti525.domain.response.SearchUsersResponse;
 import com.ets.gti525.domain.response.SingleSearchUsers;
 import com.ets.gti525.helper.CardNumberHelper;
 
+/**
+ * Description : Service containing operations related to users.
+ * (Usually called by controllers)
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 19-01-2019
+ */
 @Service
 public class UserService {
 
