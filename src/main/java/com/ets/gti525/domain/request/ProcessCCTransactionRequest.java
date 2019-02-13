@@ -1,5 +1,14 @@
 package com.ets.gti525.domain.request;
 
+/**
+ * Description : Class representing a request for processing an external transaction (used by a controller).
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 02-02-2019
+ */
 public class ProcessCCTransactionRequest {
 	
 	private Integer transactionID;
@@ -29,6 +38,4 @@ public class ProcessCCTransactionRequest {
 		
 		return false;
 	}
-	
-
 }
