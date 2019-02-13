@@ -14,6 +14,15 @@ import com.ets.gti525.domain.request.BankTransferRequest;
 import com.ets.gti525.domain.response.AbstractResponse;
 import com.ets.gti525.service.TransactionService;
 
+/**
+ * Description : REST controller related to transactions (get transactions of a credit card for example).
+ * 					
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 16-01-2019
+ */
 @RestController
 @RequestMapping(value = "/api/v1")
 public class TransactionController {

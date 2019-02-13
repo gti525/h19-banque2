@@ -13,6 +13,16 @@ import com.ets.gti525.domain.response.CreateUserResponse;
 import com.ets.gti525.domain.response.SearchUsersResponse;
 import com.ets.gti525.service.UserService;
 
+/**
+ * Description : REST controller related to users of the application. 
+ * This controller contains the operation to create a new user, for example.
+ * 					
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 19-01-2019
+ */
 @RestController
 @RequestMapping(value = "api/v1")
 public class UserController {

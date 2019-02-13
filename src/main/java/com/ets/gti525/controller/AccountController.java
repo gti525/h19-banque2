@@ -9,6 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ets.gti525.domain.response.AbstractResponse;
 import com.ets.gti525.service.AccountService;
 
+/**
+ * Description : REST controller for operations related to client accounts
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 25-01-2019
+ */
 @RestController
 @RequestMapping(value = "/api/v1")
 public class AccountController {
