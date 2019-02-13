@@ -5,6 +5,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Description : Entity class representing a partner bank with our bank.
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 09-02-2019
+ */
 @Entity
 public class PartnerBank {
 
