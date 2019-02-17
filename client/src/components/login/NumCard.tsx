@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Card, CardHeader, CardBody, CardTitle, Input } from 'reactstrap';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export const NumCard  = ({ /*onSubmitLogin, onChangeLogin*/ }) => {
   return (
-    <div id='loginContainer'>
+    <div className='loginContainer'>
       <form id="numCardContainer">
         <Card className="numCard">
             <CardHeader><b>Connexion</b></CardHeader>
@@ -13,7 +14,7 @@ export const NumCard  = ({ /*onSubmitLogin, onChangeLogin*/ }) => {
                 <Input /*onChange={onChangeLogin}*/ id="numCarte" name="NumCarte" placeholder="Numéro de carte" />
                 <br />
                 
-                <Button bsStyle="success" type="submit" /*onClick={onSubmitLogin}*/>Entrer</Button>
+                <Link to="/DashboardClient"><Button bsStyle="success" type="submit" /*onClick={onSubmitLogin}*/>Entrer</Button></Link>
             </CardBody>
         </Card>
       </form>

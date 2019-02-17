@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 
 export const PasswordCard  = ({ /*onSubmitLogin, onChangeLogin*/ }) => {
   return (
-    <div id='loginContainer'>
+    <div className='loginContainer'>
       <form id="passwordCardContainer">
         <Card className="passwordCard">
             <CardHeader><b>Connexion</b></CardHeader>

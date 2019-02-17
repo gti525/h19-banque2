@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 80px;
 }
@@ -11,20 +7,11 @@
   height: 130px;
   padding: 20px;
   color: white;
+  text-align: center;
 }
 
 .App-intro {
   font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.card {
-  width: 50%;
-  margin: auto;
 }
 
 #btnClientAdmin {
@@ -32,4 +19,46 @@
   right: 0;
   bottom: 0;
   margin: 2%;
+}
+
+#dashboardClientContainer {
+  padding: 1%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+#btnHistoTransaction {
+  float: right;
+}
+
+#btnPayerSoldeCredit {
+  float: left;
+}
+
+.row {
+  margin: 0 -5px;
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+.column {
+  float: left;
+  width: 50%;
+  padding: 0 10px;
+}
+
+#btnVirementInterac {
+  margin-top: 5%;
+}
+
+#btnDeconnexion {
+  margin-top: 5%;
+  float: right;
+}
+
+.loginContainer {
+  width: 50%;
+  margin: auto;
 }

@@ -25,5 +25,5 @@ export default class Login extends React.Component {
                 <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>   
             </div>
         )
-   }
+    }
 }

@@ -68,7 +68,7 @@ export default class LoginAdmin extends React.Component {
 
       return (
         <div>
-            <div id='adminConnexionContainer' >
+            <div className='loginContainer' >
               <form onSubmit={this.handleSubmit} noValidate className={displayErrors ? 'displayErrors' : ''}>
                 <br />
                 <Card className="card">
