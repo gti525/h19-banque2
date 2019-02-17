@@ -1,7 +1,10 @@
 import * as React from "react";
-import { Card, CardHeader, CardBody, CardTitle, Input } from 'reactstrap';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
+import { NumCard } from './NumCard';
+import { QuestionCard } from './QuestionCard';
+import { PasswordCard } from './PasswordCard';
 
 export default class Login extends React.Component { 
     render () {                                   
@@ -9,55 +12,15 @@ export default class Login extends React.Component {
             <div>
                 <br />
 
-                <div id='numCarteContainer'>
-                    <Card className="card">
-                        <CardHeader><b>Connexion</b></CardHeader>
-                        <CardBody>
-                            <CardTitle>Veuillez entrer votre numéro de carte : </CardTitle>
-                            <Input name="numCarte" placeholder="Numéro de carte" />
-                            <br />
-                            
-                            <Link to="/DashboardAdmin"><Button bsStyle="success">Entrer</Button></Link>
-                        </CardBody>
-                    </Card>
-                </div>
+                <NumCard />
 
-                {/*  
-                    <br />
+                <br />
 
-                    <div id='questionsContainer'>
-                        <Card className="card">
-                            <CardHeader><b>Connexion</b></CardHeader>
-                                <CardBody>
-                                <CardTitle>Veuillez répondre à la question suivante : </CardTitle>
-                                <CardText>Question ... ... ... </CardText>
-                                <Input name="questionSecrete" placeholder="Réponse" />
-                                <br />
+                <QuestionCard />
 
-                                <Button bsStyle="success">Entrer</Button>
-                                <Button bsStyle="primary">Test good</Button>
-                                <Button bsStyle="danger">Test bad</Button>
-                            </CardBody>
-                        </Card>
-                    </div>
+                <br />
 
-                    <br />
-
-                    <div id='passwordContainer'>
-                        <Card className="card">
-                            <CardHeader><b>Connexion</b></CardHeader>
-                                <CardBody>
-                                <CardTitle>Veuillez entrer votre mot de passe : </CardTitle>
-                                <Input type="password" name="password" placeholder="" />
-                                <br />
-
-                                <Button bsStyle="success">Entrer</Button>
-                                <Button bsStyle="primary">Test good</Button>
-                                <Button bsStyle="danger">Test bad</Button>
-                            </CardBody>
-                        </Card>
-                    </div>
-                */}
+                <PasswordCard />
 
                 <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>   
             </div>
