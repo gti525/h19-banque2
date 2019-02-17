@@ -1,11 +1,10 @@
 import * as React from "react";
-import Login from './Login';
-import LoginAdmin from './LoginAdmin';
-import DashboardAdmin from './Views/DashboardAdmin';
-{/*import Home from './Views/Home';*/} 
 import {BrowserRouter, Route} from 'react-router-dom';
+import Login from './components/login/Login';
+import LoginAdmin from './components/login/admin/LoginAdmin';
+import DashboardAdmin from './components/DashboardAdmin';
 
-import './App.css';
+import './styles/App.css';
 import logo from './Images/Logo_banque2.png';
 
 class App extends React.Component {

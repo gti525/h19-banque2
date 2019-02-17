@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Card, CardHeader, CardText, CardBody, CardTitle, Input } from 'reactstrap';
-import Button from 'react-bootstrap/lib/Button';
+import { Card, CardHeader, CardBody, CardTitle, Input } from 'reactstrap';
+import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export default class Login extends React.Component { 

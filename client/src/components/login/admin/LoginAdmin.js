@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText, Input } from 'reactstrap';
-import Button from 'react-bootstrap/lib/Button';
-import { Redirect } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 // Source : https://jsfiddle.net/everdimension/3bo263xj/
