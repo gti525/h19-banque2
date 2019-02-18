@@ -21,10 +21,11 @@
   margin: 2%;
 }
 
-#dashboardClientContainer {
+#dashboardClientContainer, 
+#historiqueContainer {
   padding: 1%;
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 #btnHistoTransaction {
@@ -41,7 +42,6 @@
   display: table;
   clear: both;
 }
-
 
 .column {
   float: left;
@@ -61,4 +61,18 @@
 .loginContainer {
   width: 50%;
   margin: auto;
+}
+
+#histoSoldeDebit {
+  width: 25%;
+}
+
+.btnAccueil {
+  position: absolute;
+  left: 1%;
+}
+
+.btnImprimer {
+  margin-top: 5%;
+  float: right;
 }

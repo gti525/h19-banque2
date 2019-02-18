@@ -12,8 +12,7 @@ export const DebitCard  = ({balance} : { balance: number}) => {
             <Input id="soldeDebit" name="soldeDebit" value={balance} disabled />
             <br />
             
-            {/* TODO : Changer pour la page d'historique des transactions débits */}
-            <Link to="/DashboardClient"><Button id="btnHistoTransaction" bsStyle="success">Historique de transactions</Button></Link>
+            <Link to="/HistoriqueDebit"><Button id="btnHistoTransaction" bsStyle="success">Historique de transactions</Button></Link>
         </CardBody>
     </Card>
   );

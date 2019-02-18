@@ -2,8 +2,9 @@ import * as React from "react";
 import {BrowserRouter, Route} from 'react-router-dom';
 import Login from './components/login/Login';
 import LoginAdmin from './components/login/admin/LoginAdmin';
-import DashboardAdmin from './components/DashboardAdmin';
+import DashboardAdmin from './components/admin/DashboardAdmin';
 import DashboardClient from './components/DashboardClient';
+import HistoriqueDebit from './components/HistoriqueDebit';
 
 import './styles/App.css';
 import logo from './Images/Logo_banque2.png';
@@ -21,8 +22,11 @@ class App extends React.Component {
           <div>
             <Route exact={true} path="/" component={Login} />
             <Route path="/LoginAdmin" component={LoginAdmin} />
+
             <Route path="/DashboardClient" component={DashboardClient} />
             <Route path="/DashboardAdmin" component={DashboardAdmin} />
+
+            <Route path="/HistoriqueDebit" component={HistoriqueDebit} />
           </div>
         </BrowserRouter>
       </div>
