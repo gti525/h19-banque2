@@ -23,7 +23,8 @@
 
 #dashboardClientContainer, 
 .historiqueContainer,
-#paymentContainer {
+#paymentContainer,
+#virementContainer {
   padding: 1%;
   padding-left: 10%;
   padding-right: 10%;

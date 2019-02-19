@@ -7,6 +7,7 @@ import DashboardClient from './components/dashboard/DashboardClient';
 import HistoriqueDebit from './components/historique/HistoriqueDebit';
 import HistoriqueCredit from './components/historique/HistoriqueCredit';
 import PaymentCarte from './components/payment/PaymentCarte';
+import VirementInterac from './components/virement/VirementInterac';
 
 import './styles/App.css';
 import logo from './Images/Logo_banque2.png';
@@ -32,6 +33,8 @@ class App extends React.Component {
             <Route path="/HistoriqueCredit" component={HistoriqueCredit} />
 
             <Route path="/PaymentCarte" component={PaymentCarte} />
+
+            <Route path="/VirementInterac" component={VirementInterac} />
           </div>
         </BrowserRouter>
       </div>

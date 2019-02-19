@@ -55,8 +55,8 @@ export default class DashboardClient extends React.Component {
                   />
                </div>
             </div>
-
-            <Button id="btnVirementInterac" bsStyle="info">Virement Interac</Button>
+            
+            <Link to="/VirementInterac"><Button id="btnVirementInterac" bsStyle="info">Virement Interac</Button></Link>
             <Link to="/"><Button id="btnDeconnexion" bsStyle="danger">Déconnexion</Button></Link>
          </div>
       )
