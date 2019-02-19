@@ -1,7 +1,7 @@
 import * as React from "react";
 import {BrowserRouter, Route} from 'react-router-dom';
 import Login from './components/login/Login';
-import LoginAdmin from './components/login/admin/LoginAdmin';
+import LoginAdmin from './components/admin/login/LoginAdmin';
 import DashboardAdmin from './components/admin/DashboardAdmin';
 import DashboardClient from './components/dashboard/DashboardClient';
 import HistoriqueDebit from './components/historique/HistoriqueDebit';
