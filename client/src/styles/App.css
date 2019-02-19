@@ -15,10 +15,10 @@
 }
 
 #btnClientAdmin {
-  position: absolute;
-  right: 0;
+  position: relative;
+  float: right;
   bottom: 0;
-  margin: 2%;
+  margin: 1%;
 }
 
 #dashboardClientContainer, 
@@ -75,4 +75,8 @@
 .btnImprimer {
   margin-top: 5%;
   float: right;
+}
+
+#btnHistoPayer {
+  margin-top: 5%;
 }

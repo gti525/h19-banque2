@@ -12,7 +12,7 @@ export default class HistoriqueDebit extends React.Component {
 
                 <h2><u>Compte Débit</u></h2>
                 <h5>Solde actuel : </h5>
-                <Input id="histoSoldeDebit" name="histoSoldeDebit" placeholder="1 000.00$ Temp API" disabled />
+                <Input id="histoSoldeDebit" name="histoSoldeDebit" placeholder="***API 1 000.00$" disabled />
                 <br />
 
                 <HistoriqueCard />

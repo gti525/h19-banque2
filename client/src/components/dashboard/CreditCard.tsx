@@ -14,8 +14,7 @@ export const CreditCard  = ({balance} : { balance: number}) => {
             
             
             <Link to="/DashboardClient"><Button id="btnPayerSoldeCredit" bsStyle="success">Payer</Button></Link>
-            {/* TODO : Changer pour la page d'historique des transactions débits */}
-            <Link to="/DashboardClient"><Button id="btnHistoTransaction" bsStyle="success">Historique de transactions</Button></Link>
+            <Link to="/HistoriqueCredit"><Button id="btnHistoTransaction" bsStyle="success">Historique de transactions</Button></Link>
         </CardBody>
     </Card>
   );
