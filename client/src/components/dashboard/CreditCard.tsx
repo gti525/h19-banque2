@@ -12,8 +12,7 @@ export const CreditCard  = ({balance} : { balance: number}) => {
             <Input id="soldeCredit" name="soldeCredit" value={balance} disabled />
             <br />
             
-            
-            <Link to="/DashboardClient"><Button id="btnPayerSoldeCredit" bsStyle="success">Payer</Button></Link>
+            <Link to="/PaymentCarte"><Button id="btnPayerSoldeCredit" bsStyle="success">Payer</Button></Link>
             <Link to="/HistoriqueCredit"><Button id="btnHistoTransaction" bsStyle="success">Historique de transactions</Button></Link>
         </CardBody>
     </Card>

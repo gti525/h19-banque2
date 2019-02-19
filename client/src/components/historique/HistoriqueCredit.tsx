@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export default class HistoriqueCredit extends React.Component {
     render () {
         return (
-            <div id="historiqueContainer">
+            <div className="historiqueContainer">
                 <Link to="/DashboardClient"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
 
                 <h2><u>Compte de crédit</u></h2>
@@ -27,7 +27,7 @@ export default class HistoriqueCredit extends React.Component {
 
                 <HistoriqueCard />
 
-                <Button id="btnHistoPayer" bsStyle="info">Payer</Button>
+                <Link to="/PaymentCarte"><Button id="btnHistoPayer" bsStyle="info">Payer</Button></Link>
                 <Button className="btnImprimer" bsStyle="info">Imprimer</Button>
             </div>
         )

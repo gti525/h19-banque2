@@ -4,8 +4,9 @@ import Login from './components/login/Login';
 import LoginAdmin from './components/login/admin/LoginAdmin';
 import DashboardAdmin from './components/admin/DashboardAdmin';
 import DashboardClient from './components/dashboard/DashboardClient';
-import HistoriqueDebit from './components/HistoriqueDebit';
-import HistoriqueCredit from './components/HistoriqueCredit';
+import HistoriqueDebit from './components/historique/HistoriqueDebit';
+import HistoriqueCredit from './components/historique/HistoriqueCredit';
+import PaymentCarte from './components/payment/PaymentCarte';
 
 import './styles/App.css';
 import logo from './Images/Logo_banque2.png';
@@ -29,6 +30,8 @@ class App extends React.Component {
 
             <Route path="/HistoriqueDebit" component={HistoriqueDebit} />
             <Route path="/HistoriqueCredit" component={HistoriqueCredit} />
+
+            <Route path="/PaymentCarte" component={PaymentCarte} />
           </div>
         </BrowserRouter>
       </div>

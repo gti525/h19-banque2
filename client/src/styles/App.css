@@ -22,7 +22,8 @@
 }
 
 #dashboardClientContainer, 
-#historiqueContainer {
+.historiqueContainer,
+#paymentContainer {
   padding: 1%;
   padding-left: 10%;
   padding-right: 10%;
@@ -63,7 +64,8 @@
   margin: auto;
 }
 
-#histoSoldeDebit {
+#histoSoldeDebit,
+#paymentTotalFacture {
   width: 25%;
 }
 
@@ -72,9 +74,16 @@
   left: 1%;
 }
 
-.btnImprimer {
+.btnImprimer,
+#btnConfirmer {
   margin-top: 5%;
   float: right;
+}
+
+#btnAnnuler {
+  margin-top: 5%;
+  float: right;
+  margin-left: 2%;
 }
 
 #btnHistoPayer {
