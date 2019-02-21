@@ -1,7 +1,6 @@
 package com.ets.gti525.service;
 
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -18,12 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.ets.gti525.domain.constant.Role;
 import com.ets.gti525.domain.entity.CreditCard;
 import com.ets.gti525.domain.entity.CreditCardTransaction;
 import com.ets.gti525.domain.entity.DebitCard;
@@ -159,23 +156,22 @@ public class TransactionService {
 
 		}
 
-		
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			User user;
 
-			try {
-				user = (User) auth.getPrincipal();
-			} catch (Exception e) {
-				return new TransactionResponse(HttpStatus.UNAUTHORIZED, null);
-			}
-			
-			if(creditCard.getOwner().equals(user) == false ||
-					debitCard.getOwner().equals(user) == false) {
-				reply = new TransactionResponse(HttpStatus.UNAUTHORIZED, null);
-				return reply;
-			}
-		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String user;
 
+		try {
+			user = auth.getPrincipal().toString();
+		} catch (Exception e) {
+			return new TransactionResponse(HttpStatus.UNAUTHORIZED, null);
+		}
+
+
+		if(creditCard.getOwner().getUsername().equalsIgnoreCase(user) == false ||
+				debitCard.getOwner().getUsername().equalsIgnoreCase(user) == false) {
+			reply = new TransactionResponse(HttpStatus.UNAUTHORIZED, null);
+			return reply;
+		}
 
 
 		if(request.getAmount() > 0 && request.getAmount() > debitCard.getBalance()) {
@@ -218,27 +214,14 @@ public class TransactionService {
 			return new CreditCardTransactionsResponse(HttpStatus.BAD_REQUEST, null);
 		}
 
-		
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			User user;
-
-			try {
-				user = (User) auth.getPrincipal();
-			} catch (Exception e) {
-				return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
-			}
-			if(cc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
-				return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
-			}
-		
 
 		List<CreditCardTransaction> transactions = creditCardTransactionRepository.findByCreditCardNbr(nbr);
 		return new CreditCardTransactionsResponse(HttpStatus.OK, transactions);
 
 	}
-	
+
 	public CreditCardTransactionsResponse getMyCreditCardTransactions() {
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user;
 
@@ -255,7 +238,7 @@ public class TransactionService {
 
 		List<CreditCardTransaction> transactions = creditCardTransactionRepository.findByCreditCardNbr(cc.getNbr());
 		return new CreditCardTransactionsResponse(HttpStatus.OK, transactions);	
-		
+
 	}
 
 	public DebitCardTransactionsResponse getDebitCardTransactions(long nbr) {
@@ -263,21 +246,6 @@ public class TransactionService {
 		if(dc == null) {
 			return new DebitCardTransactionsResponse(HttpStatus.BAD_REQUEST, null);
 		}
-
-
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user;
-
-		try {
-			user = (User) auth.getPrincipal();
-		} catch (Exception e) {
-			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
-		}
-		
-		if(dc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
-			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
-		}
-
 
 		List<DebitCardTransaction> transactions = debitCardTransactionRepository.findByDebitCardNbr(nbr);
 		return new DebitCardTransactionsResponse(HttpStatus.OK, transactions);
@@ -287,15 +255,15 @@ public class TransactionService {
 	public DebitCardTransactionsResponse getMyDebitCardTransactions() {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user;
+		String user;
 
 		try {
-			user = (User) auth.getPrincipal();
+			user = auth.getPrincipal().toString();
 		} catch (Exception e) {
 			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
 		}
 
-		DebitCard dc = debitCardRepository.findByOwnerId(user.getId());
+		DebitCard dc = debitCardRepository.findByOwner_username(user);
 
 		if(dc == null)
 			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
@@ -305,13 +273,6 @@ public class TransactionService {
 
 	}
 
-	private boolean isAdmin(Collection<? extends GrantedAuthority> authorities) {
-		for (GrantedAuthority ga : authorities) {
-			if(ga.getAuthority().toString().equals(Role.ADMIN.toString()))
-				return true;
-		}
-		return false;
-	}
 
 	public TransactionResponse processBankTransfer(BankTransferRequest request, String apiKey) {
 		DebitCard sourceDC = debitCardRepository.findByNbr(request.getSourceAccountNumber());

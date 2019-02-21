@@ -1,6 +1,7 @@
 package com.ets.gti525.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
 import com.ets.gti525.domain.request.BankTransferRequest;
 import com.ets.gti525.domain.response.AbstractResponse;
+import com.ets.gti525.security.SecurityConfig;
 import com.ets.gti525.service.TransactionService;
 
 /**
@@ -39,31 +41,36 @@ public class TransactionController {
 	
 
 	
-	@GetMapping(value = "creditCard/transaction/{nbr}")
+	@GetMapping(value = "creditCard/{nbr}/transaction")
+	@PreAuthorize(SecurityConfig.ADMIN_CHECK)
 	public ResponseEntity<AbstractResponse> getCreditCardTransactions(@PathVariable long nbr) {
 		AbstractResponse response = transactionService.getCreditCardTransactions(nbr);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
 	@GetMapping(value = "creditCard/transaction")
+	@PreAuthorize(SecurityConfig.AUTHENTICATED_CHECK)
 	public ResponseEntity<AbstractResponse> getMyCreditCardTransactions() {
 		AbstractResponse response = transactionService.getMyCreditCardTransactions();
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
-	@GetMapping(value = "debitCard/transaction/{nbr}")
+	@GetMapping(value = "debitCard/{nbr}/transaction")
+	@PreAuthorize(SecurityConfig.ADMIN_CHECK)
 	public ResponseEntity<AbstractResponse> getDebitCardTransactions(@PathVariable long nbr) {
 		AbstractResponse response = transactionService.getDebitCardTransactions(nbr);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
 	@GetMapping(value = "debitCard/transaction")
+	@PreAuthorize(SecurityConfig.AUTHENTICATED_CHECK)
 	public ResponseEntity<AbstractResponse> getMyDebitCardTransactions() {
 		AbstractResponse response = transactionService.getMyDebitCardTransactions();
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
 	@PostMapping(value = "transaction/creditCardPayment")
+	@PreAuthorize(SecurityConfig.AUTHENTICATED_CHECK)
 	public ResponseEntity<AbstractResponse> payForCreditCard(@RequestBody CreditCardPaymentRequest request) {	
 		AbstractResponse response = transactionService.processCreditCardPayment(request);
 		return ResponseEntity.status(response.getStatus()).body(response);

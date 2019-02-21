@@ -18,4 +18,6 @@ public interface DebitCardRepository extends JpaRepository<DebitCard, Long> {
 	public DebitCard findByNbr(long debitCardNbr);
 	
 	public DebitCard findByOwnerId(int ownerId);
+
+	public DebitCard findByOwner_username(String user);
 }
