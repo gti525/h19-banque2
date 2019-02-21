@@ -1,4 +1,4 @@
-package com.ets.gti525.security;
+package com.ets.gti525.security.authentication;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,7 +21,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import com.ets.gti525.domain.constant.Role;
-import com.ets.gti525.domain.entity.User;
 
 /**
  * Description : Class containing actions to do after a successful authentication.
@@ -62,7 +61,6 @@ public class SuccessfulAuthenticationHandler extends SimpleUrlAuthenticationSucc
 		session.setMaxInactiveInterval(SESSION_TIMEOUT);
 
 		expireOlderSessions(authentication.getPrincipal());
-		
 	}
 	
 	private String getTargetUrl(Collection<? extends GrantedAuthority> authorities) {
@@ -94,13 +92,13 @@ public class SuccessfulAuthenticationHandler extends SimpleUrlAuthenticationSucc
 		Iterator<Object> iter = principals.iterator();
 		
 		while (iter.hasNext()) {
-			User currentPrincipal = (User) iter.next();
+			String currentPrincipal = iter.next().toString();
 			SessionInformation sessionInformation = sessionRegistry.getAllSessions(currentPrincipal, false).get(0);
 			
-			if (userSessionMap.containsKey(currentPrincipal.getUsername())) {
-				userSessionMap.get(currentPrincipal.getUsername()).expireNow();
+			if (userSessionMap.containsKey(currentPrincipal)) {
+				userSessionMap.get(currentPrincipal).expireNow();
 			} else {
-				userSessionMap.put(currentPrincipal.getUsername(), sessionInformation);
+				userSessionMap.put(currentPrincipal, sessionInformation);
 			}
 		}
 	}
