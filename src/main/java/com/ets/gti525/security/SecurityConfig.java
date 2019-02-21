@@ -9,25 +9,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.ets.gti525.security.authentication.CustomAuthenticationDetailsSource;
+import com.ets.gti525.security.authentication.SuccessfulAuthenticationHandler;
+import com.ets.gti525.security.authentication.TokenAuthenticationProvider;
+
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	private final CustomUserDetailsService customUserDetailsService;
 	private final AuthenticationSuccessHandler successfulAuthenticationHandler;
 	private final SessionRegistry sessionRegistry;
+	private final CustomAuthenticationDetailsSource customAuthenticationDetailsSource;
+	private final TokenAuthenticationProvider tokenAuthProvider;
 	
-	public SecurityConfig(final CustomUserDetailsService customUserDetailsService,
-			final SuccessfulAuthenticationHandler successfulAuthenticationHandler,
-			final SessionRegistry sessionRegistry) {
-		this.customUserDetailsService = customUserDetailsService;
+	public SecurityConfig(final SuccessfulAuthenticationHandler successfulAuthenticationHandler,
+			final SessionRegistry sessionRegistry,
+			final CustomAuthenticationDetailsSource customAuthenticationDetailsSource,
+			final TokenAuthenticationProvider tokenAuthProvider) {
 		this.successfulAuthenticationHandler = successfulAuthenticationHandler;
 		this.sessionRegistry = sessionRegistry;
+		this.customAuthenticationDetailsSource = customAuthenticationDetailsSource;
+		this.tokenAuthProvider = tokenAuthProvider;
 	}
 	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(customUserDetailsService)
-			.passwordEncoder(passwordEncoder());
+		auth.authenticationProvider(tokenAuthProvider);
 	}
 	
 	@Override
@@ -41,7 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/v1/paymentGateway/**").permitAll() // Verified with header auth anyway
 			.antMatchers("/h2-console/**").permitAll()
 			.antMatchers("/").permitAll()
-			.and().formLogin().loginPage("/LoginAdmin").loginProcessingUrl("/login")
+			.and().formLogin()
+			.authenticationDetailsSource(customAuthenticationDetailsSource)
+			.loginPage("/LoginAdmin").loginProcessingUrl("/login")
 			.successHandler(successfulAuthenticationHandler)
 			.and().cors().disable()
 			.csrf().disable()
