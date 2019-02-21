@@ -83,6 +83,7 @@ export default class LoginAdmin extends React.Component {
                       <br />
 
                       <Button type="submit" bsStyle="success">Se connecter</Button>
+                      {res}
                   </CardBody>
                 </Card>
               </form>
