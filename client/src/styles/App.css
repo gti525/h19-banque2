@@ -1,0 +1,92 @@
+.App-logo {
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 130px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+#btnClientAdmin {
+  position: relative;
+  float: right;
+  bottom: 0;
+  margin: 1%;
+}
+
+#dashboardClientContainer, 
+.historiqueContainer,
+#paymentContainer,
+#virementContainer {
+  padding: 1%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+#btnHistoTransaction {
+  float: right;
+}
+
+#btnPayerSoldeCredit {
+  float: left;
+}
+
+.row {
+  margin: 0 -5px;
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  padding: 0 10px;
+}
+
+#btnVirementInterac {
+  margin-top: 5%;
+}
+
+#btnDeconnexion {
+  margin-top: 5%;
+  float: right;
+}
+
+.loginContainer {
+  width: 50%;
+  margin: auto;
+}
+
+#histoSoldeDebit,
+#paymentTotalFacture {
+  width: 25%;
+}
+
+.btnAccueil {
+  position: absolute;
+  left: 1%;
+}
+
+.btnImprimer,
+#btnConfirmer {
+  margin-top: 5%;
+  float: right;
+}
+
+#btnAnnuler {
+  margin-top: 5%;
+  float: right;
+  margin-left: 2%;
+}
+
+#btnHistoPayer {
+  margin-top: 5%;
+}

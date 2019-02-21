@@ -51,11 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/v1/paymentGateway/**").permitAll() // Verified with header auth anyway
 			.antMatchers("/h2-console/**").permitAll()
 			.antMatchers("/").permitAll()
-			.and().formLogin()
+			.and().formLogin().loginPage("/LoginAdmin").loginProcessingUrl("/login")
 			.successHandler(successfulAuthenticationHandler)
 			.and().cors().disable()
 			.csrf().disable()
-			.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry).expiredUrl("/login");
+			.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry).expiredUrl("/LoginAdmin");
 		
 		// H2-console
 		http.headers().frameOptions().disable();
