@@ -35,8 +35,8 @@ import com.ets.gti525.domain.constant.Role;
 public class SuccessfulAuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private static final String DEFAULT_TARGET_PATH = "/";
-	private static final String ADMIN_TARGET_PATH = "/admin";
-	private static final String USER_TARGET_PATH = "/user";
+	private static final String ADMIN_TARGET_PATH = "/DashboardAdmin";
+	private static final String USER_TARGET_PATH = "/DashboardClient";
 	
 	private static final int SESSION_TIMEOUT = 300; // in seconds
 	
