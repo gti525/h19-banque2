@@ -70,9 +70,6 @@ public class TransactionService {
 	private final PartnerBankRepository partnerBankRepository;
 	private final RestTemplate restTemplate;
 
-	@Value("${com.ets.gti525.security.ownershipCheck}")
-	private String ownershipCheck;
-
 	@Value("${com.ets.gti525.transaction.preAuthValidTimeMs}")
 	private long preAuthValidTimeMs;
 
@@ -162,15 +159,22 @@ public class TransactionService {
 
 		}
 
-		if(isOwnershipCheck()) {
+		
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			User user = (User) auth.getPrincipal();
+			User user;
+
+			try {
+				user = (User) auth.getPrincipal();
+			} catch (Exception e) {
+				return new TransactionResponse(HttpStatus.UNAUTHORIZED, null);
+			}
+			
 			if(creditCard.getOwner().equals(user) == false ||
 					debitCard.getOwner().equals(user) == false) {
 				reply = new TransactionResponse(HttpStatus.UNAUTHORIZED, null);
 				return reply;
 			}
-		}
+		
 
 
 
@@ -214,17 +218,44 @@ public class TransactionService {
 			return new CreditCardTransactionsResponse(HttpStatus.BAD_REQUEST, null);
 		}
 
-		if(isOwnershipCheck()) {
+		
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			User user = (User) auth.getPrincipal();
+			User user;
+
+			try {
+				user = (User) auth.getPrincipal();
+			} catch (Exception e) {
+				return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+			}
 			if(cc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
 				return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
 			}
-		}
+		
 
 		List<CreditCardTransaction> transactions = creditCardTransactionRepository.findByCreditCardNbr(nbr);
 		return new CreditCardTransactionsResponse(HttpStatus.OK, transactions);
 
+	}
+	
+	public CreditCardTransactionsResponse getMyCreditCardTransactions() {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user;
+
+		try {
+			user = (User) auth.getPrincipal();
+		} catch (Exception e) {
+			return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+		}
+
+		CreditCard cc = creditCardRepository.findByOwnerId(user.getId());
+
+		if(cc == null)
+			return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+
+		List<CreditCardTransaction> transactions = creditCardTransactionRepository.findByCreditCardNbr(cc.getNbr());
+		return new CreditCardTransactionsResponse(HttpStatus.OK, transactions);	
+		
 	}
 
 	public DebitCardTransactionsResponse getDebitCardTransactions(long nbr) {
@@ -233,19 +264,47 @@ public class TransactionService {
 			return new DebitCardTransactionsResponse(HttpStatus.BAD_REQUEST, null);
 		}
 
-		if(isOwnershipCheck()) {
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			User user = (User) auth.getPrincipal();
-			if(dc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
-				return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
-			}
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user;
+
+		try {
+			user = (User) auth.getPrincipal();
+		} catch (Exception e) {
+			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
 		}
+		
+		if(dc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
+			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+		}
+
 
 		List<DebitCardTransaction> transactions = debitCardTransactionRepository.findByDebitCardNbr(nbr);
 		return new DebitCardTransactionsResponse(HttpStatus.OK, transactions);
 
 	}
-	
+
+	public DebitCardTransactionsResponse getMyDebitCardTransactions() {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user;
+
+		try {
+			user = (User) auth.getPrincipal();
+		} catch (Exception e) {
+			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+		}
+
+		DebitCard dc = debitCardRepository.findByOwnerId(user.getId());
+
+		if(dc == null)
+			return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
+
+		List<DebitCardTransaction> transactions = debitCardTransactionRepository.findByDebitCardNbr(dc.getNbr());
+		return new DebitCardTransactionsResponse(HttpStatus.OK, transactions);	
+
+	}
+
 	private boolean isAdmin(Collection<? extends GrantedAuthority> authorities) {
 		for (GrantedAuthority ga : authorities) {
 			if(ga.getAuthority().toString().equals(Role.ADMIN.toString()))
@@ -301,7 +360,7 @@ public class TransactionService {
 								+ request.getTargetAccountNumber());
 						sourceDC.addTransaction(senderTransaction);
 						debitCardRepository.save(sourceDC);
-						
+
 						return new TransactionResponse(HttpStatus.OK, TransactionResponse.ACCEPTED);
 					}
 					else {
@@ -344,11 +403,6 @@ public class TransactionService {
 
 	}
 
-	private boolean isOwnershipCheck() {
-		if(ownershipCheck.equalsIgnoreCase("true"))
-			return true;
-		return false;
-	}
 
 	public PreAuthReply preAuthCCTransaction(String apiKey, PreAuthCCTransactionRequest request) {
 

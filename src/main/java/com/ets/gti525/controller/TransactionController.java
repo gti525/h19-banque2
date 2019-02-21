@@ -45,9 +45,21 @@ public class TransactionController {
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
+	@GetMapping(value = "creditCard/transaction")
+	public ResponseEntity<AbstractResponse> getMyCreditCardTransactions() {
+		AbstractResponse response = transactionService.getMyCreditCardTransactions();
+		return ResponseEntity.status(response.getStatus()).body(response);
+	}
+	
 	@GetMapping(value = "debitCard/transaction/{nbr}")
 	public ResponseEntity<AbstractResponse> getDebitCardTransactions(@PathVariable long nbr) {
 		AbstractResponse response = transactionService.getDebitCardTransactions(nbr);
+		return ResponseEntity.status(response.getStatus()).body(response);
+	}
+	
+	@GetMapping(value = "debitCard/transaction")
+	public ResponseEntity<AbstractResponse> getMyDebitCardTransactions() {
+		AbstractResponse response = transactionService.getMyDebitCardTransactions();
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 	
