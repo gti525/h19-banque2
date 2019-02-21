@@ -6,6 +6,16 @@ import org.springframework.http.HttpStatus;
 
 import com.ets.gti525.domain.entity.CreditCardTransaction;
 
+/**
+ * Description : Class representing a response containing informations about credit card transactions. 
+ * (Used by controllers and services)
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 26-01-2019
+ */
 public class CreditCardTransactionsResponse extends AbstractResponse {
 	
 	private List<CreditCardTransaction> transactions;

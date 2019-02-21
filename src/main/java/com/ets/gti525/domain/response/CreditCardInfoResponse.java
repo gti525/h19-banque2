@@ -2,6 +2,15 @@ package com.ets.gti525.domain.response;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Description : Class representing a response containing informations about a credit card. (Used by controllers and services)
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 25-01-2019
+ */
 public class CreditCardInfoResponse extends AbstractResponse {
 
 	private long nbr;

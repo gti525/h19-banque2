@@ -1,8 +1,16 @@
 package com.ets.gti525.domain.request;
 
+/**
+ * Description : Class representing a request for creating a user (used by a controller).
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 20-01-2019
+ */
 public class CreateUserRequest {
-
-
+	
 	private String firstName;
 	private String lastName;
 	private boolean isCompany;
@@ -38,9 +46,5 @@ public class CreateUserRequest {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	
-
-	
+	}	
 }

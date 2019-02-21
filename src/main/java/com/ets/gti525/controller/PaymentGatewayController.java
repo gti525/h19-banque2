@@ -13,6 +13,15 @@ import com.ets.gti525.domain.request.ProcessCCTransactionRequest;
 import com.ets.gti525.domain.response.AbstractResponse;
 import com.ets.gti525.service.TransactionService;
 
+/**
+ * Description : REST controller for payments.
+ * 					
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 16-01-2019
+ */
 @RestController
 @RequestMapping(value = "/api/v1")
 public class PaymentGatewayController {

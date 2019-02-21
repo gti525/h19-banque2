@@ -7,6 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ets.gti525.domain.entity.User;
 
+/**
+ * Description : JPA repository for users in the database.
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 19-01-2019
+ */
 public interface UsersRepository extends JpaRepository<User, Long> {
 	
 	public User findById(int id);

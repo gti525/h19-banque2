@@ -23,6 +23,15 @@ import org.springframework.stereotype.Component;
 import com.ets.gti525.domain.constant.Role;
 import com.ets.gti525.domain.entity.User;
 
+/**
+ * Description : Class containing actions to do after a successful authentication.
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 28-01-2019
+ */
 @Component
 public class SuccessfulAuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 

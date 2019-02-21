@@ -1,6 +1,7 @@
 package com.ets.gti525.service;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -10,31 +11,54 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.ets.gti525.domain.constant.Role;
 import com.ets.gti525.domain.entity.CreditCard;
 import com.ets.gti525.domain.entity.CreditCardTransaction;
 import com.ets.gti525.domain.entity.DebitCard;
 import com.ets.gti525.domain.entity.DebitCardTransaction;
+import com.ets.gti525.domain.entity.PartnerBank;
+import com.ets.gti525.domain.entity.PaymentBroker;
 import com.ets.gti525.domain.entity.User;
 import com.ets.gti525.domain.repository.CreditCardRepository;
 import com.ets.gti525.domain.repository.CreditCardTransactionRepository;
 import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.repository.DebitCardTransactionRepository;
+import com.ets.gti525.domain.repository.PartnerBankRepository;
 import com.ets.gti525.domain.repository.PaymentBrokerRepository;
+import com.ets.gti525.domain.request.BankTransferRequest;
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
-import com.ets.gti525.domain.request.IntraBankTransferRequest;
 import com.ets.gti525.domain.request.PreAuthCCTransactionRequest;
 import com.ets.gti525.domain.request.ProcessCCTransactionRequest;
+import com.ets.gti525.domain.response.AbstractResponse;
 import com.ets.gti525.domain.response.CreditCardTransactionsResponse;
 import com.ets.gti525.domain.response.DebitCardTransactionsResponse;
+import com.ets.gti525.domain.response.EmptyResponse;
 import com.ets.gti525.domain.response.PreAuthReply;
 import com.ets.gti525.domain.response.ProcessCCReply;
 import com.ets.gti525.domain.response.TransactionResponse;
 
+/**
+ * Description : Service containing operations related to transactions.
+ * (Usually called by controllers)
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 16-01-2019
+ */
 @Service
 public class TransactionService {
 
@@ -43,77 +67,32 @@ public class TransactionService {
 	private final CreditCardTransactionRepository creditCardTransactionRepository;
 	private final DebitCardRepository debitCardRepository;
 	private final DebitCardTransactionRepository debitCardTransactionRepository;
+	private final PartnerBankRepository partnerBankRepository;
+	private final RestTemplate restTemplate;
 
 	@Value("${com.ets.gti525.security.ownershipCheck}")
 	private String ownershipCheck;
+
+	@Value("${com.ets.gti525.transaction.preAuthValidTimeMs}")
+	private long preAuthValidTimeMs;
 
 	public TransactionService(final PaymentBrokerRepository paymentBrokerRepository,
 			final CreditCardRepository creditCardRepository,
 			final CreditCardTransactionRepository transactionRepository,
 			final DebitCardRepository debitCardRepository,
-			final DebitCardTransactionRepository debitCardTransactionRepository) {
+			final DebitCardTransactionRepository debitCardTransactionRepository,
+			final PartnerBankRepository partnerBankRepository,
+			RestTemplateBuilder restTemplateBuilder) {
 		this.paymentBrokerRepository = paymentBrokerRepository;
 		this.creditCardRepository = creditCardRepository;
 		this.creditCardTransactionRepository = transactionRepository;
 		this.debitCardRepository = debitCardRepository;
 		this.debitCardTransactionRepository = debitCardTransactionRepository;
+		this.partnerBankRepository = partnerBankRepository;
+		this.restTemplate = restTemplateBuilder.build();
 	}
 
 
-	/*
-	 * DEPRECATED
-	 * 
-	public TransactionResponse processCCTransaction(String apiKey, CreditCardTransactionRequest request) {
-		TransactionResponse reply;
-		String secret = paymentBrokerRepository.findByApiKey(apiKey).getSecret();
-
-		if(!request.getBankId().equals(BANK_2_ID)) {
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED);
-
-		}
-
-		String accountNumber = decrypt(secret, request.getAccount().getNumber());
-		CreditCard cc = creditCardRepository.findById(Long.parseLong(accountNumber)).get();
-
-		if(cc == null) {
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED);
-		}
-
-		String cvv = decrypt(secret, request.getAccount().getCvv());
-
-		if(cc.getMonthExp() != request.getAccount().getMonthExp() ||
-				cc.getYearExp() != request.getAccount().getYearExp() ||
-				!String.valueOf(cc.getCvv()).equals(cvv)){
-
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED);
-		}
-
-		CreditCardTransaction transaction = new CreditCardTransaction();
-		transaction.setAmount(request.getAmount());
-		transaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
-
-		if(request.getAmount() >= 0)
-			transaction.setDescription("Achat " + request.getMerchant());
-		else
-			transaction.setDescription("Remboursement " + request.getMerchant());
-
-
-		if(cc.addTransaction(transaction)) {
-			reply = new TransactionResponse(HttpStatus.OK, TransactionResponse.ACCEPTED);
-			creditCardTransactionRepository.save(transaction);
-			creditCardRepository.save(cc);
-
-			return reply;
-		}
-		else {
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
-
-		}
-
-
-	}
-
-	 */
 
 	public boolean verifyAPIKey(String apiKey) {
 		if(paymentBrokerRepository.findByApiKey(apiKey) == null)
@@ -238,7 +217,7 @@ public class TransactionService {
 		if(isOwnershipCheck()) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			User user = (User) auth.getPrincipal();
-			if(cc.getOwner().equals(user) == false) {
+			if(cc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
 				return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
 			}
 		}
@@ -257,9 +236,8 @@ public class TransactionService {
 		if(isOwnershipCheck()) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			User user = (User) auth.getPrincipal();
-			if(dc.getOwner().equals(user) == false) {
+			if(dc.getOwner().equals(user) == false && !isAdmin(user.getAuthorities())) {
 				return new DebitCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
-
 			}
 		}
 
@@ -267,33 +245,77 @@ public class TransactionService {
 		return new DebitCardTransactionsResponse(HttpStatus.OK, transactions);
 
 	}
+	
+	private boolean isAdmin(Collection<? extends GrantedAuthority> authorities) {
+		for (GrantedAuthority ga : authorities) {
+			if(ga.getAuthority().toString().equals(Role.ADMIN.toString()))
+				return true;
+		}
+		return false;
+	}
 
-	public TransactionResponse processIntraBankTransfer(IntraBankTransferRequest request) {
+	public TransactionResponse processBankTransfer(BankTransferRequest request, String apiKey) {
 		DebitCard sourceDC = debitCardRepository.findByNbr(request.getSourceAccountNumber());
 
 		if(sourceDC == null || request.getAmount() <=0) {
 			return new TransactionResponse(HttpStatus.BAD_REQUEST, TransactionResponse.DECLINED);
 		}
 
+		PaymentBroker pg = paymentBrokerRepository.findByApiKey(apiKey);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) auth.getPrincipal();
-		if(sourceDC.getOwner().equals(user) == false) {
+		if(sourceDC.getOwner().equals(user) == false || pg != null) {
 			return new TransactionResponse(HttpStatus.UNAUTHORIZED, TransactionResponse.DECLINED);
-		}
-
-
-		DebitCard destDC = debitCardRepository.findByNbr(request.getTargetAccountNumber());
-
-		if(destDC == null) {
-			return new TransactionResponse(HttpStatus.BAD_REQUEST, "DESTINATION_ACCOUNT_INVALID");
 		}
 
 		DebitCardTransaction senderTransaction;
 		DebitCardTransaction recipientTransaction;
 
+		// Verify the decimal length
+		// https://www.quora.com/Is-there-is-any-way-to-find-the-number-of-digits-after-a-decimal-in-a-floating-number-stored-in-an-array-with-complexity-n
+		if(String.valueOf(request.getAmount()).split("\\.")[1].length() > 2)
+			return new TransactionResponse(HttpStatus.UNAUTHORIZED, TransactionResponse.DECLINED);
+
 		if(sourceDC.getBalance() < request.getAmount())
 			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
+
+
+		DebitCard destDC = debitCardRepository.findByNbr(request.getTargetAccountNumber());
+
+		if(destDC == null) {
+
+			String destPrefix = String.valueOf(request.getTargetAccountNumber()).substring(0, 4);
+
+			for(PartnerBank pb : partnerBankRepository.findAll()) {
+
+				if(pb.getAccountPrefix().equals(destPrefix)) {
+					boolean status = initiateBankTransfer(request);
+
+					if(status) {
+
+						senderTransaction = new DebitCardTransaction();
+						senderTransaction.setAmount(request.getAmount());
+						senderTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
+						senderTransaction.setDescription("Virement vers " + pb.getName() + " | compte "
+								+ request.getTargetAccountNumber());
+						sourceDC.addTransaction(senderTransaction);
+						debitCardRepository.save(sourceDC);
+						
+						return new TransactionResponse(HttpStatus.OK, TransactionResponse.ACCEPTED);
+					}
+					else {
+						return new TransactionResponse(HttpStatus.OK, TransactionResponse.TARGET_BANK_FAILURE);
+					}
+
+				}
+
+			}
+
+			return new TransactionResponse(HttpStatus.BAD_REQUEST, "DESTINATION_ACCOUNT_INVALID");
+		}
+
+
 
 		senderTransaction = new DebitCardTransaction();
 		senderTransaction.setAmount(request.getAmount());
@@ -323,7 +345,7 @@ public class TransactionService {
 	}
 
 	private boolean isOwnershipCheck() {
-		if(ownershipCheck == "true")
+		if(ownershipCheck.equalsIgnoreCase("true"))
 			return true;
 		return false;
 	}
@@ -333,25 +355,48 @@ public class TransactionService {
 		PreAuthReply reply;
 		CreditCard cc = null;
 		String secret = paymentBrokerRepository.findByApiKey(apiKey).getSecret();
+		String cardholderNameInRequest = request.getAccount().getCardholderName();
 
-		if(request.getAccount().getNumber() == null)
+		if(request.getAccount().getNumber() == null || cardholderNameInRequest == null)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
-		
-		
+
+
 		String accountNumber = decrypt(secret, request.getAccount().getNumber());
-		
+
 		try{
 			cc = creditCardRepository.findById(Long.parseLong(accountNumber)).get();
 		} catch(NoSuchElementException e) {
 			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED, null);
 		}
 
+		// Verify the decimal length
+		// https://www.quora.com/Is-there-is-any-way-to-find-the-number-of-digits-after-a-decimal-in-a-floating-number-stored-in-an-array-with-complexity-n
+		if(verifyAmountFormat(request.getAmount()) == false)
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
+
+		if(cardholderNameInRequest.equalsIgnoreCase(cc.getOwner().getCompanyName()) == false)
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
+
 
 
 		String cvv = decrypt(secret, request.getAccount().getCvv());
 
-		if(cc.getMonthExp() != request.getAccount().getMonthExp() ||
-				cc.getYearExp() != request.getAccount().getYearExp() ||
+		String[] expAsString = request.getAccount().getExp().split("/");
+		if(expAsString.length != 2)
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
+
+		int monthExp;
+		int yearExp;
+
+		try{
+			monthExp = Integer.parseInt(expAsString[0]);
+			yearExp = Integer.parseInt(expAsString[1]);
+		}catch(Exception e) {
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null); 
+		}
+
+		if(cc.getMonthExp() != monthExp ||
+				cc.getYearExp() != yearExp ||
 				!String.valueOf(cc.getCvv()).equals(cvv)){
 
 			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED, null);
@@ -384,6 +429,32 @@ public class TransactionService {
 	}
 
 
+
+	private boolean verifyAmountFormat(double amount) {
+		return String.valueOf(amount).split("\\.")[1].length() <= 2;
+	}
+
+	@Scheduled(fixedRateString = "${com.ets.gti525.transaction.preAuthCleanupTimeMs}")
+	private void cleanExpiredPreAuth(){
+		System.out.println("Cleaning up expired pre-auths");
+		List<CreditCardTransaction> preAuths = creditCardTransactionRepository.findByIsPreauth(true);
+
+		for(CreditCardTransaction t: preAuths) {
+			if(System.currentTimeMillis() > t.getTimestamp().getTime() + preAuthValidTimeMs) {
+				CreditCard cc = t.getCreditCard();
+				cc.removeTransaction(t);
+				creditCardRepository.save(cc);
+				creditCardTransactionRepository.delete(t);
+			}
+		}
+
+	}
+
+
+
+
+
+
 	public ProcessCCReply processCCTransaction(ProcessCCTransactionRequest request) {
 
 		if(request.getTransactionID() == null || request.validAction() == false)
@@ -395,7 +466,8 @@ public class TransactionService {
 
 
 
-		if(request.getAction().equals(ProcessCCTransactionRequest.ACTION_COMMIT)) {
+		if(request.getAction().equals(ProcessCCTransactionRequest.ACTION_COMMIT) &&
+				System.currentTimeMillis() < transaction.getTimestamp().getTime() + preAuthValidTimeMs) {
 			transaction.setPreauth(false);
 			creditCardTransactionRepository.save(transaction);
 			return new ProcessCCReply(HttpStatus.OK, ProcessCCReply.STATUS_COMMITED);
@@ -414,4 +486,64 @@ public class TransactionService {
 
 
 	}
+
+
+
+	public AbstractResponse receiveBankToBankTransfer(String apiKey, BankTransferRequest request) {
+
+		PartnerBank pb = partnerBankRepository.findByApiKey(apiKey);
+		if(pb == null)
+			return new EmptyResponse(HttpStatus.UNAUTHORIZED, "Bad authentication");
+
+		String sourceAccount = String.valueOf(request.getSourceAccountNumber());
+		if(sourceAccount.startsWith(pb.getAccountPrefix()) == false)
+			return new EmptyResponse(HttpStatus.BAD_REQUEST, "Source account does not match partnet bank prefix");
+
+		DebitCard destAccount = debitCardRepository.findByNbr(request.getTargetAccountNumber());
+		if(destAccount == null)
+			return new EmptyResponse(HttpStatus.NOT_FOUND, "Invalid destination account");
+
+		Double amount = request.getAmount();
+		if(verifyAmountFormat(amount) == false || amount < 0)
+			return new EmptyResponse(HttpStatus.BAD_REQUEST, "Invalid amount");
+
+		DebitCardTransaction t = new DebitCardTransaction();
+		t.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		t.setAmount(amount);
+		t.setDescription("Virement reçu de " + pb.getName() + " | compte source " + sourceAccount);
+
+		destAccount.getTransactionList().add(t);
+		destAccount.setBalance(destAccount.getBalance() + amount);
+		debitCardRepository.save(destAccount);
+
+		return new EmptyResponse(HttpStatus.NO_CONTENT, null);
+
+	}
+
+	/**
+	 * 
+	 * Source https://www.baeldung.com/rest-template
+	 */
+	private boolean initiateBankTransfer(BankTransferRequest request) {
+
+		PartnerBank pb = partnerBankRepository.findByAccountPrefix(
+				String.valueOf(request.getTargetAccountNumber()).substring(0, 3)
+				);
+
+		if(pb == null)
+			return false;
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("X-API-KEY", pb.getApiKeyToUse());
+		HttpEntity<BankTransferRequest> httpRequest = new HttpEntity<>(request);
+		ResponseEntity<String> response = restTemplate.postForEntity(
+				pb.getPostUrlToUse(), httpRequest, String.class);
+
+		if(response.getStatusCode() == HttpStatus.NO_CONTENT)
+			return true;
+
+		return false;
+	}
+
+
 }

@@ -1,5 +1,15 @@
 package com.ets.gti525.domain.response;
 
+/**
+ * Description : Class representing a single result of a users research.
+ * (Used by the class « SingleSearchUsers » for example.)
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 21-01-2019
+ */
 public class SingleSearchUsers {
 	private String firstName, lastname, debitCardNumber, creditCardNumber;
 	
@@ -8,6 +18,11 @@ public class SingleSearchUsers {
 		this.lastname = lastName;
 		this.debitCardNumber = debitCardNumber;
 		this.creditCardNumber = creditCardNumber;
+	}
+	
+	public SingleSearchUsers (String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastname = lastName;
 	}
 	
 	public String getFirstName() {
