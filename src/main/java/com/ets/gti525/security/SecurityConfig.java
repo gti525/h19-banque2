@@ -1,6 +1,7 @@
 package com.ets.gti525.security;
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -8,7 +9,6 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
 
 /**
  * Description : Configuration class related to SpringSecurity.
@@ -27,7 +27,11 @@ import com.ets.gti525.security.authentication.TokenAuthenticationProvider;
 
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	public static final String AUTHENTICATED_CHECK = "isAuthenticated()";
+	public static final String ADMIN_CHECK = "hasAuthority('ADMIN')";
 	
 	private final AuthenticationSuccessHandler successfulAuthenticationHandler;
 	private final SessionRegistry sessionRegistry;
