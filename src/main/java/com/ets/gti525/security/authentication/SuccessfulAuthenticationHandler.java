@@ -50,6 +50,8 @@ public class SuccessfulAuthenticationHandler extends SimpleUrlAuthenticationSucc
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
+		System.out.println("Authentication success for user : " + authentication.getName());
+		
 		String targetUrl = getTargetUrl(authentication.getAuthorities());
 		
 		setAlwaysUseDefaultTargetUrl(false);

@@ -18,4 +18,6 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Long> {
 	public CreditCard findByNbr(long creditCardNbr);
 	
 	public CreditCard findByOwnerId(int ownerId);
+	
+	public CreditCard findByOwner_username(String username);
 }

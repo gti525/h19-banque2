@@ -240,15 +240,15 @@ public class TransactionService {
 	public CreditCardTransactionsResponse getMyCreditCardTransactions() {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user;
+		String user;
 
 		try {
-			user = (User) auth.getPrincipal();
+			user = auth.getPrincipal().toString();
 		} catch (Exception e) {
 			return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
 		}
 
-		CreditCard cc = creditCardRepository.findByOwnerId(user.getId());
+		CreditCard cc = creditCardRepository.findByOwner_username(user);
 
 		if(cc == null)
 			return new CreditCardTransactionsResponse(HttpStatus.UNAUTHORIZED, null);
