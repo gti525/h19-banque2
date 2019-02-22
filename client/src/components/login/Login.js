@@ -12,6 +12,7 @@ export default class Login extends React.Component {
         };
         this.submitPhaseUn = this.submitPhaseUn.bind(this);
         this.submitPhaseDeux = this.submitPhaseDeux.bind(this);
+        this.submitPhaseFinal = this.submitPhaseFinal.bind(this);
     }
 
     submitPhaseUn(event) {
@@ -38,18 +39,6 @@ export default class Login extends React.Component {
         const form = event.target;
         const data = new FormData(form);
 
-        /*
-        for (let name of data.keys()) {
-            const input = form.elements[name];
-            const parserName = input.dataset.parse;
-
-            if (parserName) {
-                const parsedValue = inputParsers[parserName](data.get(name));
-                data.set(name, parsedValue);
-            }
-        }
-        */
-
         this.setState({
             res: stringifyFormData(data),
             infoPhaseDeux: [],
@@ -73,18 +62,6 @@ export default class Login extends React.Component {
         const form = event.target;
         const data = new FormData(form);
 
-        /*
-        for (let name of data.keys()) {
-            const input = form.elements[name];
-            const parserName = input.dataset.parse;
-
-            if (parserName) {
-                const parsedValue = inputParsers[parserName](data.get(name));
-                data.set(name, parsedValue);
-            }
-        }
-        */
-
         this.setState({
             res: stringifyFormData(data),
             infoPhaseFinal: [],
@@ -97,7 +74,7 @@ export default class Login extends React.Component {
          .then(response => response.json())
          .then(data => this.setState({
             infoPhaseFinal: data,
-            /* phaseEnCours non modifié, car le back-end va renvoyer vers DashboardClient */
+            phaseEnCours: 4,
          }))
         .catch(error => this.setState({ error }));
     }
@@ -159,6 +136,7 @@ export default class Login extends React.Component {
                             <CardBody>
                                 <CardTitle>Veuillez entrer votre mot de passe : </CardTitle>
                                 <Input type="password" id="password" name="password" />
+                                <Input type="hidden" id="token" name="token" value={this.state.infoPhaseDeux.token} />
                                 <br />
                                 
                                 <Button bsStyle="success" type="submit">Valider</Button>
@@ -167,6 +145,10 @@ export default class Login extends React.Component {
                     </form>
                     </div>
                 </div>
+            );
+            case 4:
+            return (
+                this.props.history.push("/DashboardClient")
             );
         }
     }
