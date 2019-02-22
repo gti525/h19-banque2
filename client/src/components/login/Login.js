@@ -29,7 +29,17 @@ export default class Login extends React.Component {
             infoPhaseUn: [],
             displayErrors: false,
         });
-    }
+
+        debugger
+
+        fetch("http://localhost:3000/api/v1/challenge/" + this.state.res)
+            .then(response => response.json())
+            .then(rep => this.setState({
+                infoPhaseUn: rep,
+                isLoading: false,
+            }))
+            .catch(error => this.setState({ error, isLoading: false }));
+        }
 
     render () {
         return (
@@ -55,16 +65,6 @@ export default class Login extends React.Component {
                 <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>
             </div>
         )
-    }
-
-    submitLogin() {
-        fetch("http://localhost:3000/api/v1/challenge/" + this.res.numCarte)
-            .then(response => response.json())
-            .then(data => this.setState({
-                infoPhaseUn: data,
-                isLoading: false,
-            }))
-            .catch(error => this.setState({ error, isLoading: false }));
     }
 }
 
