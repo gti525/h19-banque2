@@ -48,6 +48,7 @@ export default class LoginAdmin extends React.Component {
         if (parserName) {
           const parsedValue = inputParsers[parserName](data.get(name));
           data.set(name, parsedValue);
+          
         }
       }
       
@@ -57,8 +58,7 @@ export default class LoginAdmin extends React.Component {
         displayErrors: false,
       });
   
-      console.log(data);
-       fetch('http://localhost:3000/login', {
+       fetch('http://localhost:8080/login', {
          method: 'POST',
          body: data,
         });
@@ -92,12 +92,7 @@ export default class LoginAdmin extends React.Component {
                 {invalid && (
                   <ShakingError text="Form is not valid" />
                 )}
-                {!invalid && res && (
-                  <div>
-                  <h3>Transformed data to be sent:</h3>
-                  <pre>FormData {res}</pre>
-                  </div>
-                )}
+                
               </div>
             </div>
             
