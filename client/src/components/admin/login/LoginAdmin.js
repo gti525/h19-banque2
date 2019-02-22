@@ -57,10 +57,11 @@ export default class LoginAdmin extends React.Component {
         displayErrors: false,
       });
   
-      // fetch('/api/form-submit-url', {
-      //   method: 'POST',
-      //   body: data,
-      // });
+      console.log(data);
+       fetch('http://localhost:3000/login', {
+         method: 'POST',
+         body: data,
+        });
     }
   
     render () {  
@@ -77,13 +78,11 @@ export default class LoginAdmin extends React.Component {
                       <CardTitle>Nom d'utilisateur : </CardTitle>
                       <Input id="username" name="username" type="text" data-parse="uppercase" placeholder="" />
                       <br />
-
                       <CardTitle>Mot de passe : </CardTitle>
-                      <Input id="password" type="password" name="password" placeholder="" />
+                      <Input id="password" name="password" type="text"  placeholder="" />
                       <br />
 
                       <Button type="submit" bsStyle="success">Se connecter</Button>
-                      {res}
                   </CardBody>
                 </Card>
               </form>
