@@ -22,7 +22,7 @@ export default class Login extends React.Component {
             numCarte: "",
         });
         
-        fetch("http://localhost:3000/api/v1/challenge/" + document.getElementById('numCarte').value)
+        fetch("http://localhost:8080/api/v1/challenge/" + document.getElementById('numCarte').value)
          .then(response => response.json())
          .then(data => this.setState({
             infoPhaseUn: data,
@@ -38,6 +38,7 @@ export default class Login extends React.Component {
         const form = event.target;
         const data = new FormData(form);
 
+        /*
         for (let name of data.keys()) {
             const input = form.elements[name];
             const parserName = input.dataset.parse;
@@ -47,13 +48,14 @@ export default class Login extends React.Component {
                 data.set(name, parsedValue);
             }
         }
+        */
 
         this.setState({
             res: stringifyFormData(data),
             infoPhaseDeux: [],
         });
         
-        fetch("http://localhost:3000/api/v1/challenge/" + this.state.numCarte + "/validate", {
+        fetch("http://localhost:8080/api/v1/challenge/" + this.state.numCarte + "/validate", {
             method: 'POST',
             body: data,
            })
@@ -71,6 +73,7 @@ export default class Login extends React.Component {
         const form = event.target;
         const data = new FormData(form);
 
+        /*
         for (let name of data.keys()) {
             const input = form.elements[name];
             const parserName = input.dataset.parse;
@@ -80,13 +83,14 @@ export default class Login extends React.Component {
                 data.set(name, parsedValue);
             }
         }
+        */
 
         this.setState({
             res: stringifyFormData(data),
             infoPhaseFinal: [],
         });
         
-        fetch("http://localhost:3000/login", {
+        fetch("http://localhost:8080/login", {
             method: 'POST',
             body: data,
            })

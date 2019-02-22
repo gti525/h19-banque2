@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +15,9 @@ import com.ets.gti525.service.ChallengeService;
 @RestController
 @RequestMapping("/api/v1")
 public class ChallengeController {
-	
+
 	private final ChallengeService challengeService;
-	
+
 	public ChallengeController(final ChallengeService challengeService) {
 		this.challengeService = challengeService;
 	}
@@ -28,9 +27,9 @@ public class ChallengeController {
 		ChallengeResponse response = challengeService.getChallenge(username);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-	
+
 	@PostMapping("/challenge/{username}/validate")
-	public ResponseEntity<ChallengeValidationResponse> validateResponse(@PathVariable String username, @RequestBody ChallengeValidationRequest userResponse) {
+	public ResponseEntity<ChallengeValidationResponse> validateResponse(@PathVariable String username, ChallengeValidationRequest userResponse) {
 		ChallengeValidationResponse response = challengeService.validateResponse(username, userResponse);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
