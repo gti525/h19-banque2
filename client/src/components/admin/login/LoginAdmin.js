@@ -3,6 +3,8 @@ import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText, Input } fr
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+var bonneRep = 1;
+
 // Source : https://jsfiddle.net/everdimension/3bo263xj/
 const inputParsers = {
     uppercase(input) {
@@ -26,9 +28,10 @@ class ShakingError extends React.Component {
 export default class LoginAdmin extends React.Component { 
     constructor() {
       super();
-      this.state = {};
+      this.state = {
+    };
       this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    }    
 
     // Fait la gestion du bouton "submit"
     handleSubmit(event) {
@@ -40,17 +43,7 @@ export default class LoginAdmin extends React.Component {
 
       const form = event.target;
       const data = new FormData(form);
-  
-      for (let name of data.keys()) {
-        const input = form.elements[name];
-        const parserName = input.dataset.parse;
 
-        if (parserName) {
-          const parsedValue = inputParsers[parserName](data.get(name));
-          data.set(name, parsedValue);
-          
-        }
-      }
       
       this.setState({
         res: stringifyFormData(data),
@@ -59,10 +52,26 @@ export default class LoginAdmin extends React.Component {
       });
   
        fetch('http://localhost:8080/login', {
-         method: 'POST',
-         body: data,
+         method: 'POST', 
+         body: data
+        })
+        .then(function(response) {
+          if (response.status === 200) {  
+            console.log("dans 200");
+            bonneRep = 1;
+          }
+          if(response.status != 200){
+            console.log("dans pas 200");
+            bonneRep = 0;
+          }          
         });
+        
+        console.log("bonne reponse est: "+ bonneRep);
+        if(bonneRep === 1){
+          this.props.history.push("/DashboardAdmin");
+        }
     }
+    
   
     render () {  
       const { res, invalid, displayErrors } = this.state;
@@ -110,3 +119,5 @@ function stringifyFormData(fd) {
 
   return JSON.stringify(data, null, 2);
 }
+
+
