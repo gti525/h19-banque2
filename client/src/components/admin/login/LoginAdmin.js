@@ -2,8 +2,9 @@ import * as React from "react";
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText, Input } from 'reactstrap';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { async } from 'q';
 
-var bonneRep = 1;
+
 
 // Source : https://jsfiddle.net/everdimension/3bo263xj/
 const inputParsers = {
@@ -50,26 +51,37 @@ export default class LoginAdmin extends React.Component {
         invalid: false,
         displayErrors: false,
       });
+
+      // Variable qui va déterminer si l'utilisateur peut être rediriger à la prochaine page.
+      var loginIsSucess = 0;
   
-       fetch('http://localhost:8080/login', {
-         method: 'POST', 
-         body: data
-        })
-        .then(function(response) {
-          if (response.status === 200) {  
-            console.log("dans 200");
-            bonneRep = 1;
-          }
-          if(response.status != 200){
-            console.log("dans pas 200");
-            bonneRep = 0;
-          }          
-        });
-        
-        console.log("bonne reponse est: "+ bonneRep);
-        if(bonneRep === 1){
-          this.props.history.push("/DashboardAdmin");
-        }
+      // Construction du call d'API asynchrone pour permettre le "await"
+       const request = async () =>{
+        const allo = await fetch('http://localhost:8080/login', {
+          method: 'POST', 
+          body: data
+         })
+         .then(function(response) {
+           if (response.status === 200) {  // Si la login est valider par le backend
+             console.log("Dans: 200");
+             // On indique que le login EST réussi
+             loginIsSucess = 1;
+           }
+           if(response.status != 200){     // Si le login n'est pas accepté par le backend
+             console.log("Dans: PAS 200");
+             // On indique que le login N'EST PAS réussi
+             loginIsSucess = 0;
+           }          
+         });
+
+         // Finalement, si le login est un succès, on redirige l'utilisateur a son dashboard
+          if(loginIsSucess === 1){
+            this.props.history.push("/DashboardAdmin");
+          } 
+       } 
+
+       // à la fin du submit, on appel à requête déclaré plus haut.
+       request(); 
     }
     
   
