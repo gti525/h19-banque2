@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authenticationDetailsSource(customAuthenticationDetailsSource)
 			.loginPage("/LoginAdmin").loginProcessingUrl("/login")
 			.successHandler(successfulAuthenticationHandler)
+			.and().logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true)
 			.and().cors().disable()
 			.csrf().disable()
 			.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry).expiredUrl("/LoginAdmin");
