@@ -78,6 +78,9 @@ export default class LoginAdmin extends React.Component {
           if(loginIsSucess === 1){
             this.props.history.push("/DashboardAdmin");
           } 
+          if(loginIsSucess === 0){
+            this.props.history.push("/LoginAdmin");
+          } 
        } 
 
        // à la fin du submit, on appel à requête déclaré plus haut.
