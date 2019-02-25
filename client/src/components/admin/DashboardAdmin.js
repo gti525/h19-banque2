@@ -8,7 +8,7 @@ export default class DashbordAdmin extends React.Component {
    }
 
    fetchDebitCards() {
-      fetch("http://localhost:3000/api/v1/account/debitCard/22212345")
+      fetch("http://localhost:8080/api/v1/account/debitCard/")
          .then(response => response.json())
          .then(data => this.setState({
             debitCards: data,

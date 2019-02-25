@@ -15,9 +15,9 @@ import com.ets.gti525.service.ChallengeService;
 @RestController
 @RequestMapping("/api/v1")
 public class ChallengeController {
-	
+
 	private final ChallengeService challengeService;
-	
+
 	public ChallengeController(final ChallengeService challengeService) {
 		this.challengeService = challengeService;
 	}
@@ -27,7 +27,7 @@ public class ChallengeController {
 		ChallengeResponse response = challengeService.getChallenge(username);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
-	
+
 	@PostMapping("/challenge/{username}/validate")
 	public ResponseEntity<ChallengeValidationResponse> validateResponse(@PathVariable String username, ChallengeValidationRequest userResponse) {
 		ChallengeValidationResponse response = challengeService.validateResponse(username, userResponse);

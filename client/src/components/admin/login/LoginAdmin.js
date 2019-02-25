@@ -2,6 +2,9 @@ import * as React from "react";
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText, Input } from 'reactstrap';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { async } from 'q';
+
+
 
 // Source : https://jsfiddle.net/everdimension/3bo263xj/
 const inputParsers = {
@@ -26,9 +29,10 @@ class ShakingError extends React.Component {
 export default class LoginAdmin extends React.Component { 
     constructor() {
       super();
-      this.state = {};
+      this.state = {
+    };
       this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    }    
 
     // Fait la gestion du bouton "submit"
     handleSubmit(event) {
@@ -40,28 +44,49 @@ export default class LoginAdmin extends React.Component {
 
       const form = event.target;
       const data = new FormData(form);
-  
-      for (let name of data.keys()) {
-        const input = form.elements[name];
-        const parserName = input.dataset.parse;
 
-        if (parserName) {
-          const parsedValue = inputParsers[parserName](data.get(name));
-          data.set(name, parsedValue);
-        }
-      }
       
       this.setState({
         res: stringifyFormData(data),
         invalid: false,
         displayErrors: false,
       });
+
+      // Variable qui va déterminer si l'utilisateur peut être rediriger à la prochaine page.
+      var loginIsSucess = 0;
   
-      // fetch('/api/form-submit-url', {
-      //   method: 'POST',
-      //   body: data,
-      // });
+      // Construction du call d'API asynchrone pour permettre le "await"
+       const request = async () =>{
+        const allo = await fetch('http://localhost:8080/login', {
+          method: 'POST', 
+          body: data
+         })
+         .then(function(response) {
+           if (response.status === 200) {  // Si la login est valider par le backend
+             console.log("Dans: 200");
+             // On indique que le login EST réussi
+             loginIsSucess = 1;
+           }
+           if(response.status != 200){     // Si le login n'est pas accepté par le backend
+             console.log("Dans: PAS 200");
+             // On indique que le login N'EST PAS réussi
+             loginIsSucess = 0;
+           }          
+         });
+
+         // Finalement, si le login est un succès, on redirige l'utilisateur a son dashboard
+          if(loginIsSucess === 1){
+            this.props.history.push("/DashboardAdmin");
+          } 
+          if(loginIsSucess === 0){
+            this.props.history.push("/LoginAdmin");
+          } 
+       } 
+
+       // à la fin du submit, on appel à requête déclaré plus haut.
+       request(); 
     }
+    
   
     render () {  
       const { res, invalid, displayErrors } = this.state;
@@ -77,9 +102,8 @@ export default class LoginAdmin extends React.Component {
                       <CardTitle>Nom d'utilisateur : </CardTitle>
                       <Input id="username" name="username" type="text" data-parse="uppercase" placeholder="" />
                       <br />
-
                       <CardTitle>Mot de passe : </CardTitle>
-                      <Input id="password" type="password" name="password" placeholder="" />
+                      <Input id="password" name="password" type="text"  placeholder="" />
                       <br />
 
                       <Button type="submit" bsStyle="success">Se connecter</Button>
@@ -92,12 +116,7 @@ export default class LoginAdmin extends React.Component {
                 {invalid && (
                   <ShakingError text="Form is not valid" />
                 )}
-                {!invalid && res && (
-                  <div>
-                  <h3>Transformed data to be sent:</h3>
-                  <pre>FormData {res}</pre>
-                  </div>
-                )}
+                
               </div>
             </div>
             
@@ -115,3 +134,5 @@ function stringifyFormData(fd) {
 
   return JSON.stringify(data, null, 2);
 }
+
+
