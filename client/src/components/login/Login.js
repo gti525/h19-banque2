@@ -2,7 +2,7 @@ import * as React from "react";
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, CardTitle, Input } from 'reactstrap';
-import { debug } from 'util';
+import { async } from 'q';
 
 export default class Login extends React.Component { 
     constructor() {
@@ -61,22 +61,33 @@ export default class Login extends React.Component {
 
         const form = event.target;
         const data = new FormData(form);
+        var loginIsSucess = 0;
 
         this.setState({
             res: stringifyFormData(data),
             infoPhaseFinal: [],
         });
         
-        fetch("http://localhost:8080/login", {
-            method: 'POST',
-            body: data,
-           })
-         .then(response => response.json())
-         .then(data => this.setState({
-            infoPhaseFinal: data,
-            phaseEnCours: 4,
-         }))
-        .catch(error => this.setState({ error }));
+        const request = async () =>{
+            await fetch('http://localhost:8080/login', {
+                method: 'POST', 
+                body: data
+            })
+            .then(function(response) {
+                if (response.status === 200) {
+                    loginIsSucess = 1;
+                }
+                if(response.status != 200){
+                    loginIsSucess = 0;
+                }          
+            });
+
+            if(loginIsSucess === 1){
+                this.props.history.push("/DashboardClient");
+            } 
+        } 
+
+        request(); 
     }
 
     render () {

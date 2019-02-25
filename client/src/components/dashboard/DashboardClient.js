@@ -13,19 +13,17 @@ export default class DashboardClient extends React.Component {
    }
 
    fetchDebitCards() {
-      fetch("http://localhost:3000/api/v1/challenge/22211111")
+      fetch("http://localhost:8080/api/v1/account/debitCard")
          .then(response => response.json())
          .then(data => this.setState({
             debitCards: data,
             isLoading: false,
          }))
         .catch(error => this.setState({ error, isLoading: false }));
-
-        debugger
    }
 
    fetchCreditCards() {
-      fetch("http://localhost:3000/api/v1/account/creditCard/5105139374862083")
+      fetch("http://localhost:8080/api/v1/account/creditCard")
          .then(response => response.json())
          .then(data => this.setState({
             creditCards: data,
@@ -48,7 +46,7 @@ export default class DashboardClient extends React.Component {
             <div className="row">
                <div className="column">
                   <DebitCard 
-                     balance={this.state.debitCards.challenge}
+                     balance={this.state.debitCards.balance}
                   />
                </div>
                <div className="column">
