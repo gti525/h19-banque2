@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +29,7 @@ public class ChallengeController {
 	}
 	
 	@PostMapping("/challenge/{username}/validate")
-	public ResponseEntity<ChallengeValidationResponse> validateResponse(@PathVariable String username, @RequestBody ChallengeValidationRequest userResponse) {
+	public ResponseEntity<ChallengeValidationResponse> validateResponse(@PathVariable String username, ChallengeValidationRequest userResponse) {
 		ChallengeValidationResponse response = challengeService.validateResponse(username, userResponse);
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}
