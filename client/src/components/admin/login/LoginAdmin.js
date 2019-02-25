@@ -57,7 +57,7 @@ export default class LoginAdmin extends React.Component {
   
       // Construction du call d'API asynchrone pour permettre le "await"
        const request = async () =>{
-        const allo = await fetch('http://localhost:8080/login', {
+        const allo = await fetch('https://banque2-h19.herokuapp.com/login', {
           method: 'POST', 
           body: data
          })

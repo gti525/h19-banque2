@@ -23,7 +23,7 @@ export default class Login extends React.Component {
             numCarte: "",
         });
         
-        fetch("http://localhost:8080/api/v1/challenge/" + document.getElementById('numCarte').value)
+        fetch("https://banque2-h19.herokuapp.com/api/v1/challenge/" + document.getElementById('numCarte').value)
          .then(response => response.json())
          .then(data => this.setState({
             infoPhaseUn: data,
@@ -44,7 +44,7 @@ export default class Login extends React.Component {
             infoPhaseDeux: [],
         });
         
-        fetch("http://localhost:8080/api/v1/challenge/" + this.state.numCarte + "/validate", {
+        fetch("https://banque2-h19.herokuapp.com/api/v1/challenge/" + this.state.numCarte + "/validate", {
             method: 'POST',
             body: data,
            })
@@ -69,7 +69,7 @@ export default class Login extends React.Component {
         });
         
         const request = async () =>{
-            await fetch('http://localhost:8080/login', {
+            await fetch('https://banque2-h19.herokuapp.com/login', {
                 method: 'POST', 
                 body: data
             })

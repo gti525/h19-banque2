@@ -15,7 +15,7 @@ export default class HistoriqueCredit extends React.Component {
     }
 
     fetchCreditCardsInfo() {
-        fetch("http://localhost:8080/api/v1/account/creditCard")
+        fetch("https://banque2-h19.herokuapp.com/api/v1/account/creditCard")
         .then(response => response.json())
         .then(data => this.setState({
             creditCardsInfo: data,
@@ -24,7 +24,7 @@ export default class HistoriqueCredit extends React.Component {
     }
 
     fetchCreditCardsTransaction() {
-        fetch("http://localhost:8080/api/v1/creditCard/transaction")
+        fetch("https://banque2-h19.herokuapp.com/api/v1/creditCard/transaction")
         .then(response => response.json())
         .then(data => this.setState({
             creditCardsTransactions: data.transactions,

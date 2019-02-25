@@ -13,7 +13,7 @@ export default class DashboardClient extends React.Component {
    }
 
    fetchDebitCards() {
-      fetch("http://localhost:8080/api/v1/account/debitCard")
+      fetch("https://banque2-h19.herokuapp.com/api/v1/account/debitCard")
          .then(response => response.json())
          .then(data => this.setState({
             debitCards: data,
@@ -23,7 +23,7 @@ export default class DashboardClient extends React.Component {
    }
 
    fetchCreditCards() {
-      fetch("http://localhost:8080/api/v1/account/creditCard")
+      fetch("https://banque2-h19.herokuapp.com/api/v1/account/creditCard")
          .then(response => response.json())
          .then(data => this.setState({
             creditCards: data,
