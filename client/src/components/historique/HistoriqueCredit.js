@@ -4,37 +4,37 @@ import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, Table } from 'reactstrap';
 
-export default class HistoriqueDebit extends React.Component {
+export default class HistoriqueCredit extends React.Component {
     constructor() {
         super();
         this.state = {
-            debitCardsInfo: [],
-            debitCardsTransactions: [],
+            creditCardsInfo: [],
+            creditCardsTransactions: [],
             error: null,
         };
     }
 
-    fetchDebitCardsInfo() {
-        fetch("http://localhost:8080/api/v1/account/debitCard")
+    fetchCreditCardsInfo() {
+        fetch("http://localhost:8080/api/v1/account/creditCard")
         .then(response => response.json())
         .then(data => this.setState({
-            debitCardsInfo: data,
+            creditCardsInfo: data,
         }))
         .catch(error => this.setState({ error }));
     }
 
-    fetchDebitCardsTransaction() {
-        fetch("http://localhost:8080/api/v1/debitCard/transaction")
+    fetchCreditCardsTransaction() {
+        fetch("http://localhost:8080/api/v1/creditCard/transaction")
         .then(response => response.json())
         .then(data => this.setState({
-            debitCardsTransactions: data.transactions,
+            creditCardsTransactions: data.transactions,
         }))
         .catch(error => this.setState({ error }));
     }
 
     componentDidMount() {
-        this.fetchDebitCardsInfo();
-        this.fetchDebitCardsTransaction();
+        this.fetchCreditCardsInfo();
+        this.fetchCreditCardsTransaction();
     }
 
     render () {
@@ -43,13 +43,13 @@ export default class HistoriqueDebit extends React.Component {
             <div className="historiqueContainer">
                 <Link to="/DashboardClient"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
 
-                <h2><u>Compte Débit</u></h2>
+                <h2><u>Compte Crédit</u></h2>
                 <h5>Solde actuel : </h5>
-                <Input id="histoSoldeDebit" name="histoSoldeDebit" value={this.state.debitCardsInfo.balance} disabled />
+                <Input id="histoSoldeCredit" name="histoSoldeCredit" value={this.state.creditCardsInfo.balance} disabled />
                 <br />
 
 
-                <Card className="debitCard">
+                <Card className="creditCard">
                     <CardHeader><b>Historique des transactions : </b></CardHeader>
                     <CardBody>  
                         <Table striped> {/* size="sm" pour mettre moins d'espacement, à voir quand il y a bcp de transactions */}
@@ -63,7 +63,7 @@ export default class HistoriqueDebit extends React.Component {
 
                             <tbody>
                             {   
-                                this.state.debitCardsTransactions.map((dynamicData) =>
+                                this.state.creditCardsTransactions.map((dynamicData) =>
                                 <tr className="trow"> 
                                     <td> {dynamicData.timestamp}</td>
                                     <td> {dynamicData.amount} </td>
