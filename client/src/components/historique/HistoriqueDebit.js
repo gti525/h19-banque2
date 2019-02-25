@@ -28,7 +28,7 @@ export default class HistoriqueDebit extends React.Component {
         fetch("http://localhost:8080/api/v1/debitCard/transaction")
         .then(response => response.json())
         .then(data => this.setState({
-            debitCardsTransactions: data,
+            debitCardsTransactions: data.transactions,
         }))
         .catch(error => this.setState({ error }));
     }
@@ -39,6 +39,9 @@ export default class HistoriqueDebit extends React.Component {
     }
 
     render () {
+
+        var myBooks = this.state.debitCardsTransactions;
+        console.log("Test de mybook: " +  myBooks);
         return (
             <div className="historiqueContainer">
                 <Link to="/DashboardClient"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
@@ -47,6 +50,7 @@ export default class HistoriqueDebit extends React.Component {
                 <h5>Solde actuel : </h5>
                 <Input id="histoSoldeDebit" name="histoSoldeDebit" value={this.state.debitCardsInfo.balance} disabled />
                 <br />
+
 
                 <Card className="debitCard">
                     <CardHeader><b>Historique des transactions : </b></CardHeader>
@@ -61,21 +65,14 @@ export default class HistoriqueDebit extends React.Component {
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td scope="row">2019-01-01 08:41:12</td>
-                                    <td>-40$</td>
-                                    <td>McDo</td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">2019-01-04 10:21:41</td>
-                                    <td>-38$</td>
-                                    <td>Steam</td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">2019-01-10 22:12:00</td>
-                                    <td>+800$</td>
-                                    <td>TaJob</td>
-                                </tr>
+                            {   
+                                this.state.debitCardsTransactions.map((dynamicData) =>
+                                <tr className="trow"> 
+                                    <td> {dynamicData.timestamp}</td>
+                                    <td> {dynamicData.amount} </td>
+                                    <td> {dynamicData.description} </td>
+                                    </tr>
+                                ) }
                             </tbody>
 
                             {/*
