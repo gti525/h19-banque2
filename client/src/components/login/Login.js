@@ -5,8 +5,8 @@ import { Card, CardHeader, CardBody, CardTitle, Input } from 'reactstrap';
 import { async } from 'q';
 
 export default class Login extends React.Component { 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             phaseEnCours: 1,
         };
@@ -23,7 +23,7 @@ export default class Login extends React.Component {
             numCarte: "",
         });
         
-        fetch("https://banque2-h19.herokuapp.com/api/v1/challenge/" + document.getElementById('numCarte').value)
+        fetch(this.props.state.URLBackend+"/api/v1/challenge/" + document.getElementById('numCarte').value)
          .then(response => response.json())
          .then(data => this.setState({
             infoPhaseUn: data,
@@ -44,7 +44,7 @@ export default class Login extends React.Component {
             infoPhaseDeux: [],
         });
         
-        fetch("https://banque2-h19.herokuapp.com/api/v1/challenge/" + this.state.numCarte + "/validate", {
+        fetch(this.props.state.URLBackend+"/api/v1/challenge/" + this.state.numCarte + "/validate", {
             method: 'POST',
             body: data,
            })
@@ -69,7 +69,7 @@ export default class Login extends React.Component {
         });
         
         const request = async () =>{
-            await fetch('https://banque2-h19.herokuapp.com/login', {
+            await fetch(this.props.state.URLBackend+'/login', {
                 method: 'POST', 
                 body: data
             })

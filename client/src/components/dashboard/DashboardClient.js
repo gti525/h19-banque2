@@ -5,6 +5,12 @@ import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export default class DashboardClient extends React.Component {
+
+
+   constructor(props) {
+      super(props);
+  }
+
    state = {
       debitCards: [],
       creditCards: [],
@@ -13,7 +19,7 @@ export default class DashboardClient extends React.Component {
    }
 
    fetchDebitCards() {
-      fetch("https://banque2-h19.herokuapp.com/api/v1/account/debitCard")
+      fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
          .then(response => response.json())
          .then(data => this.setState({
             debitCards: data,
@@ -23,7 +29,7 @@ export default class DashboardClient extends React.Component {
    }
 
    fetchCreditCards() {
-      fetch("https://banque2-h19.herokuapp.com/api/v1/account/creditCard")
+      fetch(this.props.state.URLBackend+"/api/v1/account/creditCard")
          .then(response => response.json())
          .then(data => this.setState({
             creditCards: data,

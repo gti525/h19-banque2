@@ -13,6 +13,16 @@ import './styles/App.css';
 import logo from './Images/Logo_banque2.png';
 
 class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+        URLBackend: 'https://banque2-h19.herokuapp.com',
+        //URLBackend: 'http://localhost:8080',
+    };
+}
+
+  
   public render() {
     return (
       <div className="App">
@@ -23,14 +33,14 @@ class App extends React.Component {
 
         <BrowserRouter>
           <div>
-            <Route exact={true} path="/" component={Login} />
-            <Route path="/LoginAdmin" component={LoginAdmin} />
+            <Route exact={true} path="/" render={props=><Login {...props} state={this.state}/>}  />
+            <Route path="/LoginAdmin" render={props=><LoginAdmin {...props} state={this.state}/>} />
 
-            <Route path="/DashboardClient" component={DashboardClient} />
-            <Route path="/DashboardAdmin" component={DashboardAdmin} />
+            <Route path="/DashboardClient" render={props=><DashboardClient {...props} state={this.state}/>} />
+            <Route path="/DashboardAdmin" render={props=><DashboardAdmin {...props} state={this.state}/>} />
 
-            <Route path="/HistoriqueDebit" component={HistoriqueDebit} />
-            <Route path="/HistoriqueCredit" component={HistoriqueCredit} />
+            <Route path="/HistoriqueDebit" render={props=><HistoriqueDebit {...props} state={this.state}/>} />
+            <Route path="/HistoriqueCredit" render={props=><HistoriqueCredit {...props} state={this.state}/>} />
 
             <Route path="/PaymentCarte" component={PaymentCarte} />
 

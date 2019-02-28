@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, Table } from 'reactstrap';
 
 export default class HistoriqueDebit extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             debitCardsInfo: [],
             debitCardsTransactions: [],
@@ -15,7 +15,7 @@ export default class HistoriqueDebit extends React.Component {
     }
 
     fetchDebitCardsInfo() {
-        fetch("https://banque2-h19.herokuapp.com/api/v1/account/debitCard")
+        fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
         .then(response => response.json())
         .then(data => this.setState({
             debitCardsInfo: data,
@@ -24,7 +24,7 @@ export default class HistoriqueDebit extends React.Component {
     }
 
     fetchDebitCardsTransaction() {
-        fetch("https://banque2-h19.herokuapp.com/api/v1/debitCard/transaction")
+        fetch(this.props.state.URLBackend+"/api/v1/debitCard/transaction")
         .then(response => response.json())
         .then(data => this.setState({
             debitCardsTransactions: data.transactions,

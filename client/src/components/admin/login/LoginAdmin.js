@@ -22,15 +22,15 @@ class ShakingError extends React.Component {
   }
   
   render() {
-    return <div key={this.state.key} className="bounce">{this.props.text}</div>;
+    return <div key={this.state.key} className="bounce">{this.ya.text}</div>;
   }
 }
 
 export default class LoginAdmin extends React.Component { 
-    constructor() {
-      super();
-      this.state = {
-    };
+    
+  constructor(props) {
+      super(props);
+      this.state ={};
       this.handleSubmit = this.handleSubmit.bind(this);
     }    
 
@@ -54,10 +54,12 @@ export default class LoginAdmin extends React.Component {
 
       // Variable qui va déterminer si l'utilisateur peut être rediriger à la prochaine page.
       var loginIsSucess = 0;
+
+      console.log("Context: "+ this.props.state.URLBackend);
   
       // Construction du call d'API asynchrone pour permettre le "await"
        const request = async () =>{
-        const allo = await fetch('https://banque2-h19.herokuapp.com/login', {
+        const allo = await fetch(this.props.state.URLBackend+'/login', {
           method: 'POST', 
           body: data
          })

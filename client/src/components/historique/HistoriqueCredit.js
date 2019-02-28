@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, Table } from 'reactstrap';
 
 export default class HistoriqueCredit extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             creditCardsInfo: [],
             creditCardsTransactions: [],
@@ -15,7 +15,7 @@ export default class HistoriqueCredit extends React.Component {
     }
 
     fetchCreditCardsInfo() {
-        fetch("https://banque2-h19.herokuapp.com/api/v1/account/creditCard")
+        fetch(this.props.state.URLBackend+"/api/v1/account/creditCard")
         .then(response => response.json())
         .then(data => this.setState({
             creditCardsInfo: data,
@@ -24,7 +24,7 @@ export default class HistoriqueCredit extends React.Component {
     }
 
     fetchCreditCardsTransaction() {
-        fetch("https://banque2-h19.herokuapp.com/api/v1/creditCard/transaction")
+        fetch(this.props.state.URLBackend+"/api/v1/creditCard/transaction")
         .then(response => response.json())
         .then(data => this.setState({
             creditCardsTransactions: data.transactions,
@@ -38,7 +38,6 @@ export default class HistoriqueCredit extends React.Component {
     }
 
     render () {
-
         return (
             <div className="historiqueContainer">
                 <Link to="/DashboardClient"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
