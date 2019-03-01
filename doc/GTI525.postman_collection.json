@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "78a310d2-e62b-4600-9724-95aa852ab399",
+		"_postman_id": "03faf70e-debd-48b7-a93b-f48899d3602c",
 		"name": "GTI525",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -159,7 +159,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"firstName\": \"Bonhomme\",\n\t\"lastName\": \"Patate\",\n\t\"isCompany\": false,\n\t\"email\": \"bpatate@example.com\"\n}"
+							"raw": "{\n\t\"firstName\": \"Bonhomme\",\n\t\"lastName\": \"Patate\",\n\t\"isCompany\": false,\n\t\"email\": \"bpatate@example.com\",\n\t\"secretQuestion\": \"Ma sorte de légume? (patate)\",\n\t\"secretAnswer\": \"patate\"\n}"
 						},
 						"url": {
 							"raw": "{{serverNameOrIP}}:8080/api/v1/user",
@@ -249,8 +249,14 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"userResponse\": \"allo\"\n}"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userResponse",
+									"value": "allo",
+									"type": "text"
+								}
+							]
 						},
 						"url": {
 							"raw": "localhost:8080/api/v1/challenge/22211111/validate",
