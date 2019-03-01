@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +18,9 @@ import com.ets.gti525.domain.repository.CreditCardRepository;
 import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.CreateUserRequest;
+import com.ets.gti525.domain.request.ResetPasswordRequest;
 import com.ets.gti525.domain.response.CreateUserResponse;
+import com.ets.gti525.domain.response.ResetPasswordResponse;
 import com.ets.gti525.domain.response.SearchUsersResponse;
 import com.ets.gti525.domain.response.SingleSearchUsers;
 import com.ets.gti525.helper.CardNumberHelper;
@@ -117,6 +122,26 @@ public class UserService {
 		return accountNumber;
 	}
 	
+public ResetPasswordResponse resetPassword (ResetPasswordRequest request) {
+		
+		String oldPassword = request.getOldPassword();
+		String hashedPassword = encodePassword(oldPassword);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user =  (User) auth.getPrincipal();
+		
+		
+		if (passwordMatches(oldPassword, user.getPassword())) {
+			user.setPassword(encodePassword(request.getNewPassword())); // À modifier (Ajouter une validation de la complexité du mot de pass)
+			usersRepository.save(user);
+			
+			return new ResetPasswordResponse(HttpStatus.OK, "Password successfully reset");
+		}
+		
+		return new ResetPasswordResponse(HttpStatus.BAD_REQUEST, "Password entered is invalid!");
+			
+	}
+	
 	private String generateCreditCardNumber() {
 		String accountNumber = CardNumberHelper.getInstace().generateCreditCardNbr();
 		while(creditRepository.findByNbr(Long.parseLong(accountNumber)) != null)
@@ -131,5 +156,9 @@ public class UserService {
 	
 	private String encodePassword(String password) {
 		return new BCryptPasswordEncoder().encode(password);
+	}
+	
+	private boolean passwordMatches(String rawPassword, String hashedPassword) {
+		return new BCryptPasswordEncoder().matches(rawPassword, hashedPassword);
 	}
 }
