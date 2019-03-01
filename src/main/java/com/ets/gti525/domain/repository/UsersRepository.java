@@ -21,6 +21,8 @@ public interface UsersRepository extends JpaRepository<User, Long> {
 	public User findById(int id);
 	
 	public List<User> findByUsername(String username);
+
+	public User findOneByUsername(String username);
 	
 	@Query(value = "SELECT * FROM USERS u WHERE u.USERNAME LIKE %?1%", nativeQuery = true)
 	public List<User> findByFirstnameKeyword(String keyword);

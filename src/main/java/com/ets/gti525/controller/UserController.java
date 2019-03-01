@@ -41,6 +41,7 @@ public class UserController {
 	}
 
 	@PatchMapping("/user/reset")
+	@PreAuthorize(SecurityConfig.AUTHENTICATED_CHECK)
 	public ResponseEntity<ResetPasswordResponse> resetPassword (@RequestBody ResetPasswordRequest request){
 		ResetPasswordResponse response = userService.resetPassword(request);
 	return ResponseEntity.status(response.getStatus()).body(response);

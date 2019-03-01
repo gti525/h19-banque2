@@ -3,6 +3,7 @@ package com.ets.gti525.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ets.gti525.domain.response.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,10 +20,6 @@ import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.CreateUserRequest;
 import com.ets.gti525.domain.request.ResetPasswordRequest;
-import com.ets.gti525.domain.response.CreateUserResponse;
-import com.ets.gti525.domain.response.ResetPasswordResponse;
-import com.ets.gti525.domain.response.SearchUsersResponse;
-import com.ets.gti525.domain.response.SingleSearchUsers;
 import com.ets.gti525.helper.CardNumberHelper;
 
 /**
@@ -128,18 +125,23 @@ public ResetPasswordResponse resetPassword (ResetPasswordRequest request) {
 		String hashedPassword = encodePassword(oldPassword);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user =  (User) auth.getPrincipal();
-		
-		
+		String username;
+
+		try {
+			username = auth.getPrincipal().toString();
+		} catch (Exception e) {
+			return new ResetPasswordResponse(HttpStatus.UNAUTHORIZED, null);
+		}
+
+		User user = usersRepository.findOneByUsername(username);
+
 		if (passwordMatches(oldPassword, user.getPassword())) {
 			user.setPassword(encodePassword(request.getNewPassword())); // À modifier (Ajouter une validation de la complexité du mot de pass)
 			usersRepository.save(user);
 			
 			return new ResetPasswordResponse(HttpStatus.OK, "Password successfully reset");
 		}
-		
 		return new ResetPasswordResponse(HttpStatus.BAD_REQUEST, "Password entered is invalid!");
-			
 	}
 	
 	private String generateCreditCardNumber() {

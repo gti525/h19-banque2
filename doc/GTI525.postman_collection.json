@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "14dbc7c9-11e5-4b4a-b298-5e81b429588c",
+		"_postman_id": "78a310d2-e62b-4600-9724-95aa852ab399",
 		"name": "GTI525",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -429,6 +429,41 @@
 								"v1",
 								"transaction",
 								"creditCardPayment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - Reset password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"oldPassword\":\"qwerty\", \"newPassword\":\"qwerty123\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/user/reset",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"reset"
 							]
 						}
 					},
