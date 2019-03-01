@@ -14,6 +14,15 @@ import javax.persistence.OneToOne;
 import com.ets.gti525.helper.CardNumberHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Description : Entity class representing a credit card in the database.
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 16-01-2019
+ */
 @Entity
 public class CreditCard {
 	@Id
@@ -140,6 +149,8 @@ public class CreditCard {
 	public void setCvv(String cvv) {
 		this.cvv = cvv;
 	}
+	
+	
 
 
 

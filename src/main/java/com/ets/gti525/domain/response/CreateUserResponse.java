@@ -2,6 +2,15 @@ package com.ets.gti525.domain.response;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Description : Class representing a response after the creation of a user. (Used by controllers and services)
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 20-01-2019
+ */
 public class CreateUserResponse extends AbstractResponse {
 
 	private String message;
@@ -52,5 +61,4 @@ public class CreateUserResponse extends AbstractResponse {
 	public void setCreditCardNumber(String creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
 	}
-
 }

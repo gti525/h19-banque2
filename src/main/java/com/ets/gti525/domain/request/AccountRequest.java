@@ -2,29 +2,26 @@ package com.ets.gti525.domain.request;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * Description : Class representing a request for an account (used by a controller).
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 16-01-2019
+ */
 public class AccountRequest {
+	
+	@NotNull
+	private String cardholderName;
 	@NotNull
 	private String number;
 	@NotNull
-	private int monthExp;
-	@NotNull
-	private int yearExp;
+	private String exp;
 	@NotNull
 	private String cvv;
 	
-
-	public int getMonthExp() {
-		return monthExp;
-	}
-	public void setMonthExp(int monthExp) {
-		this.monthExp = monthExp;
-	}
-	public int getYearExp() {
-		return yearExp;
-	}
-	public void setYearExp(int yearExp) {
-		this.yearExp = yearExp;
-	}
 	public String getCvv() {
 		return cvv;
 	}
@@ -37,8 +34,16 @@ public class AccountRequest {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
-	
-	
-
+	public String getCardholderName() {
+		return cardholderName;
+	}
+	public void setCardholderName(String cardholderName) {
+		this.cardholderName = cardholderName;
+	}
+	public String getExp() {
+		return exp;
+	}
+	public void setExp(String exp) {
+		this.exp = exp;
+	}
 }

@@ -22,12 +22,21 @@ import org.springframework.stereotype.Component;
 
 import com.ets.gti525.domain.constant.Role;
 
+/**
+ * Description : Class containing actions to do after a successful authentication.
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 28-01-2019
+ */
 @Component
 public class SuccessfulAuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private static final String DEFAULT_TARGET_PATH = "/";
-	private static final String ADMIN_TARGET_PATH = "/admin";
-	private static final String USER_TARGET_PATH = "/user";
+	private static final String ADMIN_TARGET_PATH = "/DashboardAdmin";
+	private static final String USER_TARGET_PATH = "/DashboardClient";
 	
 	private static final int SESSION_TIMEOUT = 300; // in seconds
 	
@@ -40,6 +49,8 @@ public class SuccessfulAuthenticationHandler extends SimpleUrlAuthenticationSucc
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		
+		System.out.println("Authentication success for user : " + authentication.getName());
 		
 		String targetUrl = getTargetUrl(authentication.getAuthorities());
 		

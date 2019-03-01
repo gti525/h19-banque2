@@ -12,6 +12,15 @@ import com.ets.gti525.domain.entity.UserChallengeToken;
 import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.service.ChallengeService;
 
+/**
+ * Description : Service containing operations related to authorization in the application.
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 19-01-2019
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -38,6 +47,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 			return usersList.get(0);
 		}
 	}
+
+
 	
 	public UserDetails loadByToken(String token) throws UsernameNotFoundException {
 		
@@ -54,3 +65,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 	}
 
 }
+

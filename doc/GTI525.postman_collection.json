@@ -1,0 +1,621 @@
+{
+	"info": {
+		"_postman_id": "14dbc7c9-11e5-4b4a-b298-5e81b429588c",
+		"name": "GTI525",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Administrator",
+			"item": [
+				{
+					"name": "ADMIN - Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "david",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "qwerty",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADMIN - Get Debit Card info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/account/debitCard/22212345",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"debitCard",
+								"22212345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADMIN - Get Debit Card Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/debitCard/22212345/transaction",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"debitCard",
+								"22212345",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADMIN - Get Credit Card Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/creditCard/5105139374862083/transaction",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"creditCard",
+								"5105139374862083",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADMIN - Get Credit Card info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/account/creditCard/5105139374862083",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"creditCard",
+								"5105139374862083"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADMIN - Create new user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Bonhomme\",\n\t\"lastName\": \"Patate\",\n\t\"isCompany\": false,\n\t\"email\": \"bpatate@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/user",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADMIN - Search for a user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/user?keyword=User1FirstName",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "User1FirstName"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "USER - Login phase 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/challenge/22211111",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"challenge",
+								"22211111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - Login phase 2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userResponse\": \"allo\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/challenge/22211111/validate",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"challenge",
+								"22211111",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - Login phase 3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "qwerty",
+									"type": "text"
+								},
+								{
+									"key": "token",
+									"value": "144a7146-01d0-4be2-b1a4-22932bf7fc58",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - Get Debit Card Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/account/debitCard",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"debitCard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - Get Credit Card Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/account/creditCard",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"creditCard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - Get credit card transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/creditCard/transaction",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"creditCard",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - Get debitCard transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/debitCard/transaction",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"debitCard",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - (E07)  Pay a credit card from a debit account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sourceDebitCardNumber\" : 22211111,\n\t\"targetCreditCardNumber\" : 5105139374862083,\n\t\"amount\":25.50\n}"
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/transaction/creditCardPayment",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"creditCardPayment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Public APIs (Integration with other teams)",
+			"item": [
+				{
+					"name": "BankToBank transfer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "Dow4#esquint",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sourceAccountNumber\": 11112345,\n\t\"targetAccountNumber\": 22233333,\n\t\"amount\": 111.22\n}"
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/banktobank/transfer",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"banktobank",
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Process transaction (already with pre-auth)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "15489123311",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"transactionID\": 4,\n  \"action\": \"COMMIT\"\n}"
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/paymentGateway/process",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"paymentGateway",
+								"process"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new PreAuth",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "15489123311",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 25.99,\n  \"merchant\": \"Resto-Pub 100 Genies\",\n  \"account\": {\n  \t\"cardholderName\": \"A Company\",\n    \"number\": \"tjYYPTVFUjaT1RMmLPZfNRGsIOPUKo260ohxDG52wi4=\",\n    \"exp\": \"01/2020\",\n    \"cvv\": \"ueiRp2SXTOJZQ6jEsJmDFg==\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/paymentGateway/preAuth",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"paymentGateway",
+								"preAuth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "E08 - Intra-Bank transfer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sourceAccountNumber\": 4540333333333333,\n\t\"targetAccountNumber\": 4540444444444444,\n\t\"amount\": 100.50\n}"
+						},
+						"url": {
+							"raw": "{{serverNameOrIP}}:8080/api/v1/transaction/bankTransfer",
+							"host": [
+								"{{serverNameOrIP}}"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"bankTransfer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "dddbae95-0031-4971-bd3c-5c313e4cd407",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8d183f51-cd32-4f1f-9f47-dd5546fadabd",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "7730b41c-65d7-4285-b455-28d7d07fe1eb",
+			"key": "serverNameOrIP",
+			"value": "localhost",
+			"type": "string"
+		}
+	]
+}

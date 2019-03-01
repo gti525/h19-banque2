@@ -10,6 +10,15 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Description : Entity class representing a credit card transaction in the database.
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 20-01-2019
+ */
 @Entity
 public class CreditCardTransaction {
 	

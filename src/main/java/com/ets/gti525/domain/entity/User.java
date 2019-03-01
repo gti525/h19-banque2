@@ -15,6 +15,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ets.gti525.domain.constant.Role;
 
+/**
+ * Description : Entity class representing a user of the application.
+ * This class implements the class « UserDetails » for SpringSecurity integration purpose.
+ * 
+ * Course : GTI525-01
+ * Semester : Winter 2019
+ * @author Team bank #2
+ * @version 1.0
+ * @since 19-01-2019
+ */
 @Entity
 public class User implements UserDetails {
 
@@ -163,6 +173,12 @@ public class User implements UserDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getCardholderName() {
+		if(isCompany)
+			return companyName;
+		return firstName + " " + lastName;
 	}
 	
 	
