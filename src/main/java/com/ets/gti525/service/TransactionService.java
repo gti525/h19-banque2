@@ -389,7 +389,7 @@ public class TransactionService {
 		if(verifyAmountFormat(request.getAmount()) == false)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
 
-		if(cardholderNameInRequest.equalsIgnoreCase(cc.getOwner().getCompanyName()) == false)
+		if(cardholderNameInRequest.equalsIgnoreCase(cc.getOwner().getCardholderName()) == false)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
 
 
