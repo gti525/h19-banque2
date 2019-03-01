@@ -16,6 +16,8 @@ public class CreateUserRequest {
 	private boolean isCompany;
 	private String companyName;
 	private String email;
+	private String secretQuestion;
+	private String secretAnswer;
 	
 	public String getFirstName() {
 		return firstName;
@@ -46,5 +48,19 @@ public class CreateUserRequest {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getSecretQuestion() {
+		return secretQuestion;
+	}
+	public void setSecretQuestion(String secretQuestion) {
+		this.secretQuestion = secretQuestion;
+	}
+	public String getSecretAnswer() {
+		return secretAnswer;
+	}
+	public void setSecretAnswer(String secretAnswer) {
+		this.secretAnswer = secretAnswer;
 	}	
+	
+	
 }

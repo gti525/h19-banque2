@@ -34,6 +34,7 @@ import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.repository.DebitCardTransactionRepository;
 import com.ets.gti525.domain.repository.PartnerBankRepository;
 import com.ets.gti525.domain.repository.PaymentBrokerRepository;
+import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.BankTransferRequest;
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
 import com.ets.gti525.domain.request.PreAuthCCTransactionRequest;
@@ -283,9 +284,17 @@ public class TransactionService {
 
 		PaymentBroker pg = paymentBrokerRepository.findByApiKey(apiKey);
 
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User) auth.getPrincipal();
-		if(sourceDC.getOwner().equals(user) == false || pg != null) {
+		String userString = null;
+
+		try {
+			userString = auth.getPrincipal().toString();
+		} catch (Exception e) {
+			// Do nothing
+		}
+
+		if(sourceDC.getOwner().getUsername().equals(userString) == false || pg != null) {
 			return new TransactionResponse(HttpStatus.UNAUTHORIZED, TransactionResponse.DECLINED);
 		}
 

@@ -3,23 +3,27 @@ package com.ets.gti525.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ets.gti525.domain.response.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ets.gti525.domain.constant.Role;
+import com.ets.gti525.domain.entity.Challenge;
 import com.ets.gti525.domain.entity.CreditCard;
 import com.ets.gti525.domain.entity.DebitCard;
 import com.ets.gti525.domain.entity.User;
+import com.ets.gti525.domain.repository.ChallengeRepository;
 import com.ets.gti525.domain.repository.CreditCardRepository;
 import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.CreateUserRequest;
 import com.ets.gti525.domain.request.ResetPasswordRequest;
+import com.ets.gti525.domain.response.CreateUserResponse;
+import com.ets.gti525.domain.response.ResetPasswordResponse;
+import com.ets.gti525.domain.response.SearchUsersResponse;
+import com.ets.gti525.domain.response.SingleSearchUsers;
 import com.ets.gti525.helper.CardNumberHelper;
 
 /**
@@ -38,13 +42,16 @@ public class UserService {
 	private final UsersRepository usersRepository;
 	private final DebitCardRepository debitRepository;
 	private final CreditCardRepository creditRepository;
+	private final ChallengeRepository challengeRepository;
 	
 	public UserService(final UsersRepository usersRepository,
 			final DebitCardRepository debitCardRepository,
-			final CreditCardRepository creditRepository) {
+			final CreditCardRepository creditRepository,
+			final ChallengeRepository challengeRepository) {
 		this.usersRepository = usersRepository;
 		this.debitRepository = debitCardRepository;
 		this.creditRepository = creditRepository;
+		this.challengeRepository = challengeRepository;
 	}
 	
 	public List<User> getUsers() {
@@ -69,13 +76,17 @@ public class UserService {
 		dc.setNbr(Long.parseLong(username));
 		dc.setOwner(user);
 		dc.setBalance(0);
-		
-
 		cc.setOwner(user);
+		
+		Challenge challenge = new Challenge();
+		challenge.setQuestion(request.getSecretQuestion().toUpperCase());
+		challenge.setResponse(request.getSecretAnswer().toUpperCase());
+		challenge.setUsername(user.getUsername());
 		
 		usersRepository.save(user);
 		debitRepository.save(dc);
 		creditRepository.save(cc);
+		challengeRepository.save(challenge);
 		
 		return new CreateUserResponse(HttpStatus.OK, message, username, password, String.valueOf(cc.getNbr()));
 	}
