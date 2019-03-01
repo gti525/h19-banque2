@@ -5,10 +5,9 @@ import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export default class DashboardClient extends React.Component {
-
-
    constructor(props) {
       super(props);
+      this.clientLogOut = this.clientLogOut.bind(this);
   }
 
    state = {
@@ -38,10 +37,21 @@ export default class DashboardClient extends React.Component {
         .catch(error => this.setState({ error, isLoading: false }));
    }
 
+   clientLogOut() {
+      console.log("in logout");
+      debugger
+      fetch(this.props.state.URLBackend+"/logout")
+       .then(response => response.json())
+      .catch(error => this.setState({ error }));
+  }
+
    componentDidMount() {
       this.fetchDebitCards();
       this.fetchCreditCards();
+      //this.clientLogOut();
    }
+
+   
 
    render () {
       return (
@@ -63,7 +73,7 @@ export default class DashboardClient extends React.Component {
             </div>
             
             <Link to="/VirementInterac"><Button id="btnVirementInterac" bsStyle="info">Virement Interac</Button></Link>
-            <Link to="/"><Button id="btnDeconnexion" bsStyle="danger">Déconnexion</Button></Link>
+            <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.clientLogOut}>Déconnexion</Button></Link>
          </div>
       )
    }

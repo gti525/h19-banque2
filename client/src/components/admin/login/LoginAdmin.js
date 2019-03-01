@@ -105,7 +105,7 @@ export default class LoginAdmin extends React.Component {
                       <Input id="username" name="username" type="text" data-parse="uppercase" placeholder="" />
                       <br />
                       <CardTitle>Mot de passe : </CardTitle>
-                      <Input id="password" name="password" type="text"  placeholder="" />
+                      <Input id="password" name="password" type="password"  placeholder="" />
                       <br />
 
                       <Button type="submit" bsStyle="success">Se connecter</Button>

@@ -1,24 +1,24 @@
 import * as React from "react";
-import {BrowserRouter, Route} from 'react-router-dom';
-import Login from './components/login/Login';
-import LoginAdmin from './components/admin/login/LoginAdmin';
-import DashboardAdmin from './components/admin/DashboardAdmin';
-import DashboardClient from './components/dashboard/DashboardClient';
-import HistoriqueDebit from './components/historique/HistoriqueDebit';
-import HistoriqueCredit from './components/historique/HistoriqueCredit';
-import PaymentCarte from './components/payment/PaymentCarte';
-import VirementInterac from './components/virement/VirementInterac';
+import {BrowserRouter, Route} from "react-router-dom";
+import Login from "./components/login/Login";
+import LoginAdmin from "./components/admin/login/LoginAdmin";
+import DashboardAdmin from "./components/admin/DashboardAdmin";
+import DashboardClient from "./components/dashboard/DashboardClient";
+import HistoriqueDebit from "./components/historique/HistoriqueDebit";
+import HistoriqueCredit from "./components/historique/HistoriqueCredit";
+import PaymentCarte from "./components/payment/PaymentCarte";
+import VirementInterac from "./components/virement/VirementInterac";
 
-import './styles/App.css';
-import logo from './Images/Logo_banque2.png';
+import "./styles/App.css";
+import logo from "./Images/Logo_banque2.png";
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        URLBackend: 'https://banque2-h19.herokuapp.com',
-        //URLBackend: 'http://localhost:8080',
+        URLBackend: "https://banque2-h19.herokuapp.com",
+        // URLBackend: "http://localhost:8080",
     };
 }
 

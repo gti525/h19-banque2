@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { Card, CardHeader, CardBody, CardTitle, Input } from 'reactstrap';
-import { async } from 'q';
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Card, CardHeader, CardBody, CardTitle, Input } from "reactstrap";
 
 export default class Login extends React.Component { 
     constructor(props) {
@@ -23,11 +22,11 @@ export default class Login extends React.Component {
             numCarte: "",
         });
         
-        fetch(this.props.state.URLBackend+"/api/v1/challenge/" + document.getElementById('numCarte').value)
+        fetch(this.props.state.URLBackend+"/api/v1/challenge/" + document.getElementById("numCarte").value)
          .then(response => response.json())
          .then(data => this.setState({
             infoPhaseUn: data,
-            numCarte: document.getElementById('numCarte').value,
+            numCarte: document.getElementById("numCarte").value,
             phaseEnCours: 2,   /* Le GET a fonctionné, alors on passe à la phase 2 pour la question secrète */
          }))
         .catch(error => this.setState({ error }));
@@ -45,7 +44,7 @@ export default class Login extends React.Component {
         });
         
         fetch(this.props.state.URLBackend+"/api/v1/challenge/" + this.state.numCarte + "/validate", {
-            method: 'POST',
+            method: "POST",
             body: data,
            })
          .then(response => response.json())
@@ -69,15 +68,15 @@ export default class Login extends React.Component {
         });
         
         const request = async () =>{
-            await fetch(this.props.state.URLBackend+'/login', {
-                method: 'POST', 
+            await fetch(this.props.state.URLBackend+"/login", {
+                method: "POST", 
                 body: data
             })
             .then(function(response) {
                 if (response.status === 200) {
                     loginIsSucess = 1;
                 }
-                if(response.status != 200){
+                if(response.status !== 200){
                     loginIsSucess = 0;
                 }          
             });
@@ -97,7 +96,7 @@ export default class Login extends React.Component {
                 <div>
                     <br />
     
-                    <div className='loginContainer'>
+                    <div className="loginContainer">
                         <form onSubmit={this.submitPhaseUn} noValidate id="numCardContainer">
                             <Card className="numCard">
                                 <CardHeader><b>Connexion</b></CardHeader>
@@ -119,7 +118,7 @@ export default class Login extends React.Component {
             return (
                 <div>
                     <br />
-                    <div className='loginContainer'>
+                    <div className="loginContainer">
                     <form onSubmit={this.submitPhaseDeux} id="questionCardContainer">
                         <Card className="questionCard">
                             <CardHeader><b>Connexion</b></CardHeader>
@@ -140,7 +139,7 @@ export default class Login extends React.Component {
             return (
                 <div>
                     <br />
-                    <div className='loginContainer'>
+                    <div className="loginContainer">
                     <form onSubmit={this.submitPhaseFinal} id="passwordCardContainer">
                         <Card className="passwordCard">
                             <CardHeader><b>Connexion</b></CardHeader>
@@ -161,6 +160,8 @@ export default class Login extends React.Component {
             return (
                 this.props.history.push("/DashboardClient")
             );
+            default:
+        
         }
     }
 }
