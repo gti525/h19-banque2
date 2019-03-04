@@ -104,6 +104,9 @@ export default class PaymentCarte extends React.Component {
 
             if(loginIsSucess === 1){
                 this.props.history.push("/PaymentCarte");
+                // Pour rafraichir les données dans la page
+                this.fetchDebitCards();
+                this.fetchCreditCards();
             }
         } 
 

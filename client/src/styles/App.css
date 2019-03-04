@@ -55,11 +55,11 @@
 }
 
 #btnVirementInterac {
-  margin-top: 5%;
+  margin-top: 10px;
 }
 
 #btnDeconnexion {
-  margin-top: 5%;
+  margin-top: 10px;
   float: right;
 }
 
@@ -95,7 +95,7 @@
   margin-top: 5%;
 }
 
-#invalidCredsWarning{
+.redAlerts{
   color: red;
 }
 

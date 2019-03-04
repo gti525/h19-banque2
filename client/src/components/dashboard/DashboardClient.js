@@ -79,7 +79,7 @@ export default class DashboardClient extends React.Component {
       return (
          <div id="dashboardClientContainer">
             <Button className="btnAccueil" bsStyle="info" disabled>Accueil</Button>
-            <h2><u>Aperçu sur vos comptes</u></h2>
+            <h4>Aperçu sur vos comptes</h4>
 
             <div className="row">
                <div className="column">

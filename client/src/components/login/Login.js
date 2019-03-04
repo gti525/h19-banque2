@@ -172,7 +172,7 @@ export default class Login extends React.Component {
                             <Card className="numCard">
                                 <CardHeader><b>Connexion</b></CardHeader>
                                 <CardBody>
-                                    <h3 id="invalidCredsWarning" >L'identifiant que vous avez entré n'est pas valide. Réessayez.</h3>
+                                    <h3 class="redAlerts" >L'identifiant que vous avez entré n'est pas valide. Réessayez.</h3>
                                     <CardTitle>Veuillez entrer votre numéro de carte : </CardTitle>
                                     <Input id="numCarte" name="NumCarte" placeholder="Numéro de carte" />
                                     <br />
