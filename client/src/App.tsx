@@ -17,8 +17,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        URLBackend: "https://banque2-h19.herokuapp.com",
-        // URLBackend: "http://localhost:8080",
+        // URLBackend: "https://banque2-h19.herokuapp.com",
+        URLBackend: "http://localhost:8080",
     };
 }
 
@@ -42,7 +42,7 @@ class App extends React.Component {
             <Route path="/HistoriqueDebit" render={props=><HistoriqueDebit {...props} state={this.state}/>} />
             <Route path="/HistoriqueCredit" render={props=><HistoriqueCredit {...props} state={this.state}/>} />
 
-            <Route path="/PaymentCarte" component={PaymentCarte} />
+            <Route path="/PaymentCarte" render={props=><PaymentCarte {...props} state={this.state}/>} />
 
             <Route path="/VirementInterac" component={VirementInterac} />
           </div>

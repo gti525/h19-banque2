@@ -6,7 +6,7 @@ import { Card, CardHeader, CardBody, CardTitle, Input } from "reactstrap";
 export default class PaymentCarte extends React.Component {
     constructor(props) {
         super(props);
-        this.submitPhaseUn = this.submitPhaseUn.bind(this);
+        this.creditCardPayment = this.creditCardPayment.bind(this);
     }
 
     state = {
@@ -64,22 +64,50 @@ export default class PaymentCarte extends React.Component {
         this.fetchCreditCards();
      }
 
-     submitPhaseUn(event) {
-        event.preventDefault();
+     creditCardPayment(event) {
+
+       event.preventDefault();
+
+        const form = event.target;
+        const data = new FormData(form);
+        var loginIsSucess = 0;
 
         this.setState({
-            infoPhaseUn: [],
-            numCarte: "",
+            res: stringifyFormData(data),
+            infoPhaseFinal: [],
         });
         
-        fetch(this.props.state.URLBackend+"/api/v1/challenge/" + document.getElementById("numCarte").value)
-         .then(response => response.json())
-         .then(data => this.setState({
-            infoPhaseUn: data,
-            numCarte: document.getElementById("numCarte").value,
-            phaseEnCours: 2,   /* Le GET a fonctionné, alors on passe à la phase 2 pour la question secrète */
-         }))
-        .catch(error => this.setState({ error }));
+        
+        const request = async () =>{
+            await fetch(this.props.state.URLBackend+"/api/v1/transaction/creditCardPayment", {
+                method: "POST", 
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                body: JSON.stringify({
+                    sourceDebitCardNumber: this.state.debitCards.nbr,
+                    targetCreditCardNumber: this.state.creditCards.nbr,
+                    amount: document.getElementById("amount").value,
+                  })
+            })
+            .then(function(response) {
+                if (response.status === 200) {
+                    loginIsSucess = 1;
+                    console.log("payment réussi 200");
+                }
+                if(response.status !== 200){
+                    loginIsSucess = 0;
+                    console.log("payment NON réussi pas 200");
+                }          
+            });
+
+            if(loginIsSucess === 1){
+                this.props.history.push("/PaymentCarte");
+            }
+        } 
+
+        request(); 
     }
   
 
@@ -107,17 +135,21 @@ export default class PaymentCarte extends React.Component {
                         </Card>
                     </div>
                     <div className="column">
-                    <form onSubmit={this.submitPhaseFinal} id="passwordCardContainer">
+                    
                         <Card className="virementCard">
                             <CardHeader><b>Virement : </b></CardHeader>
-                            <CardBody>
-                                <CardTitle>Montant : </CardTitle>
-                                <Input id="paymentMontant" name="paymentMontant" />
-                                <br />                                    
-                                <Button type="submit" bsStyle="success">Entrer</Button>
-                            </CardBody>
+                            <form onSubmit={this.creditCardPayment} id="passwordCardContainer">
+                                <CardBody>
+                                    <CardTitle>Montant : </CardTitle>
+                                    <Input type="hidden" id="sourceDebitCardNumber" name="sourceDebitCardNumber" value={this.state.debitCards.nbr} />
+                                    <Input type="hidden" id="targetCreditCardNumber" name="targetCreditCardNumber" value={this.state.creditCards.nbr} />
+                                    <Input id="amount" name="amount" />
+                                    <br />                                    
+                                    <Button type="submit" bsStyle="success">Entrer</Button>
+                                </CardBody>
+                            </form>
                         </Card>
-                    </form>
+                    
                     </div>
                 </div>
 
@@ -126,4 +158,13 @@ export default class PaymentCarte extends React.Component {
             </div>
         )
     }
+}
+
+function stringifyFormData(fd) {
+    const data = {};
+        for (let key of fd.keys()) {
+        data[key] = fd.get(key);
+    }
+
+    return JSON.stringify(data, null, 2);
 }
