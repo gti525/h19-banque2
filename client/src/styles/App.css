@@ -1,13 +1,15 @@
 .App-logo {
-  height: 80px;
+  max-width: 500px;
+  width: 100%;
 }
 
 .App-header {
-  background-color: #222;
-  height: 130px;
+  background-color: #f8f9fa;
+  width: 100%;
   padding: 20px;
   color: white;
   text-align: center;
+  border-bottom: solid green;
 }
 
 .App-intro {
@@ -61,7 +63,8 @@
 }
 
 .loginContainer {
-  width: 50%;
+  width: 80%;
+  max-width: 600px;
   margin: auto;
 }
 
@@ -89,4 +92,8 @@
 
 #btnHistoPayer {
   margin-top: 5%;
+}
+
+#invalidCredsWarning{
+  color: red;
 }

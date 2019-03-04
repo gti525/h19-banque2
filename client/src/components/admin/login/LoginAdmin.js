@@ -59,7 +59,7 @@ export default class LoginAdmin extends React.Component {
   
       // Construction du call d'API asynchrone pour permettre le "await"
        const request = async () =>{
-        const allo = await fetch(this.props.state.URLBackend+'/login', {
+        const apiCall = await fetch(this.props.state.URLBackend+'/login', {
           method: 'POST', 
           body: data
          })

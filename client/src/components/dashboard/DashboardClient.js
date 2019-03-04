@@ -16,6 +16,30 @@ export default class DashboardClient extends React.Component {
       error: null,
       isLoading: true
    }
+   
+   verifyLogin(){
+      var loginIsSucess = 1;
+  
+      // Construction du call d'API asynchrone pour permettre le "await"
+       const request = async () =>{
+        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
+         .then(function(response) {
+           if(response.status != 200){     // Si le login n'est pas accepté par le backend
+             console.log("Dans: PAS 200");
+             // On indique que le login N'EST PAS réussi
+             loginIsSucess = 0;
+           }          
+         });
+
+         // Finalement, si le login est un succès, on redirige l'utilisateur a son dashboard
+          if(loginIsSucess === 0){
+            this.props.history.push("/");
+          } 
+       } 
+
+       request();
+
+   }
 
    fetchDebitCards() {
       fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
@@ -46,9 +70,9 @@ export default class DashboardClient extends React.Component {
   }
 
    componentDidMount() {
+      this.verifyLogin();
       this.fetchDebitCards();
       this.fetchCreditCards();
-      //this.clientLogOut();
    }
 
    
