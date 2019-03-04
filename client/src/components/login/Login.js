@@ -114,11 +114,10 @@ export default class Login extends React.Component {
                                     
                                     <Button type="submit" bsStyle="success">Entrer</Button>
                                 </CardBody>
+                                <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>
                             </Card>
                         </form>
                     </div>
-    
-                    <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>
                 </div>
             );
             case 2:
