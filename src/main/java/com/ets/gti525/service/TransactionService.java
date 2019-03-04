@@ -347,12 +347,12 @@ public class TransactionService {
 
 
 		senderTransaction = new DebitCardTransaction();
-		senderTransaction.setAmount(request.getAmount());
+		senderTransaction.setAmount(request.getAmount() * -1);
 		senderTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		senderTransaction.setDescription("Virement vers " + destDC.getOwner().getUsername());
 
 		recipientTransaction = new DebitCardTransaction();
-		recipientTransaction.setAmount(request.getAmount() * -1);
+		recipientTransaction.setAmount(request.getAmount());
 		recipientTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		recipientTransaction.setDescription("Virement reçu de " + sourceDC.getOwner().getUsername());
 
@@ -381,7 +381,8 @@ public class TransactionService {
 		String secret = paymentBrokerRepository.findByApiKey(apiKey).getSecret();
 		String cardholderNameInRequest = request.getAccount().getCardholderName();
 
-		if(request.getAccount().getNumber() == null || cardholderNameInRequest == null)
+		if(request.getAccount().getNumber() == null || cardholderNameInRequest == null ||
+				request.getAmount() <= 0)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
 
 
@@ -389,7 +390,7 @@ public class TransactionService {
 
 		try{
 			cc = creditCardRepository.findById(Long.parseLong(accountNumber)).get();
-		} catch(NoSuchElementException e) {
+		} catch(Exception e) {
 			return new PreAuthReply(HttpStatus.OK, PreAuthReply.DECLINED, null);
 		}
 
@@ -429,13 +430,9 @@ public class TransactionService {
 		CreditCardTransaction transaction = new CreditCardTransaction();
 		transaction.setAmount(request.getAmount());
 		transaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
-
-		if(request.getAmount() >= 0)
-			transaction.setDescription("Achat " + request.getMerchant());
-		else
-			transaction.setDescription("Remboursement " + request.getMerchant());
-
 		transaction.setPreauth(true);
+		transaction.setDescription("Achat " + request.getMerchantDesc());
+		transaction.setTargetMerchantNumber(request.getMerchantAccountNumber());
 
 		if(cc.addTransaction(transaction)) {
 			transaction = creditCardTransactionRepository.save(transaction);
@@ -492,9 +489,38 @@ public class TransactionService {
 
 		if(request.getAction().equals(ProcessCCTransactionRequest.ACTION_COMMIT) &&
 				System.currentTimeMillis() < transaction.getTimestamp().getTime() + preAuthValidTimeMs) {
-			transaction.setPreauth(false);
-			creditCardTransactionRepository.save(transaction);
-			return new ProcessCCReply(HttpStatus.OK, ProcessCCReply.STATUS_COMMITED);
+			
+			DebitCard dc = debitCardRepository.findByNbr(transaction.getTargetMerchantNumber());
+			if(dc != null) {
+				// Target est dans banque2
+				DebitCardTransaction dcTrans = new DebitCardTransaction();
+				dcTrans.setTimestamp(transaction.getTimestamp());
+				dcTrans.setAmount(transaction.getAmount());
+				dcTrans.setDescription("Réception de fonds de la transaction crédit # " + transaction.getId());
+				dc.addTransaction(dcTrans);
+				transaction.setPreauth(false);
+				creditCardTransactionRepository.save(transaction);
+				debitCardRepository.save(dc);
+				return new ProcessCCReply(HttpStatus.OK, ProcessCCReply.STATUS_COMMITED);
+			}
+			else {
+				// Target ailleurs
+				BankTransferRequest btr = new BankTransferRequest();
+				btr.setAmount(transaction.getAmount());
+				btr.setTargetAccountNumber(transaction.getTargetMerchantNumber());
+				
+				if(initiateBankTransfer(btr)) {
+					transaction.setPreauth(false);
+					creditCardTransactionRepository.save(transaction);
+					return new ProcessCCReply(HttpStatus.OK, ProcessCCReply.STATUS_COMMITED);
+				}
+				else {
+					return new ProcessCCReply(HttpStatus.OK, ProcessCCReply.STATUS_DECLINED_BY_3RD_PARTY_BANK);
+				}
+			}
+			
+			
+			
 		}
 		else if(request.getAction().equals(ProcessCCTransactionRequest.ACTION_CANCEL)) {
 			if(transaction.isPreauth() && transaction.getCreditCard().removeTransaction(transaction)) {
@@ -519,10 +545,6 @@ public class TransactionService {
 		if(pb == null)
 			return new EmptyResponse(HttpStatus.UNAUTHORIZED, "Bad authentication");
 
-		String sourceAccount = String.valueOf(request.getSourceAccountNumber());
-		if(sourceAccount.startsWith(pb.getAccountPrefix()) == false)
-			return new EmptyResponse(HttpStatus.BAD_REQUEST, "Source account does not match partnet bank prefix");
-
 		DebitCard destAccount = debitCardRepository.findByNbr(request.getTargetAccountNumber());
 		if(destAccount == null)
 			return new EmptyResponse(HttpStatus.NOT_FOUND, "Invalid destination account");
@@ -534,10 +556,9 @@ public class TransactionService {
 		DebitCardTransaction t = new DebitCardTransaction();
 		t.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		t.setAmount(amount);
-		t.setDescription("Virement reçu de " + pb.getName() + " | compte source " + sourceAccount);
+		t.setDescription("Virement reçu de " + pb.getName());
 
-		destAccount.getTransactionList().add(t);
-		destAccount.setBalance(destAccount.getBalance() + amount);
+		destAccount.addTransaction(t);
 		debitCardRepository.save(destAccount);
 
 		return new EmptyResponse(HttpStatus.NO_CONTENT, null);

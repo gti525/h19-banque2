@@ -16,6 +16,7 @@ public class ProcessCCReply extends AbstractResponse {
 	
 	public static final String STATUS_COMMITED = "COMMITED";
 	public static final String STATUS_CANCELLED = "CANCELLED";
+	public static final String STATUS_DECLINED_BY_3RD_PARTY_BANK = "STATUS_DECLINED_BY_3RD_PARTY_BANK";
 	
 	private String result;
 

@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
  */
 public class BankTransferRequest {
 	
-	@NotNull
 	private long sourceAccountNumber;
 	
 	@NotNull

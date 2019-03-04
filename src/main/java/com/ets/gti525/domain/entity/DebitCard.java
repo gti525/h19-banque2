@@ -62,10 +62,10 @@ public class DebitCard {
 	}
 	
 	public boolean addTransaction(DebitCardTransaction transaction) {
-		if(transaction.getAmount() > balance)
+		if(transaction.getAmount() < 0 &&  transaction.getAmount()*-1 > balance)
 			return false;
 		
-		balance = balance - transaction.getAmount();
+		balance = balance + transaction.getAmount();
 		transactionList.add(transaction);
 		return true;
 	}

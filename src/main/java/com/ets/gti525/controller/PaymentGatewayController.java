@@ -62,19 +62,5 @@ public class PaymentGatewayController {
 		
 	}
 	
-	
-	
-	/*
-	 * DEPRECATED
-	 * 
-	@PostMapping("/paymentGateway")
-	public ResponseEntity<?> processTransaction(@RequestHeader(value="X-API-KEY") String apiKey, @RequestBody CreditCardTransactionRequest request) {
-	
-		if(!transactionService.verifyAPIKey(apiKey)) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		}
-		
-		return ResponseEntity.ok(transactionService.processCCTransaction(apiKey, request));
-	}
-	*/
+
 }

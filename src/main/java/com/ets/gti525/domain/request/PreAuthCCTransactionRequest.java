@@ -16,7 +16,10 @@ public class PreAuthCCTransactionRequest {
 	private double amount;
 	
 	@NotNull
-	private String merchant;
+	private String merchantDesc;
+	
+	@NotNull
+	private Integer merchantAccountNumber;
 	
 	@NotNull
 	private AccountRequest account;
@@ -27,16 +30,22 @@ public class PreAuthCCTransactionRequest {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public String getMerchant() {
-		return merchant;
-	}
-	public void setMerchant(String merchant) {
-		this.merchant = merchant;
-	}
 	public AccountRequest getAccount() {
 		return account;
 	}
 	public void setAccount(AccountRequest account) {
 		this.account = account;
+	}
+	public String getMerchantDesc() {
+		return merchantDesc;
+	}
+	public void setMerchantDesc(String merchantDesc) {
+		this.merchantDesc = merchantDesc;
+	}
+	public Integer getMerchantAccountNumber() {
+		return merchantAccountNumber;
+	}
+	public void setMerchantAccountNumber(Integer merchantAccountNumber) {
+		this.merchantAccountNumber = merchantAccountNumber;
 	}
 }

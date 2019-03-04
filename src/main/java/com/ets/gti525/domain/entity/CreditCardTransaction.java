@@ -37,6 +37,8 @@ public class CreditCardTransaction {
 	@OneToOne
 	private CreditCard creditCard;
 	
+	@JsonIgnore
+	private long targetMerchantNumber;
 	
 	
 
@@ -77,6 +79,14 @@ public class CreditCardTransaction {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	public long getTargetMerchantNumber() {
+		return targetMerchantNumber;
+	}
+	public void setTargetMerchantNumber(long targetMerchantNumber) {
+		this.targetMerchantNumber = targetMerchantNumber;
+	}
+	
+	
 	
 	
 
