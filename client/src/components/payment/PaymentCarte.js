@@ -94,11 +94,10 @@ export default class PaymentCarte extends React.Component {
             .then(function(response) {
                 if (response.status === 200) {
                     loginIsSucess = 1;
-                    console.log("payment réussi 200");
                 }
                 if(response.status !== 200){
                     loginIsSucess = 0;
-                    console.log("payment NON réussi pas 200");
+                    alert("Montant invalide. Réessayez.");
                 }          
             });
 
@@ -107,6 +106,7 @@ export default class PaymentCarte extends React.Component {
                 // Pour rafraichir les données dans la page
                 this.fetchDebitCards();
                 this.fetchCreditCards();
+                alert("Votre payment a bien été effectué.");
             }
         } 
 
@@ -148,7 +148,7 @@ export default class PaymentCarte extends React.Component {
                                     <Input type="hidden" id="targetCreditCardNumber" name="targetCreditCardNumber" value={this.state.creditCards.nbr} />
                                     <Input id="amount" name="amount" />
                                     <br />                                    
-                                    <Button type="submit" bsStyle="success">Entrer</Button>
+                                    <Button type="submit" bsStyle="success">Confirmer</Button>
                                 </CardBody>
                             </form>
                         </Card>
@@ -157,7 +157,6 @@ export default class PaymentCarte extends React.Component {
                 </div>
 
                 <Link to="/DashboardClient"><Button id="btnAnnuler" bsStyle="danger">Annuler</Button></Link>
-                <Link to="/DashboardClient"><Button id="btnConfirmer" bsStyle="info">Confirmer</Button></Link>
             </div>
         )
     }

@@ -44,7 +44,7 @@ class App extends React.Component {
 
             <Route path="/PaymentCarte" render={props=><PaymentCarte {...props} state={this.state}/>} />
 
-            <Route path="/VirementInterac" component={VirementInterac} />
+            <Route path="/VirementInterac" render={props=><VirementInterac {...props} state={this.state}/>} />
           </div>
         </BrowserRouter>
       </div>
