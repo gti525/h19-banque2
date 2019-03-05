@@ -8,7 +8,7 @@ export const CreditCard  = ({balance} : { balance: number}) => {
     <Card className="creditCard">
         <CardHeader><b>Crédit</b></CardHeader>
         <CardBody>
-            <CardTitle>Total des transactions dacturées : </CardTitle>
+            <CardTitle>Total des transactions facturées : </CardTitle>
             <Input id="soldeCredit" name="soldeCredit" value={balance} disabled />
             <br />
             

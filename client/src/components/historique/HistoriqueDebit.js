@@ -14,6 +14,29 @@ export default class HistoriqueDebit extends React.Component {
         };
     }
 
+    // Méthode qui valide si l'utilisateur à bel et bien le droit d'accéder à cette page
+   verifyLogin(){
+    var loginIsSucess = 1;
+
+     const request = async () =>{
+      const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
+       .then(function(response) {
+         if(response.status != 200){     // Si le login n'est pas accepté par le backend
+           console.log("Dans: PAS 200");
+           loginIsSucess = 0;
+         }          
+       });
+       
+        if(loginIsSucess === 0){
+          this.props.history.push("/");
+        } 
+     } 
+
+     request();
+
+ }
+
+
     fetchDebitCardsInfo() {
         fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
         .then(response => response.json())
@@ -33,6 +56,7 @@ export default class HistoriqueDebit extends React.Component {
     }
 
     componentDidMount() {
+        this.verifyLogin();
         this.fetchDebitCardsInfo();
         this.fetchDebitCardsTransaction();
     }

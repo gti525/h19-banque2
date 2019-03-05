@@ -16,6 +16,28 @@ export default class DashboardClient extends React.Component {
       error: null,
       isLoading: true
    }
+   
+   // Méthode qui valide si l'utilisateur à bel et bien le droit d'accéder à cette page
+   verifyLogin(){
+      var loginIsSucess = 1;
+  
+       const request = async () =>{
+        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
+         .then(function(response) {
+           if(response.status != 200){     // Si le login n'est pas accepté par le backend
+             console.log("Dans: PAS 200");
+             loginIsSucess = 0;
+           }          
+         });
+         
+          if(loginIsSucess === 0){
+            this.props.history.push("/");
+          } 
+       } 
+
+       request();
+
+   }
 
    fetchDebitCards() {
       fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
@@ -46,9 +68,9 @@ export default class DashboardClient extends React.Component {
   }
 
    componentDidMount() {
+      this.verifyLogin();
       this.fetchDebitCards();
       this.fetchCreditCards();
-      //this.clientLogOut();
    }
 
    
@@ -57,7 +79,7 @@ export default class DashboardClient extends React.Component {
       return (
          <div id="dashboardClientContainer">
             <Button className="btnAccueil" bsStyle="info" disabled>Accueil</Button>
-            <h2><u>Aperçu sur vos comptes</u></h2>
+            <h4>Aperçu sur vos comptes</h4>
 
             <div className="row">
                <div className="column">

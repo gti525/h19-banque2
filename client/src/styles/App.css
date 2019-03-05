@@ -1,13 +1,15 @@
 .App-logo {
-  height: 80px;
+  max-width: 500px;
+  width: 100%;
 }
 
 .App-header {
-  background-color: #222;
-  height: 130px;
+  background-color: #f8f9fa;
+  width: 100%;
   padding: 20px;
   color: white;
   text-align: center;
+  border-bottom: solid green;
 }
 
 .App-intro {
@@ -47,21 +49,23 @@
 
 .column {
   float: left;
-  width: 50%;
   padding: 0 10px;
+  margin: auto;
+  width: 80%;
 }
 
 #btnVirementInterac {
-  margin-top: 5%;
+  margin-top: 10px;
 }
 
 #btnDeconnexion {
-  margin-top: 5%;
+  margin-top: 10px;
   float: right;
 }
 
 .loginContainer {
-  width: 50%;
+  width: 80%;
+  max-width: 600px;
   margin: auto;
 }
 
@@ -89,4 +93,12 @@
 
 #btnHistoPayer {
   margin-top: 5%;
+}
+
+.redAlerts{
+  color: red;
+}
+
+.debitCard{
+  margin-bottom: 10px;
 }

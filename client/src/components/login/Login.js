@@ -83,7 +83,14 @@ export default class Login extends React.Component {
 
             if(loginIsSucess === 1){
                 this.props.history.push("/DashboardClient");
-            } 
+            }
+            if(loginIsSucess !== 1){
+                this.props.history.push("/");
+                this.setState({
+                    phaseEnCours : 9,
+                })
+
+            }
         } 
 
         request(); 
@@ -107,11 +114,10 @@ export default class Login extends React.Component {
                                     
                                     <Button type="submit" bsStyle="success">Entrer</Button>
                                 </CardBody>
+                                <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>
                             </Card>
                         </form>
                     </div>
-    
-                    <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>
                 </div>
             );
             case 2:
@@ -156,9 +162,31 @@ export default class Login extends React.Component {
                     </div>
                 </div>
             );
-            case 4:
+            case 9:
             return (
-                this.props.history.push("/DashboardClient")
+                <div>
+                    <br />
+    
+                    <div className="loginContainer">
+                        <form onSubmit={this.submitPhaseUn} noValidate id="numCardContainer">
+                            <Card className="numCard">
+                                <CardHeader><b>Connexion</b></CardHeader>
+                                <CardBody>
+                                    <h3 class="redAlerts" >L'identifiant que vous avez entré n'est pas valide. Réessayez.</h3>
+                                    <CardTitle>Veuillez entrer votre numéro de carte : </CardTitle>
+                                    <Input id="numCarte" name="NumCarte" placeholder="Numéro de carte" />
+                                    <br />
+                                    
+                                    <Button type="submit" bsStyle="success">Entrer</Button>
+                                </CardBody>
+                                <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>
+                            </Card>
+                        </form>
+                       
+                    </div>
+    
+                   
+                </div>
             );
             default:
         
