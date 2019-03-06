@@ -21,7 +21,7 @@ export default class HistoriqueCredit extends React.Component {
         const request = async () =>{
         const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
         .then(function(response) {
-            if(response.status != 200){     // Si le login n'est pas accepté par le backend
+            if(response.status !== 200){     // Si le login n'est pas accepté par le backend
             console.log("Dans: PAS 200");
             loginIsSucess = 0;
             }          

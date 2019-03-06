@@ -1,17 +1,8 @@
 import * as React from "react";
-import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText, Input } from 'reactstrap';
+import { Card, CardHeader, CardBody, CardTitle, Input } from 'reactstrap';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { async } from 'q';
-
-
-
-// Source : https://jsfiddle.net/everdimension/3bo263xj/
-const inputParsers = {
-    uppercase(input) {
-      return input.toUpperCase();
-    }
-};
 
 class ShakingError extends React.Component {
   constructor() { super(); this.state = { key: 0 }; }
@@ -27,8 +18,7 @@ class ShakingError extends React.Component {
 }
 
 export default class LoginAdmin extends React.Component { 
-    
-  constructor(props) {
+    constructor(props) {
       super(props);
       this.state ={};
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -44,7 +34,6 @@ export default class LoginAdmin extends React.Component {
 
       const form = event.target;
       const data = new FormData(form);
-
       
       this.setState({
         res: stringifyFormData(data),
@@ -69,7 +58,7 @@ export default class LoginAdmin extends React.Component {
              // On indique que le login EST réussi
              loginIsSucess = 1;
            }
-           if(response.status != 200){     // Si le login n'est pas accepté par le backend
+           if(response.status !== 200){     // Si le login n'est pas accepté par le backend
              console.log("Dans: PAS 200");
              // On indique que le login N'EST PAS réussi
              loginIsSucess = 0;
@@ -88,10 +77,9 @@ export default class LoginAdmin extends React.Component {
        // à la fin du submit, on appel à requête déclaré plus haut.
        request(); 
     }
-    
   
     render () {  
-      const { res, invalid, displayErrors } = this.state;
+      const { invalid, displayErrors } = this.state;
 
       return (
         <div>
@@ -102,7 +90,7 @@ export default class LoginAdmin extends React.Component {
                   <CardHeader><b>Connexion Administration</b></CardHeader>
                   <CardBody>
                       <CardTitle>Nom d'utilisateur : </CardTitle>
-                      <Input id="username" name="username" type="text" data-parse="uppercase" placeholder="" />
+                      <Input id="username" name="username" type="text" placeholder="" />
                       <br />
                       <CardTitle>Mot de passe : </CardTitle>
                       <Input id="password" name="password" type="password"  placeholder="" />
@@ -136,5 +124,3 @@ function stringifyFormData(fd) {
 
   return JSON.stringify(data, null, 2);
 }
-
-

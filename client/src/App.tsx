@@ -8,6 +8,8 @@ import HistoriqueDebit from "./components/historique/HistoriqueDebit";
 import HistoriqueCredit from "./components/historique/HistoriqueCredit";
 import PaymentCarte from "./components/payment/PaymentCarte";
 import VirementInterac from "./components/virement/VirementInterac";
+import NouveauClient from "./components/admin/NouveauClient";
+import DetailClient from "./components/admin/detail/DetailClient";
 
 import "./styles/App.css";
 import logo from "./Images/Logo_banque2.png";
@@ -17,8 +19,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        URLBackend: "https://banque2-h19.herokuapp.com",
-        // URLBackend: "http://localhost:8080",
+        // URLBackend: "https://banque2-h19.herokuapp.com",
+        URLBackend: "http://localhost:8080",
     };
 }
 
@@ -45,6 +47,9 @@ class App extends React.Component {
             <Route path="/PaymentCarte" render={props=><PaymentCarte {...props} state={this.state}/>} />
 
             <Route path="/VirementInterac" render={props=><VirementInterac {...props} state={this.state}/>} />
+
+            <Route path="/NouveauClient" render={props=><NouveauClient {...props} state={this.state}/>} />
+            <Route path="/DetailClient" render={props=><DetailClient {...props} state={this.state}/>} />
           </div>
         </BrowserRouter>
       </div>
