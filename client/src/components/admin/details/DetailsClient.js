@@ -4,10 +4,11 @@ import { CreditCard } from './CreditCard';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-export default class DétailClient extends React.Component {
+export default class DétailsClient extends React.Component {
    constructor(props) {
       super(props);
-      this.clientLogOut = this.clientLogOut.bind(this);
+
+      this.adminLogOut = this.adminLogOut.bind(this);
    }
 
    state = {
@@ -15,6 +16,26 @@ export default class DétailClient extends React.Component {
       creditCards: [],
       error: null,
       isLoading: true
+   }
+
+   verifyLogin(){
+      var loginIsSucess = 1;
+  
+      const request = async () =>{
+         const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
+         .then(function(response) {
+            if(response.status !== 200){     // Si le login n'est pas accepté par le backend
+               console.log("Dans: PAS 200");
+               loginIsSucess = 0;
+            }
+         });
+         
+         if(loginIsSucess === 0){
+            this.props.history.push("/LoginAdmin");
+         } 
+      } 
+
+      request();
    }
 
    fetchDebitCards() {
@@ -37,7 +58,7 @@ export default class DétailClient extends React.Component {
         .catch(error => this.setState({ error, isLoading: false }));
    }
 
-   clientLogOut() {
+   adminLogOut() {
       console.log("in logout");
       fetch(this.props.state.URLBackend+"/logout")
        .then(response => response.json())
@@ -45,6 +66,7 @@ export default class DétailClient extends React.Component {
    }
 
    componentDidMount() {
+      this.verifyLogin();
       this.fetchDebitCards();
       this.fetchCreditCards();
    }
@@ -68,7 +90,7 @@ export default class DétailClient extends React.Component {
                </div>
             </div>
             
-            <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.clientLogOut}>Déconnexion</Button></Link>
+            <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>
          </div>
       )
    }

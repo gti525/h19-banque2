@@ -17,9 +17,8 @@ export default class HistoriqueCredit extends React.Component {
     // Méthode qui valide si l'utilisateur à bel et bien le droit d'accéder à cette page
     verifyLogin(){
     var loginIsSucess = 1;
-
         const request = async () =>{
-        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
+        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/client/ping")
         .then(function(response) {
             if(response.status !== 200){     // Si le login n'est pas accepté par le backend
             console.log("Dans: PAS 200");
@@ -34,8 +33,6 @@ export default class HistoriqueCredit extends React.Component {
 
         request();
     }
-
-
 
     fetchCreditCardsInfo() {
         fetch(this.props.state.URLBackend+"/api/v1/account/creditCard")

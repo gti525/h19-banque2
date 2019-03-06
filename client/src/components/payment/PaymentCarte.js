@@ -14,14 +14,14 @@ export default class PaymentCarte extends React.Component {
         creditCards: [],
         error: null,
         isLoading: true
-     }
+    }
 
     // Méthode qui valide si l'utilisateur à bel et bien le droit d'accéder à cette page
     verifyLogin(){
         var loginIsSucess = 1;
 
         const request = async () =>{
-        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
+        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/client/ping")
         .then(function(response) {
             if(response.status !== 200){     // Si le login n'est pas accepté par le backend
                 console.log("Dans: PAS 200");
@@ -35,7 +35,6 @@ export default class PaymentCarte extends React.Component {
         } 
 
         request();
-
     }
 
     fetchCreditCards() {
@@ -64,32 +63,30 @@ export default class PaymentCarte extends React.Component {
         this.fetchCreditCards();
      }
 
-     creditCardPayment(event) {
+    creditCardPayment(event) {
+    event.preventDefault();
 
-       event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+    var loginIsSucess = 0;
 
-        const form = event.target;
-        const data = new FormData(form);
-        var loginIsSucess = 0;
-
-        this.setState({
-            res: stringifyFormData(data),
-            infoPhaseFinal: [],
-        });
+    this.setState({
+        res: stringifyFormData(data),
+        infoPhaseFinal: [],
+    });
         
-        
-        const request = async () =>{
-            await fetch(this.props.state.URLBackend+"/api/v1/transaction/creditCardPayment", {
-                method: "POST", 
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                body: JSON.stringify({
-                    sourceDebitCardNumber: this.state.debitCards.nbr,
-                    targetCreditCardNumber: this.state.creditCards.nbr,
-                    amount: document.getElementById("amount").value,
-                  })
+    const request = async () =>{
+        await fetch(this.props.state.URLBackend+"/api/v1/transaction/creditCardPayment", {
+            method: "POST", 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                },
+            body: JSON.stringify({
+                sourceDebitCardNumber: this.state.debitCards.nbr,
+                targetCreditCardNumber: this.state.creditCards.nbr,
+                amount: document.getElementById("amount").value,
+                })
             })
             .then(function(response) {
                 if (response.status === 200) {
@@ -112,8 +109,6 @@ export default class PaymentCarte extends React.Component {
 
         request(); 
     }
-  
-
 
     render () {
         return (

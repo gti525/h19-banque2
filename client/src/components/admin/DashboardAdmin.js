@@ -6,12 +6,34 @@ import { Button } from 'react-bootstrap';
 export default class DashbordAdmin extends React.Component {
    constructor(props) {
       super(props);
+
+      this.adminLogOut = this.adminLogOut.bind(this);
    }
    
    state = {
       debitCards: [],
       error: null,
       isLoading: true
+   }
+
+   verifyLogin(){
+      var loginIsSucess = 1;
+  
+      const request = async () =>{
+         const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
+         .then(function(response) {
+            if(response.status !== 200){     // Si le login n'est pas accepté par le backend
+               console.log("Dans: PAS 200");
+               loginIsSucess = 0;
+            }
+         });
+         
+         if(loginIsSucess === 0){
+            this.props.history.push("/LoginAdmin");
+         } 
+      } 
+
+      request();
    }
 
    fetchDebitCards() {
@@ -25,10 +47,11 @@ export default class DashbordAdmin extends React.Component {
    }
 
    componentDidMount() {
+      this.verifyLogin();
       this.fetchDebitCards();
    }
 
-   clientLogOut() {
+   adminLogOut() {
       console.log("in logout");
       fetch(this.props.state.URLBackend+"/logout")
        .then(response => response.json())
@@ -45,32 +68,12 @@ export default class DashbordAdmin extends React.Component {
             <form onSubmit={this.submitPhaseUn} noValidate>
                <Card className="rechercheCard">
                   <CardBody>
-                     <Table>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <CardTitle>Prenom : </CardTitle>
-                                 <Input id="prenom" name="prenom" />
-                              </td>
-                              <td>
-                                 <CardTitle>Nom : </CardTitle>
-                                 <Input id="nom" name="nom" />
-                              </td>
-                              <td>
-                                 <CardTitle>Numéro de compte : </CardTitle>
-                                 <Input id="numCompte" name="numCompte" /> 
-                              </td>
-                              <td>
-                                 <CardTitle>Numéro de carte : </CardTitle>
-                                 <Input id="numCarte" name="numCarte" /> 
-                              </td>
-                              <td>
-                                 <Button type="submit" bsStyle="success">Recherche</Button>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </Table>   
+                     <h5>Critère de recherche : </h5>
+                     <Input id="critere" name="critere" />
                   </CardBody>
+
+                  <br />
+                  <Button type="submit" bsStyle="info">Rechercher</Button>
                </Card>
             </form>
                
@@ -79,29 +82,29 @@ export default class DashbordAdmin extends React.Component {
             <Card className="resultatRecherche">
                <CardHeader><b>Clients correspondants aux critères : </b></CardHeader>
                <CardBody>  
-                     <Table striped>
-                        <thead>
-                           <tr>
-                              <th>Prenom</th>
-                              <th>Nom</th>
-                              <th>Numéro de compte</th>
-                              <th>Numéro de carte</th>
-                           </tr>
-                        </thead>
+                  <Table striped>
+                     <thead>
+                        <tr>
+                           <th>Prenom</th>
+                           <th>Nom</th>
+                           <th>Numéro de compte</th>
+                           <th>Numéro de carte</th>
+                        </tr>
+                     </thead>
 
-                        <tbody>
-                           <p>Data</p>
-                        </tbody>
-                     </Table>
+                     <tbody>
+                        <p>Data</p>
+                     </tbody>
+                  </Table>
+
+                  <br />
+                  <Link to="/DetailsClient"><Button bsStyle="info">Détails</Button></Link>
                </CardBody>
-
-               <br />
-               <Link to="/DetailClient"><Button bsStyle="info">Détail</Button></Link>
             </Card>
-            
+
             <Link to="/NouveauClient"><Button id="btnNouveauClient" bsStyle="info">Nouveau client</Button></Link>
 
-            <Link to="/LoginAdmin"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.clientLogOut}>Déconnexion</Button></Link>
+            <Link to="/LoginAdmin"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>
          </div>
       );
    }

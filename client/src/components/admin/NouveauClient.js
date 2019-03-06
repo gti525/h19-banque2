@@ -6,9 +6,35 @@ import { Button } from 'react-bootstrap';
 export default class NouveauClient extends React.Component {
    constructor(props) {
       super(props);
+      
+      this.adminLogOut = this.adminLogOut.bind(this);
    }
 
-   clientLogOut() {
+   verifyLogin(){
+      var loginIsSucess = 1;
+  
+      const request = async () =>{
+         const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
+         .then(function(response) {
+            if(response.status !== 200){     // Si le login n'est pas accepté par le backend
+               console.log("Dans: PAS 200");
+               loginIsSucess = 0;
+            }
+         });
+         
+         if(loginIsSucess === 0){
+            this.props.history.push("/LoginAdmin");
+         } 
+      } 
+
+      request();
+   }
+
+   componentDidMount() {
+      this.verifyLogin();
+   }
+
+   adminLogOut() {
       console.log("in logout");
       fetch(this.props.state.URLBackend+"/logout")
        .then(response => response.json())
@@ -74,7 +100,7 @@ export default class NouveauClient extends React.Component {
                <Link to="/DashboardAdmin"><Button bsStyle="danger">Annuler</Button></Link>
                <Button type="submit" bsStyle="success">Confirmer</Button>
 
-               <Link to="/LoginAdmin"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.clientLogOut}>Déconnexion</Button></Link>
+               <Link to="/LoginAdmin"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>
             </form>
          </div>
       );

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, CardTitle, Input } from "reactstrap";
 
 export default class VirementInterac extends React.Component {
-
     constructor(props) {
         super(props);
         this.bankTransefert = this.bankTransefert.bind(this);
@@ -21,7 +20,7 @@ export default class VirementInterac extends React.Component {
         var loginIsSucess = 1;
 
         const request = async () =>{
-        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
+        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/client/ping")
             .then(function(response) {
                 if(response.status !== 200){     // Si le login n'est pas accepté par le backend
                     console.log("Dans: PAS 200");
@@ -35,7 +34,6 @@ export default class VirementInterac extends React.Component {
         } 
         request();
     }
-
     
     fetchDebitCards() {
         fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
@@ -53,7 +51,6 @@ export default class VirementInterac extends React.Component {
      }
 
      bankTransefert(event) {
-
         event.preventDefault();
  
          const form = event.target;
@@ -86,20 +83,19 @@ export default class VirementInterac extends React.Component {
                      loginIsSucess = 0;
                      alert("Information invalide. Réessayez.");
                  }          
-             });
+            });
  
              if(loginIsSucess === 1){
                  this.props.history.push("/VirementInterac");
                  // Pour rafraichir les données dans la page
                  this.fetchDebitCards();
                  alert("Votre transfert a bien été effectué.");
-             }
+            }
              
-         } 
+        } 
  
-         request(); 
-     }
-
+        request(); 
+    }
 
     render () {
         return (
