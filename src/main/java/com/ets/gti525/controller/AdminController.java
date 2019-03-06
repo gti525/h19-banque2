@@ -1,9 +1,13 @@
 package com.ets.gti525.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.ets.gti525.security.SecurityConfig;
 
 /**
  * Description : Controller for operations related to administrative tasks.
@@ -23,5 +27,11 @@ public class AdminController {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 		
 		return new ModelAndView("admin");
+	}
+	
+	@PreAuthorize(SecurityConfig.ADMIN_CHECK)
+	@GetMapping("/api/v1/admin/ping")
+	public ResponseEntity<String> ping(){
+		return ResponseEntity.ok("You are logged as an admin my friend");
 	}
 }
