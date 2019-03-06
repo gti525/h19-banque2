@@ -31,7 +31,14 @@ public class AdminController {
 	
 	@PreAuthorize(SecurityConfig.ADMIN_CHECK)
 	@GetMapping("/api/v1/admin/ping")
-	public ResponseEntity<String> ping(){
+	public ResponseEntity<String> pingAdmin(){
 		return ResponseEntity.ok("You are logged as an admin my friend");
+	}
+	
+	// For a lack of a better place to put this
+	@PreAuthorize(SecurityConfig.USER_CHECK)
+	@GetMapping("/api/v1/client/ping")
+	public ResponseEntity<String> pingClient(){
+		return ResponseEntity.ok("You are logged as a user my friend");
 	}
 }

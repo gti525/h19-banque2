@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	public static final String AUTHENTICATED_CHECK = "isAuthenticated()";
 	public static final String ADMIN_CHECK = "hasAuthority('ADMIN')";
+	public static final String USER_CHECK = "hasAuthority('USER')";
 	
 	private final AuthenticationSuccessHandler successfulAuthenticationHandler;
 	private final SessionRegistry sessionRegistry;
