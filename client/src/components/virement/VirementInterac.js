@@ -23,14 +23,14 @@ export default class VirementInterac extends React.Component {
         const request = async () =>{
         const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
             .then(function(response) {
-                if(response.status != 200){     // Si le login n'est pas accepté par le backend
-                console.log("Dans: PAS 200");
-                loginIsSucess = 0;
+                if(response.status !== 200){     // Si le login n'est pas accepté par le backend
+                    console.log("Dans: PAS 200");
+                    loginIsSucess = 0;
                 }          
             });
         
             if(loginIsSucess === 0){
-            this.props.history.push("/");
+                this.props.history.push("/");
             } 
         } 
         request();
@@ -123,6 +123,7 @@ export default class VirementInterac extends React.Component {
                             </CardBody>
                         </Card>
                     </div>
+                    
                     <div className="column">
                         <Card className="virementCard">
                             <CardHeader><b>Virement : </b></CardHeader>

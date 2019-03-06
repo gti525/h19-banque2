@@ -23,7 +23,9 @@
   margin: 1%;
 }
 
-#dashboardClientContainer, 
+#dashboardClientContainer,
+#dashboardAdminContainer,
+#nouveauClientContainer,
 .historiqueContainer,
 #paymentContainer,
 #virementContainer {
@@ -54,7 +56,8 @@
   width: 80%;
 }
 
-#btnVirementInterac {
+#btnVirementInterac, 
+#btnNouveauClient {
   margin-top: 10px;
 }
 
@@ -63,7 +66,7 @@
   float: right;
 }
 
-.loginContainer {
+.loginContainer  {
   width: 80%;
   max-width: 600px;
   margin: auto;

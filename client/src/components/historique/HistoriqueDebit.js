@@ -15,27 +15,24 @@ export default class HistoriqueDebit extends React.Component {
     }
 
     // Méthode qui valide si l'utilisateur à bel et bien le droit d'accéder à cette page
-   verifyLogin(){
-    var loginIsSucess = 1;
+    verifyLogin(){
+        var loginIsSucess = 1;
+        const request = async () =>{
+            const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
+            .then(function(response) {
+                if(response.status !== 200){     // Si le login n'est pas accepté par le backend
+                    console.log("Dans: PAS 200");
+                    loginIsSucess = 0;
+                }
+            });
 
-     const request = async () =>{
-      const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
-       .then(function(response) {
-         if(response.status != 200){     // Si le login n'est pas accepté par le backend
-           console.log("Dans: PAS 200");
-           loginIsSucess = 0;
-         }          
-       });
-       
-        if(loginIsSucess === 0){
-          this.props.history.push("/");
+            if(loginIsSucess === 0){
+                this.props.history.push("/");
+            }
         } 
-     } 
 
-     request();
-
- }
-
+        request();
+    }
 
     fetchDebitCardsInfo() {
         fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
@@ -62,7 +59,6 @@ export default class HistoriqueDebit extends React.Component {
     }
 
     render () {
-
         return (
             <div className="historiqueContainer">
                 <Link to="/DashboardClient"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
@@ -71,7 +67,6 @@ export default class HistoriqueDebit extends React.Component {
                 <h5>Solde actuel : </h5>
                 <Input id="histoSoldeDebit" name="histoSoldeDebit" value={this.state.debitCardsInfo.balance} disabled />
                 <br />
-
 
                 <Card className="debitCard">
                     <CardHeader><b>Historique des transactions : </b></CardHeader>
@@ -86,14 +81,13 @@ export default class HistoriqueDebit extends React.Component {
                             </thead>
 
                             <tbody>
-                            {   
-                                this.state.debitCardsTransactions.map((dynamicData) =>
-                                <tr className="trow"> 
-                                    <td> {dynamicData.timestamp}</td>
-                                    <td> {dynamicData.amount} </td>
-                                    <td> {dynamicData.description} </td>
+                                {this.state.debitCardsTransactions.map((dynamicData) =>
+                                    <tr className="trow"> 
+                                        <td> {dynamicData.timestamp}</td>
+                                        <td> {dynamicData.amount} </td>
+                                        <td> {dynamicData.description} </td>
                                     </tr>
-                                ) }
+                                )}
                             </tbody>
                         </Table>
                     </CardBody>
