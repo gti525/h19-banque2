@@ -22,8 +22,7 @@ class App extends React.Component {
         // URLBackend: "https://banque2-h19.herokuapp.com",
         URLBackend: "http://localhost:8080",
     };
-}
-
+  }
   
   public render() {
     return (

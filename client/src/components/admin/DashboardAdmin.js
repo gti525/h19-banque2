@@ -70,10 +70,10 @@ export default class DashbordAdmin extends React.Component {
                   <CardBody>
                      <h5>Critère de recherche : </h5>
                      <Input id="critere" name="critere" />
-                  </CardBody>
 
-                  <br />
-                  <Button type="submit" bsStyle="info">Rechercher</Button>
+                     <br />
+                     <Button type="submit" bsStyle="info">Rechercher</Button>
+                  </CardBody>
                </Card>
             </form>
                

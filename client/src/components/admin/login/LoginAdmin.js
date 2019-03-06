@@ -98,19 +98,12 @@ export default class LoginAdmin extends React.Component {
 
                       <Button type="submit" bsStyle="success">Se connecter</Button>
                   </CardBody>
+
+                  <br />
+                  <Link to="/"><Button id="btnClientAdmin" bsStyle="info">Client</Button></Link>
                 </Card>
               </form>
-
-              <br />
-              <div className="res-block">
-                {invalid && (
-                  <ShakingError text="Form is not valid" />
-                )}
-                
-              </div>
             </div>
-            
-            <Link to="/"><Button id="btnClientAdmin" bsStyle="info">Client</Button></Link>
         </div>
       )
    }

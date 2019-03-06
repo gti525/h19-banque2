@@ -45,12 +45,12 @@ export default class VirementInterac extends React.Component {
           .catch(error => this.setState({ error, isLoading: false }));
      }
 
-     componentDidMount() {
+    componentDidMount() {
         this.verifyLogin();
         this.fetchDebitCards();
-     }
+    }
 
-     bankTransefert(event) {
+    bankTransefert(event) {
         event.preventDefault();
  
          const form = event.target;
@@ -109,31 +109,27 @@ export default class VirementInterac extends React.Component {
                 
                 <br />
 
-                <div className="row">
-                    <div className="column">
-                        <Card className="paymentCard">
-                            <CardHeader><b>À partir de compte débit : </b></CardHeader>
-                            <CardBody>
-                                <CardTitle>Solde actuel : </CardTitle>
-                                <Input id="soldeActuel" name="soldeActuel" value={this.state.debitCards.balance} disabled />
-                            </CardBody>
-                        </Card>
-                    </div>
-                    
-                    <div className="column">
-                        <Card className="virementCard">
-                            <CardHeader><b>Virement : </b></CardHeader>
-                            <form onSubmit={this.bankTransefert} id="passwordCardContainer">
-                                <CardBody>
-                                    <CardTitle>Montant : </CardTitle>
-                                    <Input id="amount" name="amount" />
-                                    <br />                                    
-                                    <Button type="submit" bsStyle="success">Confirmer</Button>
-                                </CardBody>
-                            </form>
-                        </Card>
-                    </div>
-                </div>
+                <Card className="paymentCard">
+                    <CardHeader><b>À partir de compte débit : </b></CardHeader>
+                    <CardBody>
+                        <CardTitle>Solde actuel : </CardTitle>
+                        <Input id="soldeActuel" name="soldeActuel" value={this.state.debitCards.balance} disabled />
+                    </CardBody>
+                </Card>
+            
+                <br />
+
+                <Card className="virementCard">
+                    <CardHeader><b>Virement : </b></CardHeader>
+                    <form onSubmit={this.bankTransefert} id="passwordCardContainer">
+                        <CardBody>
+                            <CardTitle>Montant : </CardTitle>
+                            <Input id="amount" name="amount" />
+                            <br />                                    
+                            <Button type="submit" bsStyle="success">Confirmer</Button>
+                        </CardBody>
+                    </form>
+                </Card>
 
                 <Link to="/DashboardClient"><Button id="btnAnnuler" bsStyle="danger">Annuler</Button></Link>
             </div>

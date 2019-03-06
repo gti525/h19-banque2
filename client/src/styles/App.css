@@ -42,20 +42,6 @@
   float: left;
 }
 
-.row {
-  margin: 0 -5px;
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.column {
-  float: left;
-  padding: 0 10px;
-  margin: auto;
-  width: 80%;
-}
-
 #btnVirementInterac, 
 #btnNouveauClient {
   margin-top: 10px;
@@ -75,11 +61,6 @@
 #histoSoldeDebit,
 #paymentTotalFacture {
   width: 25%;
-}
-
-.btnAccueil {
-  position: absolute;
-  left: 1%;
 }
 
 .btnImprimer,

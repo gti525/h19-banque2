@@ -77,18 +77,15 @@ export default class DashboardClient extends React.Component {
             <Button className="btnAccueil" bsStyle="info" disabled>Accueil</Button>
             <h4>Aperçu sur vos comptes</h4>
 
-            <div className="row">
-               <div className="column">
-                  <DebitCard 
-                     balance={this.state.debitCards.balance}
-                  />
-               </div>
-               <div className="column">
-                  <CreditCard 
-                     balance={this.state.creditCards.balance}
-                  />
-               </div>
-            </div>
+            <DebitCard 
+               balance={this.state.debitCards.balance}
+            />
+         
+            <br />
+
+            <CreditCard 
+               balance={this.state.creditCards.balance}
+            />
             
             <Link to="/VirementInterac"><Button id="btnVirementInterac" bsStyle="info">Virement Interac</Button></Link>
             <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.clientLogOut}>Déconnexion</Button></Link>
