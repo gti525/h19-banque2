@@ -49,11 +49,20 @@ export default class DashbordAdmin extends React.Component {
             reponsesRecherche: data.searchResult,
          }))
         .catch(error => this.setState({ error }));
+   }
 
+   initRecherche() {
+      fetch(this.props.state.URLBackend+"/api/v1/user?keyword=")
+      .then(response => response.json())
+      .then(data => this.setState({
+         reponsesRecherche: data.searchResult,
+      }))
+     .catch(error => this.setState({ error }));
    }
 
    componentDidMount() {
       this.verifyLogin();
+      this.initRecherche();
    }
 
    adminLogOut() {
@@ -98,13 +107,17 @@ export default class DashbordAdmin extends React.Component {
                      </thead>
 
                      <tbody>
-                        { this.state.reponsesRecherche.map((dynamicData) =>
-                           <tr className="trow"> 
-                                 <td> {dynamicData.firstName}</td>
-                                 <td> {dynamicData.lastName} </td>
-                                 <td> {dynamicData.debitCardNumber} </td>
-                                 <td> {dynamicData.creditCardNumber} </td>
-                           </tr>
+                        { this.state.reponsesRecherche.length === 0 
+                           ?  <tr className="trow"> 
+                                 <h5>Aucun résultat, veuillez fournir un critère de recherche</h5>
+                              </tr>
+                           :  this.state.reponsesRecherche.map((dynamicData) =>
+                              <tr className="trow"> 
+                                    <td> {dynamicData.firstName}</td>
+                                    <td> {dynamicData.lastName} </td>
+                                    <td> {dynamicData.debitCardNumber} </td>
+                                    <td> {dynamicData.creditCardNumber} </td>
+                              </tr>
                         )}
                      </tbody>
                   </Table>
