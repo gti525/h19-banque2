@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Card, CardHeader, CardTitle, CardBody, Input, Table } from 'reactstrap';
+import { Card, CardHeader, CardBody, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
@@ -8,19 +8,19 @@ export default class DashbordAdmin extends React.Component {
       super(props);
 
       this.adminLogOut = this.adminLogOut.bind(this);
+      this.fetchRecherche = this.fetchRecherche.bind(this);
    }
    
    state = {
-      debitCards: [],
+      reponsesRecherche: [],
       error: null,
-      isLoading: true
    }
 
    verifyLogin(){
       var loginIsSucess = 1;
   
       const request = async () =>{
-         const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
+         await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
          .then(function(response) {
             if(response.status !== 200){     // Si le login n'est pas accepté par le backend
                console.log("Dans: PAS 200");
@@ -36,19 +36,24 @@ export default class DashbordAdmin extends React.Component {
       request();
    }
 
-   fetchDebitCards() {
-      fetch(this.props.state.URLBackend+"/api/v1/account/debitCard/")
+   fetchRecherche(event) {
+      event.preventDefault();
+
+      this.setState({
+         reponsesRecherche: [],
+      });
+
+      fetch(this.props.state.URLBackend+"/api/v1/user?keyword=" + document.getElementById("keyword").value)
          .then(response => response.json())
          .then(data => this.setState({
-            debitCards: data,
-            isLoading: false,
+            reponsesRecherche: data.searchResult,
          }))
-        .catch(error => this.setState({ error, isLoading: false }));
+        .catch(error => this.setState({ error }));
+
    }
 
    componentDidMount() {
       this.verifyLogin();
-      this.fetchDebitCards();
    }
 
    adminLogOut() {
@@ -59,17 +64,17 @@ export default class DashbordAdmin extends React.Component {
    }
    
    render () {
-      const { isLoading, debitCards, error } = this.state;
       return (
          <div id="dashboardAdminContainer">
             <Button className="btnAccueil" bsStyle="info" disabled>Accueil</Button>
+
             <h4>Rechercher un client</h4>
 
-            <form onSubmit={this.submitPhaseUn} noValidate>
+            <form onSubmit={this.fetchRecherche} noValidate>
                <Card className="rechercheCard">
                   <CardBody>
                      <h5>Critère de recherche : </h5>
-                     <Input id="critere" name="critere" />
+                     <Input id="keyword" name="keyword" />
 
                      <br />
                      <Button type="submit" bsStyle="info">Rechercher</Button>
@@ -93,7 +98,14 @@ export default class DashbordAdmin extends React.Component {
                      </thead>
 
                      <tbody>
-                        <p>Data</p>
+                        { this.state.reponsesRecherche.map((dynamicData) =>
+                           <tr className="trow"> 
+                                 <td> {dynamicData.firstName}</td>
+                                 <td> {dynamicData.lastName} </td>
+                                 <td> {dynamicData.debitCardNumber} </td>
+                                 <td> {dynamicData.creditCardNumber} </td>
+                           </tr>
+                        )}
                      </tbody>
                   </Table>
 

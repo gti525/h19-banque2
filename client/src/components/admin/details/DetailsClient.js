@@ -22,7 +22,7 @@ export default class DétailsClient extends React.Component {
       var loginIsSucess = 1;
   
       const request = async () =>{
-         const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
+         await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
          .then(function(response) {
             if(response.status !== 200){     // Si le login n'est pas accepté par le backend
                console.log("Dans: PAS 200");
@@ -76,19 +76,15 @@ export default class DétailsClient extends React.Component {
          <div id="dashboardClientContainer">
             <Link to="/DashboardAdmin"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
             <h4>Détail du client : ***Nom du client***</h4>
+               <DebitCard 
+                  balance={this.state.debitCards.balance}
+               />
 
-            <div className="row">
-               <div className="column">
-                  <DebitCard 
-                     balance={this.state.debitCards.balance}
-                  />
-               </div>
-               <div className="column">
-                  <CreditCard 
-                     balance={this.state.creditCards.balance}
-                  />
-               </div>
-            </div>
+               <br />
+
+               <CreditCard 
+                  balance={this.state.creditCards.balance}
+               />
             
             <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>
          </div>

@@ -84,12 +84,12 @@ export default class Login extends React.Component {
             if(loginIsSucess === 1){
                 this.props.history.push("/DashboardClient");
             }
+            
             if(loginIsSucess !== 1){
                 this.props.history.push("/");
                 this.setState({
                     phaseEnCours : 9,
                 })
-
             }
         } 
 
@@ -182,14 +182,10 @@ export default class Login extends React.Component {
                                 <Link to="/LoginAdmin"><Button id="btnClientAdmin" bsStyle="info">Administration</Button></Link>
                             </Card>
                         </form>
-                       
                     </div>
-    
-                   
                 </div>
             );
             default:
-        
         }
     }
 }

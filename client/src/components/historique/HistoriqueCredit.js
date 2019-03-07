@@ -18,7 +18,7 @@ export default class HistoriqueCredit extends React.Component {
     verifyLogin(){
     var loginIsSucess = 1;
         const request = async () =>{
-        const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/client/ping")
+        await fetch(this.props.state.URLBackend+"/api/v1/client/ping")
         .then(function(response) {
             if(response.status !== 200){     // Si le login n'est pas accepté par le backend
             console.log("Dans: PAS 200");
@@ -82,14 +82,13 @@ export default class HistoriqueCredit extends React.Component {
                             </thead>
 
                             <tbody>
-                            {   
-                                this.state.creditCardsTransactions.map((dynamicData) =>
-                                <tr className="trow"> 
-                                    <td> {dynamicData.timestamp}</td>
-                                    <td> {dynamicData.amount} </td>
-                                    <td> {dynamicData.description} </td>
+                                {this.state.creditCardsTransactions.map((dynamicData) =>
+                                    <tr className="trow"> 
+                                        <td> {dynamicData.timestamp}</td>
+                                        <td> {dynamicData.amount} </td>
+                                        <td> {dynamicData.description} </td>
                                     </tr>
-                                ) }
+                                )}
                             </tbody>
                         </Table>
                     </CardBody>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Card, CardHeader, CardTitle, CardBody, Input, Table } from 'reactstrap';
+import { Card, CardTitle, CardBody, Input, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
@@ -14,7 +14,7 @@ export default class NouveauClient extends React.Component {
       var loginIsSucess = 1;
   
       const request = async () =>{
-         const apiCall = await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
+         await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
          .then(function(response) {
             if(response.status !== 200){     // Si le login n'est pas accepté par le backend
                console.log("Dans: PAS 200");
