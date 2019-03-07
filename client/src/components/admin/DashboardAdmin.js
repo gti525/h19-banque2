@@ -78,6 +78,7 @@ export default class DashbordAdmin extends React.Component {
             <Button className="btnAccueil" bsStyle="info" disabled>Accueil</Button>
 
             <h4>Rechercher un client</h4>
+            <br />
 
             <form onSubmit={this.fetchRecherche} noValidate>
                <Card className="rechercheCard">
@@ -103,6 +104,7 @@ export default class DashbordAdmin extends React.Component {
                            <th>Nom</th>
                            <th>Numéro de compte</th>
                            <th>Numéro de carte</th>
+                           <th>Information</th>
                         </tr>
                      </thead>
 
@@ -113,17 +115,15 @@ export default class DashbordAdmin extends React.Component {
                               </tr>
                            :  this.state.reponsesRecherche.map((dynamicData) =>
                               <tr className="trow"> 
-                                    <td> {dynamicData.firstName}</td>
-                                    <td> {dynamicData.lastName} </td>
-                                    <td> {dynamicData.debitCardNumber} </td>
-                                    <td> {dynamicData.creditCardNumber} </td>
+                                    <td>{dynamicData.firstName}</td>
+                                    <td>{dynamicData.lastName}</td>
+                                    <td>{dynamicData.debitCardNumber}</td>
+                                    <td>{dynamicData.creditCardNumber}</td>
+                                    <td><Link to="/DetailsClient"><Button bsStyle="info">Détails</Button></Link></td>
                               </tr>
                         )}
                      </tbody>
                   </Table>
-
-                  <br />
-                  <Link to="/DetailsClient"><Button bsStyle="info">Détails</Button></Link>
                </CardBody>
             </Card>
 
