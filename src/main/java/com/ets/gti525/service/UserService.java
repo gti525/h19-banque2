@@ -2,6 +2,8 @@ package com.ets.gti525.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -38,6 +40,8 @@ import com.ets.gti525.helper.CardNumberHelper;
  */
 @Service
 public class UserService {
+	
+	private static final int NB_COMPLEXITY_RULES_FOR_VALID_PASSWD = 3;
 
 	private final UsersRepository usersRepository;
 	private final DebitCardRepository debitRepository;
@@ -61,8 +65,12 @@ public class UserService {
 	public CreateUserResponse createUser(CreateUserRequest request) {
 		
 		String username = generateAccountNumber();
-		String password = generatePassword();
+		String password = request.getPassword();
 		String message = "Account successfully created.";
+		
+		if (!isPasswordComplex(password))
+			return new CreateUserResponse(HttpStatus.BAD_REQUEST, "Password does not meet complexity requirements.", 
+					null, null, null);
 		
 		String encodedPassword = encodePassword(password);
 
@@ -130,10 +138,9 @@ public class UserService {
 		return accountNumber;
 	}
 	
-public ResetPasswordResponse resetPassword (ResetPasswordRequest request) {
+	public ResetPasswordResponse resetPassword (ResetPasswordRequest request) {
 		
 		String oldPassword = request.getOldPassword();
-		String hashedPassword = encodePassword(oldPassword);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username;
@@ -145,9 +152,12 @@ public ResetPasswordResponse resetPassword (ResetPasswordRequest request) {
 		}
 
 		User user = usersRepository.findOneByUsername(username);
-
+		
+		if (!isPasswordComplex(request.getNewPassword()))
+			return new ResetPasswordResponse(HttpStatus.BAD_REQUEST, "Password does not meet complexity requirements.");;
+		
 		if (passwordMatches(oldPassword, user.getPassword())) {
-			user.setPassword(encodePassword(request.getNewPassword())); // À modifier (Ajouter une validation de la complexité du mot de pass)
+			user.setPassword(encodePassword(request.getNewPassword()));
 			usersRepository.save(user);
 			
 			return new ResetPasswordResponse(HttpStatus.OK, "Password successfully reset");
@@ -163,15 +173,44 @@ public ResetPasswordResponse resetPassword (ResetPasswordRequest request) {
 		return accountNumber;
 	}
 	
-	private String generatePassword() {
-		return "qwerty";
-	}
-	
 	private String encodePassword(String password) {
 		return new BCryptPasswordEncoder().encode(password);
 	}
 	
 	private boolean passwordMatches(String rawPassword, String hashedPassword) {
 		return new BCryptPasswordEncoder().matches(rawPassword, hashedPassword);
+	}
+	
+	public boolean isPasswordComplex(String password) {
+		
+		String[] complexityRules = new String[] {
+				".*[a-z].*", // Lower case rule
+				".*\\d.*", // Digit rule
+				".*[!\"\\/$%?&*()±@£¢¤¬¦²³¼½¾\\[\\]{~}\\\\#<>].*",	// Special char rule
+				".*[A-Z].*" // Upper case rule
+		};
+		
+		String lengthRule = ".{8,}";
+		
+		if (!isStringValid(lengthRule, password)) // Length rule is mandatory
+			return false;
+		
+		int testPassed = 0;
+		
+		for (int i = 0; i < complexityRules.length; i++) {
+			if (isStringValid(complexityRules[i], password))
+				testPassed++;
+		}
+
+		if (testPassed >= NB_COMPLEXITY_RULES_FOR_VALID_PASSWD)
+			return true;
+		
+		return false;
+	}
+	
+	private boolean isStringValid(String rule, String str) {
+		Pattern p = Pattern.compile(rule);
+		Matcher m = p.matcher(str);
+		return m.matches();
 	}
 }
