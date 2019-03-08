@@ -14,7 +14,8 @@ import com.ets.gti525.domain.response.AbstractResponse;
 public class ExceptionController {
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<AbstractResponse> handleException(HttpServletRequest request) {
+	public ResponseEntity<AbstractResponse> handleException(HttpServletRequest request, Exception e) {
+		e.printStackTrace();
 		System.out.println("Une erreur est survenue pendant l'appel sur " + request.getRequestURL());
 		AbstractResponse response = new AbstractResponse(HttpStatus.INTERNAL_SERVER_ERROR) {};
 		return ResponseEntity.status(response.getStatus()).build();
