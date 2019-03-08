@@ -11,16 +11,23 @@ export default class NouveauCompte extends React.Component {
         this.submitNouveauCompte = this.submitNouveauCompte.bind(this);
     }
 
-    verifyLogin() {
+    verifyLogin(){
+        var loginIsSucess = 1;
+    
         const request = async () =>{
-            await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
-            .then(function(response) {
-                if(response.status !== 200){
-                    this.props.history.push("/LoginAdmin");
-                }
-            });
+           await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
+           .then(function(response) {
+              if(response.status !== 200){
+                 console.log("Dans: PAS 200");
+                 loginIsSucess = 0;
+              }
+           });
+           
+           if(loginIsSucess === 0){
+              this.props.history.push("/LoginAdmin");
+           } 
         } 
-
+  
         request();
     }
 
@@ -37,7 +44,9 @@ export default class NouveauCompte extends React.Component {
 
     submitNouveauCompte(event) {
         event.preventDefault();
-            
+        
+        var isCompagnyCheck = document.getElementById("isCompagny").checked;
+
         const request = async () =>{
             await fetch(this.props.state.URLBackend+"/api/v1/user", {
                 method: "POST", 
@@ -48,21 +57,30 @@ export default class NouveauCompte extends React.Component {
                 body: JSON.stringify({
                     firstName: document.getElementById("firstName").value,
                     lastName: document.getElementById("lastName").value,
-                    isCompany: document.getElementById("isCompany").checked,
+                    isCompany: isCompagnyCheck,
+                    compagnyName : document.getElementById("compagnyName").value,
                     email: document.getElementById("email").value,
                     secretQuestion: document.getElementById("secretQuestion").value,
                     secretAnswer: document.getElementById("secretAnswer").value,
+                    password: document.getElementById("password").value,
                 })
             })
             .then(function(response) {
                 if (response.status === 200) {
                     alert("Compte créé avec succès !");
 
-                    this.props.history.push("/DashboardAdmin");
+                    document.getElementById("firstName").value = "";
+                    document.getElementById("lastName").value = "";
+                    document.getElementById("isCompagny").checked = false;
+                    document.getElementById("compagnyName").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("secretQuestion").value = "";
+                    document.getElementById("secretAnswer").value = "";
+                    document.getElementById("password").value = "";
                 }
                 if(response.status !== 200){
                     alert("Erreur lors de la création du nouveau compte, veuillez réessayer.");
-                }          
+                }
             });
         } 
 
@@ -91,13 +109,15 @@ export default class NouveauCompte extends React.Component {
                                             <Input id="firstName" name="firstName" />
                                         </td>
                                         <td>
-                                            <CardText>Compagnie : </CardText>
-                                            <checkbox id="isCompagny" name="isCompagny" />
-                                        </td>
-                                        <td>
                                             <CardText>Courriel : </CardText>
                                             <Input id="email" name="email" /> 
                                         </td>
+                                        <td>
+                                            <CardText>Mot de passe : </CardText>
+                                            <Input id="password" name="password" type="password" /> 
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <CardText>Question secrète : </CardText>
                                             <Input id="secretQuestion" name="secretQuestion" /> 
@@ -105,6 +125,14 @@ export default class NouveauCompte extends React.Component {
                                         <td>
                                             <CardText>Réponse : </CardText>
                                             <Input id="secretAnswer" name="secretAnswer" /> 
+                                        </td>
+                                        <td>
+                                            <CardText>Compagnie : </CardText>
+                                            <Input id="isCompagny" name="isCompagny" type="checkbox" />
+                                        </td>
+                                        <td>
+                                            <CardText>Compagnie name : </CardText>
+                                            <Input id="compagnyName" name="compagnyName" />
                                         </td>
                                     </tr>
                                 </tbody>
