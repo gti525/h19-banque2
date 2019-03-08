@@ -64,18 +64,18 @@ export default class PaymentCarte extends React.Component {
      }
 
     creditCardPayment(event) {
-    event.preventDefault();
+        event.preventDefault();
 
-    const form = event.target;
-    const data = new FormData(form);
-    var loginIsSucess = 0;
+        const form = event.target;
+        const data = new FormData(form);
+        var loginIsSucess = 0;
 
-    this.setState({
-        res: stringifyFormData(data),
-        infoPhaseFinal: [],
-    });
-        
-    const request = async () =>{
+        this.setState({
+            res: stringifyFormData(data),
+            infoPhaseFinal: [],
+        });
+            
+        const request = async () =>{
         await fetch(this.props.state.URLBackend+"/api/v1/transaction/creditCardPayment", {
             method: "POST", 
             headers: {

@@ -8,7 +8,7 @@ import HistoriqueDebit from "./components/historique/HistoriqueDebit";
 import HistoriqueCredit from "./components/historique/HistoriqueCredit";
 import PaymentCarte from "./components/payment/PaymentCarte";
 import VirementInterac from "./components/virement/VirementInterac";
-import NouveauClient from "./components/admin/NouveauClient";
+import NouveauCompte from "./components/admin/NouveauCompte";
 import DetailsClient from "./components/admin/details/DetailsClient";
 
 import "./styles/App.css";
@@ -47,7 +47,7 @@ class App extends React.Component {
 
             <Route path="/VirementInterac" render={props=><VirementInterac {...props} state={this.state}/>} />
 
-            <Route path="/NouveauClient" render={props=><NouveauClient {...props} state={this.state}/>} />
+            <Route path="/NouveauCompte" render={props=><NouveauCompte {...props} state={this.state}/>} />
             <Route path="/DetailsClient" render={props=><DetailsClient {...props} state={this.state}/>} />
           </div>
         </BrowserRouter>
