@@ -19,8 +19,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        // URLBackend: "https://banque2-h19.herokuapp.com",
-        URLBackend: "http://localhost:8080",
+        URLBackend: "https://banque2-h19.herokuapp.com",
+        // URLBackend: "http://localhost:8080",
     };
   }
   
