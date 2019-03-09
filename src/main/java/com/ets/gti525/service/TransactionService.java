@@ -181,7 +181,7 @@ public class TransactionService {
 		}
 
 		debitTransaction = new DebitCardTransaction();
-		debitTransaction.setAmount(request.getAmount());
+		debitTransaction.setAmount(request.getAmount() * -1);
 		debitTransaction.setDescription(DebitCardTransaction.PAYMENT_OF_CREDIT_CARD);
 		debitTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
@@ -324,7 +324,7 @@ public class TransactionService {
 					if(status) {
 
 						senderTransaction = new DebitCardTransaction();
-						senderTransaction.setAmount(request.getAmount());
+						senderTransaction.setAmount(request.getAmount() * -1);
 						senderTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
 						senderTransaction.setDescription("Virement vers " + pb.getName() + " | compte "
 								+ request.getTargetAccountNumber());
@@ -401,7 +401,9 @@ public class TransactionService {
 
 		if(cardholderNameInRequest.equalsIgnoreCase(cc.getOwner().getCardholderName()) == false)
 			return new PreAuthReply(HttpStatus.BAD_REQUEST, PreAuthReply.DECLINED, null);
-
+		
+		if(request.getAmount() <= 0)
+			return new PreAuthReply(HttpStatus.BAD_REQUEST, "Refunds are not supported", null);
 
 
 		String cvv = decrypt(secret, request.getAccount().getCvv());

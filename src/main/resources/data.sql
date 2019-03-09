@@ -43,6 +43,7 @@ INSERT INTO CHALLENGE VALUES (17, 'Ceci est ma question. La réponse est patate'
 INSERT INTO CHALLENGE VALUES (18, 'Ceci est ma question. La réponse est patate', 'patate', '22218180');
 INSERT INTO CHALLENGE VALUES (19, 'Ceci est ma question. La réponse est patate', 'patate', '22219190');
 INSERT INTO CHALLENGE VALUES (20, 'Ceci est ma question. La réponse est patate', 'patate', '22220200');
+INSERT INTO CHALLENGE VALUES (21, 'Ceci est ma question. La réponse est patate', 'patate', '22244444');
 
 -- INSERTION DU BROKER DE EQUIPE PASSERELLE PAIEMENT
 INSERT INTO PAYMENT_BROKER VALUES (1, '15489123311', 'Buenos933-accole');
