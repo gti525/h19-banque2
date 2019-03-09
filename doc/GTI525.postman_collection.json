@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "03faf70e-debd-48b7-a93b-f48899d3602c",
+		"_postman_id": "acabe713-c9eb-41a4-8f28-58f847020124",
 		"name": "GTI525",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -77,7 +77,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{serverNameOrIP}}:8080/api/v1/debitCard/22212345/transaction",
+							"raw": "{{serverNameOrIP}}:8080/api/v1/debitCard/22244444/transaction",
 							"host": [
 								"{{serverNameOrIP}}"
 							],
@@ -86,7 +86,7 @@
 								"api",
 								"v1",
 								"debitCard",
-								"22212345",
+								"22244444",
 								"transaction"
 							]
 						}
@@ -253,13 +253,13 @@
 							"formdata": [
 								{
 									"key": "userResponse",
-									"value": "allo",
+									"value": "patate",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:8080/api/v1/challenge/22211111/validate",
+							"raw": "localhost:8080/api/v1/challenge/22244444/validate",
 							"host": [
 								"localhost"
 							],
@@ -268,7 +268,7 @@
 								"api",
 								"v1",
 								"challenge",
-								"22211111",
+								"22244444",
 								"validate"
 							]
 						}
@@ -422,7 +422,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"sourceDebitCardNumber\" : 22211111,\n\t\"targetCreditCardNumber\" : 5105139374862083,\n\t\"amount\":25.50\n}"
+							"raw": "{\n\t\"sourceDebitCardNumber\" : 22244444,\n\t\"targetCreditCardNumber\" : 5105823505096154,\n\t\"amount\":100.11\n}"
 						},
 						"url": {
 							"raw": "{{serverNameOrIP}}:8080/api/v1/transaction/creditCardPayment",
@@ -536,7 +536,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"transactionID\": 4,\n  \"action\": \"COMMIT\"\n}"
+							"raw": "{\n  \"transactionID\": 20,\n  \"action\": \"COMMIT\"\n}"
 						},
 						"url": {
 							"raw": "{{serverNameOrIP}}:8080/api/v1/paymentGateway/process",
@@ -576,7 +576,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"amount\": 25.99,\n  \"merchant\": \"Resto-Pub 100 Genies\",\n  \"account\": {\n  \t\"cardholderName\": \"A Company\",\n    \"number\": \"tjYYPTVFUjaT1RMmLPZfNRGsIOPUKo260ohxDG52wi4=\",\n    \"exp\": \"01/2020\",\n    \"cvv\": \"ueiRp2SXTOJZQ6jEsJmDFg==\"\n  }\n}"
+							"raw": "{\n  \"amount\": 25.99,\n  \"merchantDesc\": \"Resto-Pub 100 Genies\",\n  \"merchantAccountNumber\": 22299999,\n  \"account\": {\n  \t\"cardholderName\": \"A Company\",\n    \"number\": \"tjYYPTVFUjaT1RMmLPZfNRGsIOPUKo260ohxDG52wi4=\",\n    \"exp\": \"01/2020\",\n    \"cvv\": \"ueiRp2SXTOJZQ6jEsJmDFg==\"\n  }\n}"
 						},
 						"url": {
 							"raw": "{{serverNameOrIP}}:8080/api/v1/paymentGateway/preAuth",
@@ -595,20 +595,20 @@
 					"response": []
 				},
 				{
-					"name": "E08 - Intra-Bank transfer",
+					"name": "E08 - Transfer between accounts (Interac Transfer)",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"sourceAccountNumber\": 4540333333333333,\n\t\"targetAccountNumber\": 4540444444444444,\n\t\"amount\": 100.50\n}"
+							"raw": "{\n\t\"sourceAccountNumber\": 22255555,\n\t\"targetAccountNumber\": 22266666,\n\t\"amount\": 100.00\n}"
 						},
 						"url": {
 							"raw": "{{serverNameOrIP}}:8080/api/v1/transaction/bankTransfer",
@@ -622,7 +622,8 @@
 								"transaction",
 								"bankTransfer"
 							]
-						}
+						},
+						"description": "Supports transfers comming from Banque2 and going to Banque 2 or Banque 1"
 					},
 					"response": []
 				}
