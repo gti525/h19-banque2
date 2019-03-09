@@ -1,6 +1,8 @@
 package com.ets.gti525.domain.entity;
 
 import java.sql.Timestamp;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +32,6 @@ public class DebitCardTransaction {
 	private double amount;
 	
 	private String description;
-	
 
 
 	public int getId() {
@@ -65,6 +66,13 @@ public class DebitCardTransaction {
 		this.description = description;
 	}
 
+	public String getTimestampAsString() {
+		return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(timestamp);
+	}
+	
+	public String getAmountAsString() {
+		return NumberFormat.getCurrencyInstance().format(amount);
+	}
 
 	
 

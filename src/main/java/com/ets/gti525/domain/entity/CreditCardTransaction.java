@@ -1,6 +1,8 @@
 package com.ets.gti525.domain.entity;
 
 import java.sql.Timestamp;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -86,6 +88,14 @@ public class CreditCardTransaction {
 		this.targetMerchantNumber = targetMerchantNumber;
 	}
 	
+	public String getTimestampAsString() {
+		return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(timestamp);
+	}
+	
+	public String getAmountAsString() {
+		return NumberFormat.getCurrencyInstance().format(amount);
+	}
+
 	
 	
 	
