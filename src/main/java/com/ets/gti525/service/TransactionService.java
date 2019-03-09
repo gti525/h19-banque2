@@ -2,7 +2,6 @@ package com.ets.gti525.service;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -27,15 +26,14 @@ import com.ets.gti525.domain.entity.DebitCard;
 import com.ets.gti525.domain.entity.DebitCardTransaction;
 import com.ets.gti525.domain.entity.PartnerBank;
 import com.ets.gti525.domain.entity.PaymentBroker;
-import com.ets.gti525.domain.entity.User;
 import com.ets.gti525.domain.repository.CreditCardRepository;
 import com.ets.gti525.domain.repository.CreditCardTransactionRepository;
 import com.ets.gti525.domain.repository.DebitCardRepository;
 import com.ets.gti525.domain.repository.DebitCardTransactionRepository;
 import com.ets.gti525.domain.repository.PartnerBankRepository;
 import com.ets.gti525.domain.repository.PaymentBrokerRepository;
-import com.ets.gti525.domain.repository.UsersRepository;
 import com.ets.gti525.domain.request.BankTransferRequest;
+import com.ets.gti525.domain.request.BankTransferRequestFrench;
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
 import com.ets.gti525.domain.request.PreAuthCCTransactionRequest;
 import com.ets.gti525.domain.request.ProcessCCTransactionRequest;
@@ -582,7 +580,7 @@ public class TransactionService {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("X-API-KEY", pb.getApiKeyToUse());
-		HttpEntity<BankTransferRequest> httpRequest = new HttpEntity<>(request);
+		HttpEntity<BankTransferRequestFrench> httpRequest = new HttpEntity<>(new BankTransferRequestFrench(request));
 		ResponseEntity<String> response = restTemplate.postForEntity(
 				pb.getPostUrlToUse(), httpRequest, String.class);
 
