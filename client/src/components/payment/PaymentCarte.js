@@ -118,7 +118,7 @@ export default class PaymentCarte extends React.Component {
                 <h2><u>Payer votre carte de crédit</u></h2>
 
                 <h5>Total des transactions facturées : </h5>
-                <Input id="paymentTotalFacture" name="paymentTotalFacture"  value={this.state.creditCards.balance} disabled />
+                <Input id="paymentTotalFacture" name="paymentTotalFacture"  value={this.state.creditCards.balanceAsString} disabled />
                 
                 <br />
 
@@ -126,7 +126,7 @@ export default class PaymentCarte extends React.Component {
                     <CardHeader><b>À partir de compte débit : </b></CardHeader>
                     <CardBody>
                         <CardTitle>Solde actuel : </CardTitle>
-                        <Input id="soldeActuel" name="soldeActuel" value={this.state.debitCards.balance} disabled />
+                        <Input id="soldeActuel" name="soldeActuel" value={this.state.debitCards.balanceAsString} disabled />
                     </CardBody>
                 </Card>
         

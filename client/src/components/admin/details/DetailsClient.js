@@ -77,13 +77,13 @@ export default class DétailsClient extends React.Component {
             <Link to="/DashboardAdmin"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
             <h4>Détail du client : ***Nom du client***</h4>
                <DebitCard 
-                  balance={this.state.debitCards.balance}
+                  balance={this.state.debitCards.balanceAsString}
                />
 
                <br />
 
                <CreditCard 
-                  balance={this.state.creditCards.balance}
+                  balance={this.state.creditCards.balanceAsString}
                />
             
             <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>
