@@ -1,5 +1,7 @@
 package com.ets.gti525.domain.response;
 
+import java.text.NumberFormat;
+
 import org.springframework.http.HttpStatus;
 
 /**
@@ -41,5 +43,9 @@ public class DebitCardInfoResponse extends AbstractResponse {
 	
 	public void setBalance(double balance) {
 		this.balance = balance;
+	}
+	
+	public String getBalanceAsString() {
+		return NumberFormat.getCurrencyInstance().format(balance);
 	}
 }

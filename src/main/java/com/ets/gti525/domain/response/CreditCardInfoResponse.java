@@ -1,5 +1,7 @@
 package com.ets.gti525.domain.response;
 
+import java.text.NumberFormat;
+
 import org.springframework.http.HttpStatus;
 
 /**
@@ -71,5 +73,9 @@ public class CreditCardInfoResponse extends AbstractResponse {
 	
 	public void setYearExp(int yearExp) {
 		this.yearExp = yearExp;
+	}
+	
+	public String getBalanceAsString() {
+		return NumberFormat.getCurrencyInstance().format(balance);
 	}
 }
