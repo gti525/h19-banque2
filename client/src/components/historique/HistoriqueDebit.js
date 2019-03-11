@@ -65,7 +65,7 @@ export default class HistoriqueDebit extends React.Component {
 
                 <h2><u>Compte Débit</u></h2>
                 <h5>Solde actuel : </h5>
-                <Input id="histoSoldeDebit" name="histoSoldeDebit" value={this.state.debitCardsInfo.balance} disabled />
+                <Input id="histoSoldeDebit" name="histoSoldeDebit" value={this.state.debitCardsInfo.balanceAsString} disabled />
                 <br />
 
                 <Card className="debitCard">
@@ -83,8 +83,8 @@ export default class HistoriqueDebit extends React.Component {
                             <tbody>
                                 {this.state.debitCardsTransactions.map((dynamicData) =>
                                     <tr className="trow"> 
-                                        <td> {dynamicData.timestamp}</td>
-                                        <td> {dynamicData.amount} </td>
+                                        <td> {dynamicData.timestampAsString}</td>
+                                        <td> {dynamicData.amountAsString} </td>
                                         <td> {dynamicData.description} </td>
                                     </tr>
                                 )}

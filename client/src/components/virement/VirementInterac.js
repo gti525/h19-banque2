@@ -113,7 +113,7 @@ export default class VirementInterac extends React.Component {
                     <CardHeader><b>À partir de compte débit : </b></CardHeader>
                     <CardBody>
                         <CardTitle>Solde actuel : </CardTitle>
-                        <Input id="soldeActuel" name="soldeActuel" value={this.state.debitCards.balance} disabled />
+                        <Input id="soldeActuel" name="soldeActuel" value={this.state.debitCards.balanceAsString} disabled />
                     </CardBody>
                 </Card>
             
@@ -136,7 +136,6 @@ export default class VirementInterac extends React.Component {
         )
     }
 }
-
 
 function stringifyFormData(fd) {
     const data = {};
