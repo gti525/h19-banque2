@@ -67,7 +67,7 @@ public class DebitCardTransaction {
 	}
 
 	public String getTimestampAsString() {
-		return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(timestamp);
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
 	}
 	
 	public String getAmountAsString() {
