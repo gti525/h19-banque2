@@ -57,7 +57,7 @@ export default class NouveauCompte extends React.Component {
                 body: JSON.stringify({
                     firstName: document.getElementById("firstName").value,
                     lastName: document.getElementById("lastName").value,
-                    isCompany: isCompagnyCheck,
+                    company : isCompagnyCheck,
                     companyName : document.getElementById("compagnyName").value,
                     email: document.getElementById("email").value,
                     secretQuestion: document.getElementById("secretQuestion").value,
