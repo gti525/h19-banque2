@@ -90,3 +90,11 @@
 #btnAnnulerCompte {
   margin-right: 2%;
 }
+
+#horizontal-analytic-banner {
+  position: absolute;
+  margin-top: 3%;
+  left: 50%;
+  transform: translateX(-50%)
+  
+}

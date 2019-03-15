@@ -19,8 +19,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        URLBackend: "https://banque2-h19.herokuapp.com",
-        //URLBackend: "http://localhost:8080",
+        // URLBackend: "https://banque2-h19.herokuapp.com",
+        URLBackend: "http://localhost:8080",
     };
   }
   
@@ -31,7 +31,7 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <br />
         </header>
-
+      
         <BrowserRouter>
           <div>
             <Route exact={true} path="/" render={props=><Login {...props} state={this.state}/>}  />
@@ -51,6 +51,7 @@ class App extends React.Component {
             <Route path="/DetailsClient" render={props=><DetailsClient {...props} state={this.state}/>} />
           </div>
         </BrowserRouter>
+        <div id="horizontal-analytic-banner"></div>
       </div>
     );
   }
