@@ -6,6 +6,8 @@ import DashboardAdmin from "./components/admin/DashboardAdmin";
 import DashboardClient from "./components/dashboard/DashboardClient";
 import HistoriqueDebit from "./components/historique/HistoriqueDebit";
 import HistoriqueCredit from "./components/historique/HistoriqueCredit";
+import AdminHistoriqueDebit from "./components/admin/historique/AdminHistoriqueDebit";
+import AdminHistoriqueCredit from "./components/admin/historique/AdminHistoriqueCredit";
 import PaymentCarte from "./components/payment/PaymentCarte";
 import VirementInterac from "./components/virement/VirementInterac";
 import NouveauCompte from "./components/admin/NouveauCompte";
@@ -42,6 +44,9 @@ class App extends React.Component {
 
             <Route path="/HistoriqueDebit" render={props=><HistoriqueDebit {...props} state={this.state}/>} />
             <Route path="/HistoriqueCredit" render={props=><HistoriqueCredit {...props} state={this.state}/>} />
+
+            <Route path="/AdminHistoriqueDebit" render={props=><AdminHistoriqueDebit {...props} state={this.state}/>} />
+            <Route path="/AdminHistoriqueCredit" render={props=><AdminHistoriqueCredit {...props} state={this.state}/>} />
 
             <Route path="/PaymentCarte" render={props=><PaymentCarte {...props} state={this.state}/>} />
 
