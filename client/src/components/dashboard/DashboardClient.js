@@ -78,13 +78,13 @@ export default class DashboardClient extends React.Component {
                 <h4>Aperçu sur vos comptes</h4>
 
                 <DebitCard 
-                balance={this.state.debitCards.balanceAsString}
+                    balance={this.state.debitCards.balanceAsString}
                 />
             
                 <br />
 
                 <CreditCard 
-                balance={this.state.creditCards.balanceAsString}
+                    balance={this.state.creditCards.balanceAsString}
                 />
                 
                 <Link to="/VirementInterac"><Button id="btnVirementInterac" bsStyle="info">Virement Interac</Button></Link>

@@ -78,6 +78,7 @@ export default class DashbordAdmin extends React.Component {
             <Button className="btnAccueil" bsStyle="info" disabled>Accueil</Button>
 
             <h4>Rechercher un client</h4>
+            <br />
 
             <form onSubmit={this.fetchRecherche} noValidate>
                <Card className="rechercheCard">
@@ -118,7 +119,7 @@ export default class DashbordAdmin extends React.Component {
                                     <td>{dynamicData.lastName}</td>
                                     <td>{dynamicData.debitCardNumber}</td>
                                     <td>{dynamicData.creditCardNumber}</td>
-                                    <td><Link to="/DetailsClient"><Button bsStyle="info">Détails</Button></Link></td>
+                                    <td><a href={"/DetailsClient?debitCardNumber=" + dynamicData.debitCardNumber+"&creditCardNumber="+dynamicData.creditCardNumber+"&name="+dynamicData.firstName+" "+dynamicData.lastName}><Button bsStyle="info">Détails</Button></a></td>
                               </tr>
                         )}
                      </tbody>
@@ -126,7 +127,7 @@ export default class DashbordAdmin extends React.Component {
                </CardBody>
             </Card>
 
-            <Link to="/NouveauCompte"><Button id="btnNouveauClient" bsStyle="info">Nouveau compte</Button></Link>
+            <Link to="/NouveauClient"><Button id="btnNouveauClient" bsStyle="info">Nouveau client</Button></Link>
 
             <Link to="/LoginAdmin"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>
          </div>

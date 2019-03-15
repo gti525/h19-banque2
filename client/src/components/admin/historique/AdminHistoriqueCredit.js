@@ -3,6 +3,7 @@ import { Input } from 'reactstrap';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, Table } from 'reactstrap';
+const queryString = require('query-string');
 
 export default class HistoriqueCredit extends React.Component {
     constructor(props) {
@@ -14,28 +15,31 @@ export default class HistoriqueCredit extends React.Component {
         };
     }
 
-    // Méthode qui valide si l'utilisateur à bel et bien le droit d'accéder à cette page
     verifyLogin(){
-    var loginIsSucess = 1;
+        var loginIsSucess = 1;
+    
         const request = async () =>{
-        await fetch(this.props.state.URLBackend+"/api/v1/client/ping")
-        .then(function(response) {
-            if(response.status !== 200){     // Si le login n'est pas accepté par le backend
-            console.log("Dans: PAS 200");
-            loginIsSucess = 0;
-            }          
-        });
-        
-            if(loginIsSucess === 0){
-                this.props.history.push("/");
-            } 
+           await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
+           .then(function(response) {
+              if(response.status !== 200){     // Si le login n'est pas accepté par le backend
+                 console.log("Dans: PAS 200");
+                 loginIsSucess = 0;
+              }
+           });
+           
+           if(loginIsSucess === 0){
+              this.props.history.push("/LoginAdmin");
+           } 
         } 
-
+  
         request();
-    }
+     }
 
     fetchCreditCardsInfo() {
-        fetch(this.props.state.URLBackend+"/api/v1/account/creditCard")
+        let search = new URLSearchParams(this.props.location.search);
+        let creditCardNumber = search.get("creditCardNumber");
+
+        fetch(this.props.state.URLBackend+"/api/v1/account/creditCard/" + creditCardNumber)
         .then(response => response.json())
         .then(data => this.setState({
             creditCardsInfo: data,
@@ -44,7 +48,10 @@ export default class HistoriqueCredit extends React.Component {
     }
 
     fetchCreditCardsTransaction() {
-        fetch(this.props.state.URLBackend+"/api/v1/creditCard/transaction")
+        let search = new URLSearchParams(this.props.location.search);
+        let creditCardNumber = search.get("creditCardNumber");
+
+        fetch(this.props.state.URLBackend+"/api/v1/creditCard/" + creditCardNumber + "/transaction")
         .then(response => response.json())
         .then(data => this.setState({
             creditCardsTransactions: data.transactions,
@@ -61,7 +68,7 @@ export default class HistoriqueCredit extends React.Component {
     render () {
         return (
             <div className="historiqueContainer">
-                <Link to="/DashboardClient"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
+                <Link to="/DashboardAdmin"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
 
                 <h2><u>Compte Crédit</u></h2>
                 <h5>Solde actuel : </h5>
