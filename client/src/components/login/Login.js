@@ -69,7 +69,7 @@ export default class Login extends React.Component {
         
         const request = async () =>{
             await fetch(this.props.state.URLBackend+"/login", {
-                method: "POST", 
+                method: "POST",
                 body: data
             })
             .then(function(response) {
@@ -78,7 +78,7 @@ export default class Login extends React.Component {
                 }
                 if(response.status !== 200){
                     loginIsSucess = 0;
-                }          
+                }
             });
 
             if(loginIsSucess === 1){
@@ -91,7 +91,7 @@ export default class Login extends React.Component {
                     phaseEnCours : 9,
                 })
             }
-        } 
+        }
 
         request(); 
     }

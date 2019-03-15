@@ -3,6 +3,7 @@ import { DebitCard } from './DebitCard';
 import { CreditCard } from './CreditCard';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+const queryString = require('query-string');
 
 export default class DétailsClient extends React.Component {
    constructor(props) {
@@ -38,8 +39,32 @@ export default class DétailsClient extends React.Component {
       request();
    }
 
+   getClientName(){
+      let search = new URLSearchParams(this.props.location.search);
+      let name = search.get("name");
+
+      return name;
+   }
+
+   getDebitCardNumber(){
+      let search = new URLSearchParams(this.props.location.search);
+      let debitCardNumber = search.get("debitCardNumber");
+
+      return debitCardNumber;
+   }
+
+   getCreditCardNumber(){
+      let search = new URLSearchParams(this.props.location.search);
+      let creditCardNumber = search.get("creditCardNumber");
+
+      return creditCardNumber;
+   }
+
    fetchDebitCards() {
-      fetch(this.props.state.URLBackend+"/api/v1/account/debitCard")
+      let search = new URLSearchParams(this.props.location.search);
+      let debitCardNumber = search.get("debitCardNumber");
+      
+      fetch(this.props.state.URLBackend+"/api/v1/account/debitCard/"+debitCardNumber)
          .then(response => response.json())
          .then(data => this.setState({
             debitCards: data,
@@ -49,7 +74,10 @@ export default class DétailsClient extends React.Component {
    }
 
    fetchCreditCards() {
-      fetch(this.props.state.URLBackend+"/api/v1/account/creditCard")
+      let search = new URLSearchParams(this.props.location.search);
+      let creditCardNumber = search.get("creditCardNumber");
+
+      fetch(this.props.state.URLBackend+"/api/v1/account/creditCard/"+creditCardNumber)
          .then(response => response.json())
          .then(data => this.setState({
             creditCards: data,
@@ -75,15 +103,18 @@ export default class DétailsClient extends React.Component {
       return (
          <div id="dashboardClientContainer">
             <Link to="/DashboardAdmin"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
-            <h4>Détail du client : ***Nom du client***</h4>
+
+            <h4>Détail du client : {this.getClientName()}</h4>
                <DebitCard 
                   balance={this.state.debitCards.balanceAsString}
+                  numCarteDebit={this.getDebitCardNumber()}
                />
-
+               
                <br />
 
                <CreditCard 
                   balance={this.state.creditCards.balanceAsString}
+                  numCarteCredit={this.getCreditCardNumber()}
                />
             
             <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>

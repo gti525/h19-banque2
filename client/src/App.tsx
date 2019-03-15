@@ -6,6 +6,8 @@ import DashboardAdmin from "./components/admin/DashboardAdmin";
 import DashboardClient from "./components/dashboard/DashboardClient";
 import HistoriqueDebit from "./components/historique/HistoriqueDebit";
 import HistoriqueCredit from "./components/historique/HistoriqueCredit";
+import AdminHistoriqueDebit from "./components/admin/historique/AdminHistoriqueDebit";
+import AdminHistoriqueCredit from "./components/admin/historique/AdminHistoriqueCredit";
 import PaymentCarte from "./components/payment/PaymentCarte";
 import VirementInterac from "./components/virement/VirementInterac";
 import NouveauCompte from "./components/admin/NouveauCompte";
@@ -19,8 +21,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        URLBackend: "https://banque2-h19.herokuapp.com",
-        //URLBackend: "http://localhost:8080",
+        // URLBackend: "https://banque2-h19.herokuapp.com",
+        URLBackend: "http://localhost:8080",
     };
   }
   
@@ -31,7 +33,7 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <br />
         </header>
-
+      
         <BrowserRouter>
           <div>
             <Route exact={true} path="/" render={props=><Login {...props} state={this.state}/>}  />
@@ -43,6 +45,9 @@ class App extends React.Component {
             <Route path="/HistoriqueDebit" render={props=><HistoriqueDebit {...props} state={this.state}/>} />
             <Route path="/HistoriqueCredit" render={props=><HistoriqueCredit {...props} state={this.state}/>} />
 
+            <Route path="/AdminHistoriqueDebit" render={props=><AdminHistoriqueDebit {...props} state={this.state}/>} />
+            <Route path="/AdminHistoriqueCredit" render={props=><AdminHistoriqueCredit {...props} state={this.state}/>} />
+
             <Route path="/PaymentCarte" render={props=><PaymentCarte {...props} state={this.state}/>} />
 
             <Route path="/VirementInterac" render={props=><VirementInterac {...props} state={this.state}/>} />
@@ -51,6 +56,7 @@ class App extends React.Component {
             <Route path="/DetailsClient" render={props=><DetailsClient {...props} state={this.state}/>} />
           </div>
         </BrowserRouter>
+        <div id="horizontal-analytic-banner"></div>
       </div>
     );
   }
