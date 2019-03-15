@@ -312,7 +312,13 @@ public class TransactionService {
 
 		if(destDC == null) {
 
-			String destPrefix = String.valueOf(request.getTargetAccountNumber()).substring(0, 4);
+			String destPrefix;
+			try {
+				destPrefix = String.valueOf(request.getTargetAccountNumber()).substring(0, 4);
+			} catch (Exception e) {
+				return new TransactionResponse(HttpStatus.BAD_REQUEST, TransactionResponse.DECLINED);
+				//Malformed target account
+			}
 
 			for(PartnerBank pb : partnerBankRepository.findAll()) {
 

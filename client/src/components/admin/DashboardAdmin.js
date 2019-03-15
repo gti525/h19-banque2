@@ -10,7 +10,7 @@ export default class DashbordAdmin extends React.Component {
       this.adminLogOut = this.adminLogOut.bind(this);
       this.fetchRecherche = this.fetchRecherche.bind(this);
    }
-   
+
    state = {
       reponsesRecherche: [],
       error: null,
@@ -18,7 +18,7 @@ export default class DashbordAdmin extends React.Component {
 
    verifyLogin(){
       var loginIsSucess = 1;
-  
+
       const request = async () =>{
          await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
          .then(function(response) {
@@ -27,11 +27,11 @@ export default class DashbordAdmin extends React.Component {
                loginIsSucess = 0;
             }
          });
-         
+
          if(loginIsSucess === 0){
             this.props.history.push("/LoginAdmin");
-         } 
-      } 
+         }
+      }
 
       request();
    }
@@ -71,7 +71,7 @@ export default class DashbordAdmin extends React.Component {
        .then(response => response.json())
       .catch(error => this.setState({ error }));
    }
-   
+
    render () {
       return (
          <div id="dashboardAdminContainer">
@@ -91,17 +91,16 @@ export default class DashbordAdmin extends React.Component {
                   </CardBody>
                </Card>
             </form>
-               
+
             <br />
 
             <Card className="resultatRecherche">
                <CardHeader><b>Clients correspondants aux critères : </b></CardHeader>
-               <CardBody>  
+               <CardBody>
                   <Table striped>
                      <thead>
                         <tr>
-                           <th>Prenom</th>
-                           <th>Nom</th>
+                           <th>Détenteur</th>
                            <th>Numéro de compte</th>
                            <th>Numéro de carte</th>
                            <th>Information</th>
@@ -109,14 +108,13 @@ export default class DashbordAdmin extends React.Component {
                      </thead>
 
                      <tbody>
-                        { this.state.reponsesRecherche.length === 0 
-                           ?  <tr className="trow"> 
+                        { this.state.reponsesRecherche.length === 0
+                           ?  <tr className="trow">
                                  <h5>Aucun résultat, veuillez fournir un critère de recherche</h5>
                               </tr>
                            :  this.state.reponsesRecherche.map((dynamicData) =>
-                              <tr className="trow"> 
-                                    <td>{dynamicData.firstName}</td>
-                                    <td>{dynamicData.lastName}</td>
+                              <tr className="trow">
+                                    <td>{dynamicData.cardholderName}</td>
                                     <td>{dynamicData.debitCardNumber}</td>
                                     <td>{dynamicData.creditCardNumber}</td>
                                     <td><a href={"/DetailsClient?debitCardNumber=" + dynamicData.debitCardNumber+"&creditCardNumber="+dynamicData.creditCardNumber+"&name="+dynamicData.firstName+" "+dynamicData.lastName}><Button bsStyle="info">Détails</Button></a></td>

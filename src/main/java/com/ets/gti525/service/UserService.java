@@ -110,7 +110,7 @@ public class UserService {
 		}
 		
 		for (User user : users) {
-			SingleSearchUsers singleSearchUsers = new SingleSearchUsers(user.getFirstName(), user.getLastName());
+			SingleSearchUsers singleSearchUsers = new SingleSearchUsers(user.getCardholderName());
 			
 			DebitCard debitCard = debitRepository.findByOwnerId(user.getId());
 			CreditCard creditCard = creditRepository.findByOwnerId(user.getId());

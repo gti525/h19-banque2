@@ -22,10 +22,10 @@ class App extends React.Component {
     super(props);
     this.state = {
         URLBackend: "https://banque2-h19.herokuapp.com",
-        // URLBackend: "http://localhost:8080",
+        //URLBackend: "http://localhost:8080",
     };
   }
-  
+
   public render() {
     return (
       <div className="App">
@@ -33,7 +33,7 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <br />
         </header>
-      
+
         <BrowserRouter>
           <div>
             <Route exact={true} path="/" render={props=><Login {...props} state={this.state}/>}  />

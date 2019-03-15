@@ -11,35 +11,18 @@ package com.ets.gti525.domain.response;
  * @since 21-01-2019
  */
 public class SingleSearchUsers {
-	private String firstName, lastname, debitCardNumber, creditCardNumber;
+	private String debitCardNumber, creditCardNumber, cardholderName;
 	
-	public SingleSearchUsers (String firstName, String lastName, String debitCardNumber, String creditCardNumber) {
-		this.firstName = firstName;
-		this.lastname = lastName;
+	public SingleSearchUsers (String cardholderName, String debitCardNumber, String creditCardNumber) {
+		this.cardholderName = cardholderName;
 		this.debitCardNumber = debitCardNumber;
 		this.creditCardNumber = creditCardNumber;
 	}
 	
-	public SingleSearchUsers (String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastname = lastName;
+	public SingleSearchUsers (String cardholderName) {
+		this.cardholderName = cardholderName;
 	}
 	
-	public String getFirstName() {
-		return this.firstName;
-	}
-	
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	
-	public String getLastName() {
-		return this.lastname;
-	}
-	
-	public void setLastName(String lastName) {
-		this.lastname = lastName;
-	}
 
 	public String getDebitCardNumber() {
 		return debitCardNumber;
@@ -56,4 +39,16 @@ public class SingleSearchUsers {
 	public void setCreditCardNumber(String creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
 	}
+
+	public String getCardholderName() {
+		return cardholderName;
+	}
+
+	public void setCardholderName(String cardholderName) {
+		this.cardholderName = cardholderName;
+	}
+
+
+	
+	
 }

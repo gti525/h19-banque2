@@ -26,13 +26,13 @@ export default class PaymentCarte extends React.Component {
                 if(response.status !== 200){     // Si le login n'est pas accepté par le backend
                     console.log("Dans: PAS 200");
                     loginIsSucess = 0;
-                }          
+                }
             });
-        
+
             if(loginIsSucess === 0){
                 this.props.history.push("/");
-            } 
-        } 
+            }
+        }
 
         request();
     }
@@ -74,10 +74,10 @@ export default class PaymentCarte extends React.Component {
             res: stringifyFormData(data),
             infoPhaseFinal: [],
         });
-            
+
         const request = async () =>{
         await fetch(this.props.state.URLBackend+"/api/v1/transaction/creditCardPayment", {
-            method: "POST", 
+            method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default class PaymentCarte extends React.Component {
                 if(response.status !== 200){
                     loginIsSucess = 0;
                     alert("Montant invalide. Réessayez.");
-                }          
+                }
             });
 
             if(loginIsSucess === 1){
@@ -105,9 +105,9 @@ export default class PaymentCarte extends React.Component {
                 this.fetchCreditCards();
                 alert("Votre payment a bien été effectué.");
             }
-        } 
+        }
 
-        request(); 
+        request();
     }
 
     render () {
@@ -119,7 +119,7 @@ export default class PaymentCarte extends React.Component {
 
                 <h5>Total des transactions facturées : </h5>
                 <Input id="paymentTotalFacture" name="paymentTotalFacture"  value={this.state.creditCards.balanceAsString} disabled />
-                
+
                 <br />
 
                 <Card className="paymentCard">
@@ -129,7 +129,7 @@ export default class PaymentCarte extends React.Component {
                         <Input id="soldeActuel" name="soldeActuel" value={this.state.debitCards.balanceAsString} disabled />
                     </CardBody>
                 </Card>
-        
+
                 <br />
 
                 <Card className="virementCard">
@@ -139,8 +139,8 @@ export default class PaymentCarte extends React.Component {
                             <CardTitle>Montant : </CardTitle>
                             <Input type="hidden" id="sourceDebitCardNumber" name="sourceDebitCardNumber" value={this.state.debitCards.nbr} />
                             <Input type="hidden" id="targetCreditCardNumber" name="targetCreditCardNumber" value={this.state.creditCards.nbr} />
-                            <Input id="amount" name="amount" />
-                            <br />                                    
+                            <Input id="amount" name="amount" type="number" step="0.01" min="0"/>
+                            <br />
                             <Button type="submit" bsStyle="success">Confirmer</Button>
                         </CardBody>
                     </form>

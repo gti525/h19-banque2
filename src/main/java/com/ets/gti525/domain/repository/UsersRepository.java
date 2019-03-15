@@ -33,6 +33,7 @@ public interface UsersRepository extends JpaRepository<User, Long> {
 			+ "WHERE "
 			+ "UPPER(USER.FIRST_NAME) LIKE %?1% OR "
 			+ "UPPER(USER.LAST_NAME) LIKE %?1% OR "
+			+ "UPPER(USER.COMPANY_NAME) LIKE %?1% OR "
 			+ "UPPER(DEBIT_CARD.NBR) LIKE %?1% OR "
 			+ "UPPER(CREDIT_CARD.NBR) LIKE %?1%", nativeQuery = true)
 	public List<User> findByKeyword(String keyword);
