@@ -17,7 +17,7 @@ export default class HistoriqueDebit extends React.Component {
 
     verifyLogin(){
         var loginIsSucess = 1;
-    
+
         const request = async () =>{
            await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
            .then(function(response) {
@@ -26,12 +26,12 @@ export default class HistoriqueDebit extends React.Component {
                  loginIsSucess = 0;
               }
            });
-           
+
            if(loginIsSucess === 0){
               this.props.history.push("/LoginAdmin");
-           } 
-        } 
-  
+           }
+        }
+
         request();
     }
 
@@ -77,21 +77,23 @@ export default class HistoriqueDebit extends React.Component {
 
                 <Card className="debitCard">
                     <CardHeader><b>Historique des transactions : </b></CardHeader>
-                    <CardBody>  
+                    <CardBody>
                         <Table striped> {/* size="sm" pour mettre moins d'espacement, à voir quand il y a bcp de transactions */}
                             <thead>
                                 <tr>
                                     <th>Date</th>
                                     <th>Montant</th>
+                                    <th>Solde</th>
                                     <th>Description</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {this.state.debitCardsTransactions.map((dynamicData) =>
-                                    <tr className="trow"> 
+                                    <tr className="trow">
                                         <td> {dynamicData.timestampAsString}</td>
                                         <td> {dynamicData.amountAsString} </td>
+                                        <td> {dynamicData.cumulativeSumAsString} </td>
                                         <td> {dynamicData.description} </td>
                                     </tr>
                                 )}

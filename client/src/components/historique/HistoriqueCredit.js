@@ -23,13 +23,13 @@ export default class HistoriqueCredit extends React.Component {
             if(response.status !== 200){     // Si le login n'est pas accepté par le backend
             console.log("Dans: PAS 200");
             loginIsSucess = 0;
-            }          
+            }
         });
-        
+
             if(loginIsSucess === 0){
                 this.props.history.push("/");
-            } 
-        } 
+            }
+        }
 
         request();
     }
@@ -70,21 +70,25 @@ export default class HistoriqueCredit extends React.Component {
 
                 <Card className="creditCard">
                     <CardHeader><b>Historique des transactions : </b></CardHeader>
-                    <CardBody>  
+                    <CardBody>
                         <Table striped> {/* size="sm" pour mettre moins d'espacement, à voir quand il y a bcp de transactions */}
                             <thead>
                                 <tr>
                                     <th>Date</th>
                                     <th>Montant</th>
+                                    <th>Pré-Authorisation</th>
+                                    <th>Solde</th>
                                     <th>Description</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {this.state.creditCardsTransactions.map((dynamicData) =>
-                                    <tr className="trow"> 
+                                    <tr className="trow">
                                         <td> {dynamicData.timestampAsString}</td>
                                         <td> {dynamicData.amountAsString} </td>
+                                        <td> {dynamicData.preauth ? "\u2713" : ""} </td>
+                                        <td> {dynamicData.cumulativeSumAsString} </td>
                                         <td> {dynamicData.description} </td>
                                     </tr>
                                 )}
