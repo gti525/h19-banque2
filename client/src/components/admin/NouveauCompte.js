@@ -58,7 +58,7 @@ export default class NouveauCompte extends React.Component {
                     firstName: document.getElementById("firstName").value,
                     lastName: document.getElementById("lastName").value,
                     isCompany: isCompagnyCheck,
-                    compagnyName : document.getElementById("compagnyName").value,
+                    companyName : document.getElementById("compagnyName").value,
                     email: document.getElementById("email").value,
                     secretQuestion: document.getElementById("secretQuestion").value,
                     secretAnswer: document.getElementById("secretAnswer").value,
