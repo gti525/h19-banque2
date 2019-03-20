@@ -1,3 +1,5 @@
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'); 
+
 .App-logo {
   max-width: 500px;
   width: 100%;
@@ -87,14 +89,45 @@
   margin-bottom: 10px;
 }
 
+
+
+.section-protection-privee{
+  text-align: center;
+  padding: 180px;
+  font-size: 7;
+  color: black;
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%)
+}
+
+
 #btnAnnulerCompte {
   margin-right: 2%;
 }
 
-#horizontal-analytic-banner {
+
+/* #horizontal-analytic-banner {
   position: absolute;
-  margin-top: 3%;
-  left: 50%;
+  left: 100%;
   transform: translateX(-50%)
   
-}
+} */
+
+/*footer*/
+.col_white_amrc { color:#FFF;}
+footer { width:100%; background-color:#263238; min-height:250px; padding:10px 0px 25px 0px ;}
+.pt2 { padding-top:40px ; margin-bottom:20px ;}
+footer p { font-size:13px; color:#CCC; padding-bottom:0px; margin-bottom:8px;}
+.mb10 { padding-bottom:15px ;}
+.footer_ul_amrc { margin:0px ; list-style-type:none ; font-size:14px; padding:0px 0px 10px 0px ; }
+.footer_ul_amrc li {padding:0px 0px 5px 0px; color: white;}
+
+.fleft { float:left;}
+.padding-right { padding-right:10px; }
+
+
+.bottom_border { border-bottom:1px solid #323f45; padding-bottom:20px;}
+
+
