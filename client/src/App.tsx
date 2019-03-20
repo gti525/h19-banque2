@@ -12,6 +12,8 @@ import PaymentCarte from "./components/payment/PaymentCarte";
 import VirementInterac from "./components/virement/VirementInterac";
 import NouveauCompte from "./components/admin/NouveauCompte";
 import DetailsClient from "./components/admin/details/DetailsClient";
+import ChangementMotDePasse from "./components/admin/changementMotDePasse/ChangementMotDePasse";
+import { Switch } from 'react-router-dom';
 
 import "./styles/App.css";
 import logo from "./Images/Logo_banque2.png";
@@ -22,7 +24,7 @@ class App extends React.Component {
     super(props);
     this.state = {
         URLBackend: "https://banque2-h19.herokuapp.com",
-        // URLBackend: "http://localhost:8080",
+        //URLBackend: "http://localhost:8080",
     };
   }
 
@@ -35,7 +37,7 @@ class App extends React.Component {
         </header>
 
         <BrowserRouter>
-          <div>
+          <Switch>
             <Route exact={true} path="/" render={props=><Login {...props} state={this.state}/>}  />
             <Route path="/LoginAdmin" render={props=><LoginAdmin {...props} state={this.state}/>} />
 
@@ -54,8 +56,11 @@ class App extends React.Component {
 
             <Route path="/NouveauCompte" render={props=><NouveauCompte {...props} state={this.state}/>} />
             <Route path="/DetailsClient" render={props=><DetailsClient {...props} state={this.state}/>} />
-          </div>
+
+            <Route path="/ChangementMotDePasse" render={props=><ChangementMotDePasse {...props} state={this.state}/>} />
+          </Switch>
         </BrowserRouter>
+        
         <div id="horizontal-analytic-banner"></div>
       </div>
     );
