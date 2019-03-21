@@ -10,24 +10,23 @@ export default class ChangementMotDePasse extends React.Component {
         this.submitChangementMotDePasse = this.submitChangementMotDePasse.bind(this);
     }
    
-    // Méthode qui valide si l'utilisateur à bel et bien le droit d'accéder à cette page
     verifyLogin(){
         var loginIsSucess = 1;
-  
+
         const request = async () =>{
-           await fetch(this.props.state.URLBackend+"/api/v1/admin/ping")
-           .then(function(response) {
-              if(response.status !== 200){     // Si le login n'est pas accepté par le backend
-                 console.log("Dans: PAS 200");
-                 loginIsSucess = 0;
-              }
-           });
-  
-           if(loginIsSucess === 0){
-              this.props.history.push("/LoginAdmin");
-           }
+            await fetch(this.props.state.URLBackend+"/api/v1/client/ping")
+            .then(function(response) {
+                if(response.status !== 200){     // Si le login n'est pas accepté par le backend
+                    console.log("Dans: PAS 200");
+                    loginIsSucess = 0;
+                }
+            });
+
+            if(loginIsSucess === 0){
+                this.props.history.push("/");
+            } 
         }
-  
+
         request();
     }
 
@@ -69,7 +68,7 @@ export default class ChangementMotDePasse extends React.Component {
     render () {
         return (
             <div id="changementMotDePasseContainer">
-                <Link to="/DashboardAdmin"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
+                <Link to="/DashboardClient"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
 
                 <h4>Changement mot de passe</h4>
 
@@ -86,7 +85,7 @@ export default class ChangementMotDePasse extends React.Component {
 
                             <br />
 
-                            <Link id="btnAnnulerChangement" to="/DashboardAdmin"><Button bsStyle="danger">Annuler</Button></Link>
+                            <Link id="btnAnnulerChangement" to="/DashboardClient"><Button bsStyle="danger">Annuler</Button></Link>
                             <Button type="submit" bsStyle="success">Confirmer</Button>
                         </CardBody>
                     </Card>

@@ -128,7 +128,6 @@ export default class DashbordAdmin extends React.Component {
             <Link to="/NouveauCompte"><Button id="btnNouveauClient" bsStyle="info">Nouveau client</Button></Link>
 
             <Link to="/LoginAdmin"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>
-            <Link to="/ChangementMotDePasse"><Button className="btnChangePassword" bsStyle="info">Changement mot de passe</Button></Link>
          </div>
       );
    }

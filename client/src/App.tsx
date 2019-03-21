@@ -12,7 +12,7 @@ import PaymentCarte from "./components/payment/PaymentCarte";
 import VirementInterac from "./components/virement/VirementInterac";
 import NouveauCompte from "./components/admin/NouveauCompte";
 import DetailsClient from "./components/admin/details/DetailsClient";
-import ChangementMotDePasse from "./components/admin/changementMotDePasse/ChangementMotDePasse";
+import ChangementMotDePasse from "./components/changementMotDePasse/ChangementMotDePasse";
 import { Switch } from 'react-router-dom';
 
 import "./styles/App.css";

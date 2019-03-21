@@ -90,6 +90,7 @@ export default class DashboardClient extends React.Component {
                 
                 <Link to="/VirementInterac"><Button id="btnVirementInterac" bsStyle="info">Virement Interac</Button></Link>
                 <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.clientLogOut}>Déconnexion</Button></Link>
+                <Link to="/ChangementMotDePasse"><Button className="btnChangePassword" bsStyle="info">Changement mot de passe</Button></Link>
             </div>
         )
     }
