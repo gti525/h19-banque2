@@ -117,7 +117,7 @@ export default class DashbordAdmin extends React.Component {
                                     <td>{dynamicData.cardholderName}</td>
                                     <td>{dynamicData.debitCardNumber}</td>
                                     <td>{dynamicData.creditCardNumber}</td>
-                                    <td><a href={"/DetailsClient?debitCardNumber=" + dynamicData.debitCardNumber+"&creditCardNumber="+dynamicData.creditCardNumber+"&name="+dynamicData.firstName+" "+dynamicData.lastName}><Button bsStyle="info">Détails</Button></a></td>
+                                    <td><a href={"/DetailsClient?debitCardNumber=" + dynamicData.debitCardNumber+"&creditCardNumber="+dynamicData.creditCardNumber+"&name="+dynamicData.cardholderName}><Button bsStyle="info">Détails</Button></a></td>
                               </tr>
                         )}
                      </tbody>
