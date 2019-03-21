@@ -78,4 +78,8 @@ public class CreditCardInfoResponse extends AbstractResponse {
 	public String getBalanceAsString() {
 		return NumberFormat.getCurrencyInstance().format(balance);
 	}
+	
+	public String getCardLimitAsString() {
+		return NumberFormat.getCurrencyInstance().format(cardLimit);
+	}
 }
