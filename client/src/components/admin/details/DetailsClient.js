@@ -115,7 +115,7 @@ export default class DétailsClient extends React.Component {
                <CreditCard 
                   balance={this.state.creditCards.balanceAsString}
                   numCarteCredit={this.getCreditCardNumber()}
-                  cardLimit={this.state.creditCards.cardLimit}
+                  cardLimit={this.state.creditCards.cardLimitAsString}
                />
             
             <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>

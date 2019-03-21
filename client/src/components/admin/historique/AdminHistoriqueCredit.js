@@ -71,7 +71,7 @@ export default class HistoriqueCredit extends React.Component {
                 <Link to="/DashboardAdmin"><Button className="btnAccueil" bsStyle="info">Accueil</Button></Link>
 
                 <h2><u>Compte Crédit</u></h2>
-                <h5>Solde actuel : (Limite : {this.state.creditCardsInfo.cardLimit})</h5>
+                <h5>Solde actuel : (Limite : {this.state.creditCardsInfo.cardLimitAsString})</h5>
                 <Input id="histoSoldeCredit" name="histoSoldeCredit" value={this.state.creditCardsInfo.balanceAsString} disabled />
                 <br />
 
