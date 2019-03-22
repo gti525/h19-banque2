@@ -126,7 +126,7 @@ footer p { font-size:13px; color:#CCC; padding-bottom:0px; margin-bottom:8px;}
 
 .fleft { float:left;}
 .padding-right { padding-right:10px; }
-
+.footerRow { margin-left: 15px !important; }
 
 .bottom_border { border-bottom:1px solid #323f45; padding-bottom:20px;}
 

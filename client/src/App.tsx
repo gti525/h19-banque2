@@ -60,8 +60,9 @@ class App extends React.Component {
          
 <footer className="footer">
 
-<div className="container bottom_border">
-<div className="row">
+<div className="bottom_border">
+<div className="row footerRow" >
+<div id="horizontal-analytic-banner"></div>
 <div className=" col-sm-4 col-md col-sm-4  col-12 col">
 <h5 className="headin5_amrc col_white_amrc pt2"> DETAIL SUR DESPÉPINIÈRES </h5>
 
@@ -85,7 +86,6 @@ class App extends React.Component {
 
 </ul>
 <ul className="footer_ul_amrc">
-<div id="horizontal-analytic-banner"></div>
 </ul>
 </div>
 </div>
