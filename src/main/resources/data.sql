@@ -61,7 +61,7 @@ INSERT INTO CHALLENGE VALUES (25, 'Poly ou ETS ?', 'aucun des deux', '22287522')
 INSERT INTO PAYMENT_BROKER VALUES (1, '15489123311', 'Buenos933-accole');
 
 -- INSERTION DU BROKER DE EQUIPE BANQUE1
-INSERT INTO PARTNER_BANK VALUES (1, 'Dow4#esquint', 'Banque1', '111', 'https://theirHeroku/banktobank/domething', 'theApiKeyTheyGiveUs');
+INSERT INTO PARTNER_BANK VALUES (1, 'Dow4#esquint', 'Banque1', '111', 'http://banque1-backend-new.herokuapp.com/api/auth/BankTransfer', 'vq!29ESawz');
 
 -- INSERTION CREDIT CARD
 INSERT INTO CREDIT_CARD VALUES (5105139374862083, '184.96', 10000,1,2020,'123',2);

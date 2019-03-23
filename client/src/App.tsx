@@ -60,7 +60,7 @@ class App extends React.Component {
             <Route path="/ChangementMotDePasse" render={props=><ChangementMotDePasse {...props} state={this.state}/>} />
           </Switch>
         </BrowserRouter>
-        
+
         <div id="horizontal-analytic-banner"></div>
       </div>
     );

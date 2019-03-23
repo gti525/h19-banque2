@@ -33,7 +33,7 @@ import com.ets.gti525.domain.repository.DebitCardTransactionRepository;
 import com.ets.gti525.domain.repository.PartnerBankRepository;
 import com.ets.gti525.domain.repository.PaymentBrokerRepository;
 import com.ets.gti525.domain.request.BankTransferRequest;
-import com.ets.gti525.domain.request.BankTransferRequestFrench;
+import com.ets.gti525.domain.request.BankTransferRequestBank1;
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
 import com.ets.gti525.domain.request.PreAuthCCTransactionRequest;
 import com.ets.gti525.domain.request.ProcessCCTransactionRequest;
@@ -314,7 +314,7 @@ public class TransactionService {
 
 			String destPrefix;
 			try {
-				destPrefix = String.valueOf(request.getTargetAccountNumber()).substring(0, 4);
+				destPrefix = String.valueOf(request.getTargetAccountNumber()).substring(0, 3);
 			} catch (Exception e) {
 				return new TransactionResponse(HttpStatus.BAD_REQUEST, TransactionResponse.DECLINED);
 				//Malformed target account
@@ -323,6 +323,7 @@ public class TransactionService {
 			for(PartnerBank pb : partnerBankRepository.findAll()) {
 
 				if(pb.getAccountPrefix().equals(destPrefix)) {
+					
 					boolean status = initiateBankTransfer(request);
 
 					if(status) {
@@ -585,12 +586,12 @@ public class TransactionService {
 			return false;
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("X-API-KEY", pb.getApiKeyToUse());
-		HttpEntity<BankTransferRequestFrench> httpRequest = new HttpEntity<>(new BankTransferRequestFrench(request));
+		headers.set("apikey", pb.getApiKeyToUse());
+		HttpEntity<BankTransferRequestBank1> httpRequest = new HttpEntity<>(new BankTransferRequestBank1(request), headers);
 		ResponseEntity<String> response = restTemplate.postForEntity(
 				pb.getPostUrlToUse(), httpRequest, String.class);
 
-		if(response.getStatusCode() == HttpStatus.NO_CONTENT)
+		if(response.getStatusCode() == HttpStatus.OK)
 			return true;
 
 		return false;
