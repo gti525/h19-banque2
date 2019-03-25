@@ -34,6 +34,10 @@ export default class HistoriqueCredit extends React.Component {
         request();
     }
 
+    printWindow(){
+        window.print();
+    }
+
     fetchCreditCardsInfo() {
         fetch(this.props.state.URLBackend+"/api/v1/account/creditCard")
         .then(response => response.json())
@@ -97,7 +101,7 @@ export default class HistoriqueCredit extends React.Component {
                     </CardBody>
                 </Card>
 
-                <Button className="btnImprimer" bsStyle="info">Imprimer</Button>
+                <Button className="btnImprimer" bsStyle="info" onClick={this.printWindow.bind(this)}>Imprimer</Button>
             </div>
         )
     }
