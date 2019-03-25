@@ -14,6 +14,10 @@ export default class HistoriqueDebit extends React.Component {
         };
     }
 
+    printWindow(){
+        window.print();
+    }
+
     // Méthode qui valide si l'utilisateur à bel et bien le droit d'accéder à cette page
     verifyLogin(){
         var loginIsSucess = 1;
@@ -95,7 +99,7 @@ export default class HistoriqueDebit extends React.Component {
                     </CardBody>
                 </Card>
 
-                <Button className="btnImprimer" bsStyle="info">Imprimer</Button>
+                <Button className="btnImprimer" bsStyle="info" onClick={this.printWindow.bind(this)}>Imprimer</Button>
             </div>
         )
     }
