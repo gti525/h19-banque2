@@ -78,7 +78,7 @@ class App extends React.Component {
 <li>Despépinières est une banque qui fait affaire avec des clients au niveau mondial. On possède des branches principalement aux États-Unis, en Europe et en Asie.</li>
 </ul>
 </div>
-<div className=" col-sm-4 col-md  col-6 col">
+<div className=" col-sm-4 col-md  col-6 col a">
 <h5 className="headin5_amrc col_white_amrc pt2">NOUVELLES DES DESPÉPINIÈRES</h5>
 
 <ul className="footer_ul_amrc">
