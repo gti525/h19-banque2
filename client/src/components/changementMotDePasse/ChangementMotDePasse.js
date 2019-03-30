@@ -30,9 +30,20 @@ export default class ChangementMotDePasse extends React.Component {
         request();
     }
 
+    ValidatePassword() {
+        var password = document.getElementById("newPassword").value;
+        var confirmPassword = document.getElementById("confirmNewPassword").value;
+        if (password != confirmPassword) {
+            alert("Les nouveaux mots de passe ne sont pas identique.");
+            return false;
+        }
+        return true;
+    }
+
     submitChangementMotDePasse(event) {
         event.preventDefault();
-        
+
+       
         const request = async () =>{
             await fetch(this.props.state.URLBackend+"/api/v1/user/reset", {
                 method: "PATCH", 
@@ -51,6 +62,7 @@ export default class ChangementMotDePasse extends React.Component {
 
                     document.getElementById("oldPassword").value = "";
                     document.getElementById("newPassword").value = "";
+                    document.getElementById("confirmNewPassword").value = "";
                 }
                 if(response.status !== 200){
                     alert("Erreur lors du changement du mot de passe, veuillez réessayer.");
@@ -58,7 +70,9 @@ export default class ChangementMotDePasse extends React.Component {
             });
         } 
 
-        request();
+        if(this.ValidatePassword()){
+            request();
+        }  
     }
 
     componentDidMount() {
@@ -82,6 +96,11 @@ export default class ChangementMotDePasse extends React.Component {
 
                             <CardTitle>Nouveau mot de passe : </CardTitle>
                             <Input id="newPassword" name="newPassword" type="password" />
+
+                            <br />
+                            
+                            <CardTitle>Confirmer le nouveau mot de passe : </CardTitle>
+                            <Input id="confirmNewPassword" name="confirmNewPassword" type="password" />
 
                             <br />
 
