@@ -44,6 +44,11 @@ export default class NouveauCompte extends React.Component {
 
     submitNouveauCompte(event) {
         event.preventDefault();
+
+        this.setState({
+            requestResponse: [],
+            numCarte: "",
+        });
         
         var isCompagnyCheck = document.getElementById("isCompagny").checked;
 
@@ -65,10 +70,14 @@ export default class NouveauCompte extends React.Component {
                     password: document.getElementById("password").value,
                 })
             })
-            .then(function(response) {
-                if (response.status === 200) {
-                    alert("Compte créé avec succès !");
+            .then(response => response.json())
+            .then(data => this.setState({
+                requestResponse: data,
+            }));
 
+
+            if(this.state.requestResponse.accountNumber!==null){
+                alert("Compte créé avec succès, voic le numéro du compte: "+this.state.requestResponse.accountNumber);
                     document.getElementById("firstName").value = "";
                     document.getElementById("lastName").value = "";
                     document.getElementById("isCompagny").checked = false;
@@ -77,14 +86,15 @@ export default class NouveauCompte extends React.Component {
                     document.getElementById("secretQuestion").value = "";
                     document.getElementById("secretAnswer").value = "";
                     document.getElementById("password").value = "";
-                }
-                if(response.status !== 200){
-                    alert("Erreur lors de la création du nouveau compte, veuillez réessayer.");
-                }
-            });
+
+            }
+            else{
+                alert("Erreur lors de la création du nouveau compte, veuillez réessayer.");
+            }            
         } 
 
         request();
+        
     }
     
     render () {
