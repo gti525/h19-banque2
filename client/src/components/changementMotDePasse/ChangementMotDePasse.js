@@ -33,7 +33,7 @@ export default class ChangementMotDePasse extends React.Component {
     ValidatePassword() {
         var password = document.getElementById("newPassword").value;
         var confirmPassword = document.getElementById("confirmNewPassword").value;
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             alert("Les nouveaux mots de passe ne sont pas identique.");
             return false;
         }
@@ -43,7 +43,6 @@ export default class ChangementMotDePasse extends React.Component {
     submitChangementMotDePasse(event) {
         event.preventDefault();
 
-       
         const request = async () =>{
             await fetch(this.props.state.URLBackend+"/api/v1/user/reset", {
                 method: "PATCH", 
@@ -65,14 +64,14 @@ export default class ChangementMotDePasse extends React.Component {
                     document.getElementById("confirmNewPassword").value = "";
                 }
                 if(response.status !== 200){
-                    alert("Erreur lors du changement du mot de passe, veuillez réessayer.");
+                    alert("Erreur lors du changement du mot de passe. Suivre les conditions : \n 8 caractères minimum et trois des règles suivantes : \n - Une lettre minuscule \n - Une lettre majuscule \n - Un nombre \n - Un caractère spécial");
                 }
             });
         } 
 
         if(this.ValidatePassword()){
             request();
-        }  
+        }
     }
 
     componentDidMount() {
@@ -89,6 +88,15 @@ export default class ChangementMotDePasse extends React.Component {
                 <form onSubmit={this.submitChangementMotDePasse} noValidate>
                     <Card>
                         <CardBody>
+                            <p>Le nouveau mot de passe doit contenir les conditions suivantes : </p>
+                            <p>8 caractères minimum et trois des règles suivantes : </p>
+                            <ul>
+                                <li>Une lettre minuscule</li>
+                                <li>Une lettre majuscule</li>
+                                <li>Un nombre</li>
+                                <li>Un caractère spécial</li>
+                            </ul>
+
                             <CardTitle>Ancien mot de passe : </CardTitle>
                             <Input id="oldPassword" name="oldPassword" type="password" />
 
