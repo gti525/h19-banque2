@@ -30,7 +30,7 @@ export default class ChangementMotDePasse extends React.Component {
         request();
     }
 
-    ValidatePassword() {
+    validatePassword() {
         var password = document.getElementById("newPassword").value;
         var confirmPassword = document.getElementById("confirmNewPassword").value;
         if (password !== confirmPassword) {
@@ -69,7 +69,7 @@ export default class ChangementMotDePasse extends React.Component {
             });
         } 
 
-        if(this.ValidatePassword()){
+        if(this.validatePassword()){
             request();
         }
     }
