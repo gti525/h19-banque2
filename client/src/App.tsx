@@ -64,17 +64,14 @@ class App extends React.Component {
          <div className="row">
             <div className="col-md-4">                  
                <h4 className="footertext">À propos de nous</h4>
-                <p>Nous avons des clients au niveau mondiale. Notre headquarter est situé à Montréal</p>
-                
+                <p>Nous avons des clients au niveau mondiale. Notre headquarter est situé à Montréal</p>  
             </div>
               <div className="col-md-4">
 
                   <h4 className="footertext">Détails sur Despépinères</h4>
                   <p>Situé au localhost:8080 </p>
                   <p> Numéro de téléphone : 514-555-5555</p>
-               
               </div>
-              
               </div>
               <div className="row">
             <div id="horizontal-analytic-banner"></div>
