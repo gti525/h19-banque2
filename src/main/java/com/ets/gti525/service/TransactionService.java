@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.ets.gti525.domain.entity.CreditCard;
@@ -585,11 +586,16 @@ public class TransactionService {
 		if(pb == null)
 			return false;
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("apikey", pb.getApiKeyToUse());
-		HttpEntity<BankTransferRequestBank1> httpRequest = new HttpEntity<>(new BankTransferRequestBank1(request), headers);
-		ResponseEntity<String> response = restTemplate.postForEntity(
-				pb.getPostUrlToUse(), httpRequest, String.class);
+		ResponseEntity<String> response;
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("apikey", pb.getApiKeyToUse());
+			HttpEntity<BankTransferRequestBank1> httpRequest = new HttpEntity<>(new BankTransferRequestBank1(request), headers);
+			response = restTemplate.postForEntity(
+					pb.getPostUrlToUse(), httpRequest, String.class);
+		} catch (RestClientException e) {
+			return false;
+		}
 
 		if(response.getStatusCode() == HttpStatus.OK)
 			return true;
