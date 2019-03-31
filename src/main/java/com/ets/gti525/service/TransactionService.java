@@ -306,7 +306,7 @@ public class TransactionService {
 			return new TransactionResponse(HttpStatus.UNAUTHORIZED, TransactionResponse.DECLINED);
 
 		if(sourceDC.getBalance() < request.getAmount())
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
+			return new TransactionResponse(HttpStatus.PRECONDITION_FAILED, TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
 
 
 		DebitCard destDC = debitCardRepository.findByNbr(request.getTargetAccountNumber());
@@ -340,7 +340,7 @@ public class TransactionService {
 						return new TransactionResponse(HttpStatus.OK, TransactionResponse.ACCEPTED);
 					}
 					else {
-						return new TransactionResponse(HttpStatus.OK, TransactionResponse.TARGET_BANK_FAILURE);
+						return new TransactionResponse(HttpStatus.EXPECTATION_FAILED, TransactionResponse.TARGET_BANK_FAILURE);
 					}
 
 				}
