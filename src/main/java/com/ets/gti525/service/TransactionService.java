@@ -516,6 +516,7 @@ public class TransactionService {
 				BankTransferRequest btr = new BankTransferRequest();
 				btr.setAmount(transaction.getAmount());
 				btr.setTargetAccountNumber(transaction.getTargetMerchantNumber());
+				btr.setSourceAccountNumber(22200000);
 				
 				if(initiateBankTransfer(btr)) {
 					transaction.setPreauth(false);
@@ -594,6 +595,7 @@ public class TransactionService {
 			response = restTemplate.postForEntity(
 					pb.getPostUrlToUse(), httpRequest, String.class);
 		} catch (RestClientException e) {
+			e.printStackTrace();
 			return false;
 		}
 
