@@ -59,32 +59,25 @@ class App extends React.Component {
           
         </BrowserRouter>
         
-    <footer className="App-footer">
-      <div className="container">
-         <div className="row">
-            <div className="col-md-4">                  
-               <h4 className="footertext">À propos de nous</h4>
-                <p>Nous avons des clients au niveau mondiale. Notre headquarter est situé à Montréal</p>  
-            </div>
-              <div className="col-md-4">
+      <footer className="App-footer">
+        <div className="container">
+          <div className="row">
+              <div className="col-md-4">                  
+                <h4 className="footertext">À propos de nous</h4>
+                  <p>Rejoignez notre mouvement et inspirez votre société. Siège social: 150 Rue Sainte-Catherine O, Montréal, QC</p>  
+              </div>
+                <div className="col-md-4">
 
-                  <h4 className="footertext">Détails sur Despépinères</h4>
-                  <p>Situé au localhost:8080 </p>
-                  <p> Numéro de téléphone : 514-555-5555</p>
-              </div>
-              </div>
-              <div className="row">
-            <div id="horizontal-analytic-banner"></div>
-              </div>
-      </div>
-          
-         
-      </footer>
-         
-        
-         
-
-      
+                    <h4 className="footertext">Détails sur Despépinères</h4>
+                    <p>Situé au: https://banque2-h19.herokuapp.com </p>
+                    <p> Numéro de téléphone : 514-DES-PEPI</p>
+                </div>
+                </div>
+                <div className="row">
+              <div id="horizontal-analytic-banner"></div>
+                </div>
+          </div>
+        </footer>      
       </div>
     );
     
