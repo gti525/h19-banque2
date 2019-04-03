@@ -42,8 +42,23 @@ export default class NouveauCompte extends React.Component {
         .catch(error => this.setState({ error }));
     }
 
+    validatePassword() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmationPassword").value;
+        if (password !== confirmPassword) {
+            alert("Les nouveaux mots de passe ne sont pas identique.");
+            return false;
+        }
+        return true;
+    }
+
     submitNouveauCompte(event) {
         event.preventDefault();
+
+        this.setState({
+            requestResponse: [],
+            numCarte: "",
+        });
         
         var isCompagnyCheck = document.getElementById("isCompagny").checked;
 
@@ -65,10 +80,14 @@ export default class NouveauCompte extends React.Component {
                     password: document.getElementById("password").value,
                 })
             })
-            .then(function(response) {
-                if (response.status === 200) {
-                    alert("Compte créé avec succès !");
+            .then(response => response.json())
+            .then(data => this.setState({
+                requestResponse: data,
+            }));
 
+
+            if(this.state.requestResponse.accountNumber!==null){
+                alert("Compte créé avec succès, voic le numéro du compte: "+this.state.requestResponse.accountNumber);
                     document.getElementById("firstName").value = "";
                     document.getElementById("lastName").value = "";
                     document.getElementById("isCompagny").checked = false;
@@ -77,14 +96,16 @@ export default class NouveauCompte extends React.Component {
                     document.getElementById("secretQuestion").value = "";
                     document.getElementById("secretAnswer").value = "";
                     document.getElementById("password").value = "";
-                }
-                if(response.status !== 200){
-                    alert("Erreur lors de la création du nouveau compte, veuillez réessayer.");
-                }
-            });
+
+            }
+            else{
+                alert("Erreur lors de la création du nouveau compte, veuillez réessayer.");
+            }            
         } 
 
-        request();
+        if(this.validatePassword()){
+            request();
+        }
     }
     
     render () {
@@ -112,11 +133,43 @@ export default class NouveauCompte extends React.Component {
                                             <CardText>Courriel : </CardText>
                                             <Input id="email" name="email" /> 
                                         </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </CardBody>
+                    </Card>
+                    <br />
+                    <Card>
+                        <CardBody>
+                            <Table>
+                                <tbody>
+                                    <tr>
+                                        <p>Le nouveau mot de passe doit contenir les conditions suivantes : </p>
+                                        <p>8 caractères minimum et trois des règles suivantes : </p>
+                                        <ul>
+                                            <li>Une lettre minuscule</li>
+                                            <li>Une lettre majuscule</li>
+                                            <li>Un nombre</li>
+                                            <li>Un caractère spécial</li>
+                                        </ul>
                                         <td>
                                             <CardText>Mot de passe : </CardText>
                                             <Input id="password" name="password" type="password" /> 
                                         </td>
+                                        <td>
+                                            <CardText>Confirmation mot de passe : </CardText>
+                                            <Input id="confirmationPassword" name="confirmationPassword" type="password" /> 
+                                        </td>
                                     </tr>
+                                </tbody>
+                            </Table>
+                        </CardBody>
+                    </Card>
+                    <br />
+                    <Card>
+                        <CardBody>
+                            <Table>
+                                <tbody>
                                     <tr>
                                         <td>
                                             <CardText>Question secrète : </CardText>
@@ -126,6 +179,17 @@ export default class NouveauCompte extends React.Component {
                                             <CardText>Réponse : </CardText>
                                             <Input id="secretAnswer" name="secretAnswer" /> 
                                         </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </CardBody>
+                    </Card>
+                    <br />
+                    <Card>
+                        <CardBody>
+                            <Table>
+                                <tbody>
+                                    <tr>
                                         <td>
                                             <CardText>Compagnie : </CardText>
                                             <Input id="isCompagny" name="isCompagny" type="checkbox" />
@@ -137,11 +201,11 @@ export default class NouveauCompte extends React.Component {
                                     </tr>
                                 </tbody>
                             </Table>
-
-                            <Link id="btnAnnulerCompte" to="/DashboardAdmin"><Button bsStyle="danger">Annuler</Button></Link>
-                            <Button type="submit" bsStyle="success">Confirmer</Button>
                         </CardBody>
                     </Card>
+                    <br />
+                    <Link id="btnAnnulerCompte" to="/DashboardAdmin"><Button bsStyle="danger">Annuler</Button></Link>
+                    <Button type="submit" bsStyle="success">Confirmer</Button>
                 </form>
 
                 <Link to="/LoginAdmin"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.adminLogOut}>Déconnexion</Button></Link>

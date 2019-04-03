@@ -85,10 +85,12 @@ export default class DashboardClient extends React.Component {
 
                 <CreditCard 
                     balance={this.state.creditCards.balanceAsString}
+                    cardLimit={this.state.creditCards.cardLimitAsString}
                 />
                 
                 <Link to="/VirementInterac"><Button id="btnVirementInterac" bsStyle="info">Virement Interac</Button></Link>
                 <Link to="/"><Button id="btnDeconnexion" bsStyle="danger" onClick={this.clientLogOut}>Déconnexion</Button></Link>
+                <Link to="/ChangementMotDePasse"><Button className="btnChangePassword" bsStyle="info">Changement mot de passe</Button></Link>
             </div>
         )
     }

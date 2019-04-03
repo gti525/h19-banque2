@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.ets.gti525.domain.entity.CreditCard;
@@ -33,7 +34,7 @@ import com.ets.gti525.domain.repository.DebitCardTransactionRepository;
 import com.ets.gti525.domain.repository.PartnerBankRepository;
 import com.ets.gti525.domain.repository.PaymentBrokerRepository;
 import com.ets.gti525.domain.request.BankTransferRequest;
-import com.ets.gti525.domain.request.BankTransferRequestFrench;
+import com.ets.gti525.domain.request.BankTransferRequestBank1;
 import com.ets.gti525.domain.request.CreditCardPaymentRequest;
 import com.ets.gti525.domain.request.PreAuthCCTransactionRequest;
 import com.ets.gti525.domain.request.ProcessCCTransactionRequest;
@@ -305,7 +306,7 @@ public class TransactionService {
 			return new TransactionResponse(HttpStatus.UNAUTHORIZED, TransactionResponse.DECLINED);
 
 		if(sourceDC.getBalance() < request.getAmount())
-			return new TransactionResponse(HttpStatus.OK, TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
+			return new TransactionResponse(HttpStatus.PRECONDITION_FAILED, TransactionResponse.DECLINED_INSUFFICIANT_FUNDS);
 
 
 		DebitCard destDC = debitCardRepository.findByNbr(request.getTargetAccountNumber());
@@ -314,7 +315,7 @@ public class TransactionService {
 
 			String destPrefix;
 			try {
-				destPrefix = String.valueOf(request.getTargetAccountNumber()).substring(0, 4);
+				destPrefix = String.valueOf(request.getTargetAccountNumber()).substring(0, 3);
 			} catch (Exception e) {
 				return new TransactionResponse(HttpStatus.BAD_REQUEST, TransactionResponse.DECLINED);
 				//Malformed target account
@@ -323,6 +324,7 @@ public class TransactionService {
 			for(PartnerBank pb : partnerBankRepository.findAll()) {
 
 				if(pb.getAccountPrefix().equals(destPrefix)) {
+					
 					boolean status = initiateBankTransfer(request);
 
 					if(status) {
@@ -338,7 +340,7 @@ public class TransactionService {
 						return new TransactionResponse(HttpStatus.OK, TransactionResponse.ACCEPTED);
 					}
 					else {
-						return new TransactionResponse(HttpStatus.OK, TransactionResponse.TARGET_BANK_FAILURE);
+						return new TransactionResponse(HttpStatus.EXPECTATION_FAILED, TransactionResponse.TARGET_BANK_FAILURE);
 					}
 
 				}
@@ -514,6 +516,7 @@ public class TransactionService {
 				BankTransferRequest btr = new BankTransferRequest();
 				btr.setAmount(transaction.getAmount());
 				btr.setTargetAccountNumber(transaction.getTargetMerchantNumber());
+				btr.setSourceAccountNumber(22200000);
 				
 				if(initiateBankTransfer(btr)) {
 					transaction.setPreauth(false);
@@ -584,13 +587,19 @@ public class TransactionService {
 		if(pb == null)
 			return false;
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("X-API-KEY", pb.getApiKeyToUse());
-		HttpEntity<BankTransferRequestFrench> httpRequest = new HttpEntity<>(new BankTransferRequestFrench(request));
-		ResponseEntity<String> response = restTemplate.postForEntity(
-				pb.getPostUrlToUse(), httpRequest, String.class);
+		ResponseEntity<String> response;
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("apikey", pb.getApiKeyToUse());
+			HttpEntity<BankTransferRequestBank1> httpRequest = new HttpEntity<>(new BankTransferRequestBank1(request), headers);
+			response = restTemplate.postForEntity(
+					pb.getPostUrlToUse(), httpRequest, String.class);
+		} catch (RestClientException e) {
+			e.printStackTrace();
+			return false;
+		}
 
-		if(response.getStatusCode() == HttpStatus.NO_CONTENT)
+		if(response.getStatusCode() == HttpStatus.OK)
 			return true;
 
 		return false;

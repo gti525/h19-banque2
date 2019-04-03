@@ -90,6 +90,8 @@ export default class Login extends React.Component {
                 this.setState({
                     phaseEnCours : 9,
                 })
+
+                document.getElementById("numCarte").value = "";
             }
         }
 

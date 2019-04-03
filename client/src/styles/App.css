@@ -30,6 +30,7 @@
 #dashboardClientContainer,
 #dashboardAdminContainer,
 #nouveauCompteContainer,
+#changementMotDePasseContainer,
 .historiqueContainer,
 #paymentContainer,
 #virementContainer {
@@ -53,6 +54,12 @@
 
 #btnDeconnexion {
   margin-top: 10px;
+  float: right;
+}
+
+.btnChangePassword {
+  margin-top: 10px;
+  margin-right: 2%;
   float: right;
 }
 
@@ -91,6 +98,11 @@
   margin-bottom: 10px;
 }
 
+
+#btnAnnulerCompte,
+#btnAnnulerChangement {
+  margin-right: 2%;
+}
 
 
 .section-protection-privee{
