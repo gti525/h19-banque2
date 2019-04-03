@@ -195,7 +195,7 @@ export default class NouveauCompte extends React.Component {
                                             <Input id="isCompagny" name="isCompagny" type="checkbox" />
                                         </td>
                                         <td>
-                                            <CardText>Compagnie name : </CardText>
+                                            <CardText>Nom de compagnie : </CardText>
                                             <Input id="compagnyName" name="compagnyName" />
                                         </td>
                                     </tr>
