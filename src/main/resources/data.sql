@@ -54,7 +54,7 @@ INSERT INTO CHALLENGE VALUES (20, 'Ceci est ma question. La réponse est patate'
 INSERT INTO CHALLENGE VALUES (21, 'Quelle est la meilleure banque au monde ?', 'banque 2', '22251450');
 INSERT INTO CHALLENGE VALUES (22, 'Ceci est ma question. La réponse est patate', 'patate', '22244444');
 INSERT INTO CHALLENGE VALUES (23, 'De quelle couleur est le cheval blanc de Napoléon?', 'blanc', '22270525');
-INSERT INTO CHALLENGE VALUES (24, 'Mac ou PC ?', 'mac', '22270525');
+INSERT INTO CHALLENGE VALUES (24, 'Mac ou PC ?', 'mac', '22221790');
 INSERT INTO CHALLENGE VALUES (25, 'Poly ou ETS ?', 'aucun des deux', '22287522');
 
 -- INSERTION DU BROKER DE EQUIPE PASSERELLE PAIEMENT
